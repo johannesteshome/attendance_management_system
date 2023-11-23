@@ -10,6 +10,7 @@ const initialState = {
   nurses: [],
   dashboard: [],
   Appointments: [],
+  data: null
 };
 
 export default function dataReducer(state = initialState, { type, payload }) {
@@ -19,6 +20,51 @@ export default function dataReducer(state = initialState, { type, payload }) {
         ...state,
         loading: true,
       };
+    case types.GET_ADMIN_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.GET_ADMIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload.data,
+        error: null,
+      };
+    case types.GET_ADMIN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        data: null,
+        error: payload.error,
+      };
+    case types.EDIT_ADMIN_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.EDIT_ADMIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    case types.EDIT_ADMIN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload.error,
+      };
+    case types.GET_ADMIN_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload.data,
+        error: null,
+      }
     case types.GET_BED_SUCCESS:
       return {
         ...state,

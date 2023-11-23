@@ -7,17 +7,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Navigate } from "react-router-dom";
 const notify = (text) => toast(text);
-let generator = require('generate-password')
 
 const Add_Admin = () => {
   const { data } = useSelector((store) => store.auth);
 
   const [loading, setloading] = useState(false);
 
-  let password = generator.generate({
-    length: 10,
-    numbers: true
-  })
 
   const InitData = {
     adminName: "",
@@ -25,24 +20,23 @@ const Add_Admin = () => {
     mobile: "",
     email: "",
     gender: "",
-    DOB: "",
-    address: "",
-    education: "",
     adminID: Date.now(),
-    password,
+    password: Date.now(),
   };
   const [AdminValue, setAdminValue] = useState(InitData);
 
-  const HandleDoctorChange = (e) => {
+  const HandleAdminChange = (e) => {
     setAdminValue({ ...AdminValue, [e.target.name]: e.target.value });
   };
   const dispatch = useDispatch();
 
-  const HandleDoctorSubmit = (e) => {
+  const HandleAdminSubmit = (e) => {
+    // TODO: This is not working for duplicate admin
     e.preventDefault();
     setloading(true);
+    console.log(AdminValue, "adminvalues");
     dispatch(AdminRegister(AdminValue)).then((res) => {
-      console.log(res);
+      console.log(res, "clientresponse");
       if (res.message === "Admin already exists") {
         setloading(false);
         return notify("Admin Already Exist");
@@ -64,7 +58,7 @@ const Add_Admin = () => {
     });
   };
 
-  if (data?.isAuthticated === false) {
+  if (data?.isAuthenticated === false) {
     return <Navigate to={"/"} />;
   }
 
@@ -81,7 +75,7 @@ const Add_Admin = () => {
           <div className="Main_Add_Doctor_div">
             <h1>Add Admin</h1>
             <img src={admin} alt="doctor" className="avatarimg" />
-            <form onSubmit={HandleDoctorSubmit}>
+            <form onSubmit={HandleAdminSubmit}>
               <div>
                 <label>Name</label>
                 <div className="inputdiv">
@@ -90,7 +84,7 @@ const Add_Admin = () => {
                     placeholder="Full Name"
                     name="adminName"
                     value={AdminValue.adminName}
-                    onChange={HandleDoctorChange}
+                    onChange={HandleAdminChange}
                     required
                   />
                 </div>
@@ -103,7 +97,7 @@ const Add_Admin = () => {
                     placeholder="Age"
                     name="age"
                     value={AdminValue.age}
-                    onChange={HandleDoctorChange}
+                    onChange={HandleAdminChange}
                     required
                   />
                 </div>
@@ -116,7 +110,7 @@ const Add_Admin = () => {
                     placeholder="Contact Number"
                     name="mobile"
                     value={AdminValue.mobile}
-                    onChange={HandleDoctorChange}
+                    onChange={HandleAdminChange}
                     required
                   />
                 </div>
@@ -129,7 +123,7 @@ const Add_Admin = () => {
                     placeholder="name@mail.com"
                     name="email"
                     value={AdminValue.email}
-                    onChange={HandleDoctorChange}
+                    onChange={HandleAdminChange}
                     required
                   />
                 </div>
@@ -140,52 +134,13 @@ const Add_Admin = () => {
                   <select
                     name="gender"
                     value={AdminValue.gender}
-                    onChange={HandleDoctorChange}
+                    onChange={HandleAdminChange}
                     required
                   >
                     <option value="Choose Gender">Choose Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
-                </div>
-              </div>
-              <div>
-                <label>Birthdate</label>
-                <div className="inputdiv">
-                  <input
-                    type="date"
-                    placeholder="dd-mm-yy"
-                    name="DOB"
-                    value={AdminValue.DOB}
-                    onChange={HandleDoctorChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <label>Address</label>
-                <div className="inputdiv adressdiv">
-                  <input
-                    type="text"
-                    placeholder="Address"
-                    name="address"
-                    value={AdminValue.address}
-                    onChange={HandleDoctorChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <label>Education</label>
-                <div className="inputdiv">
-                  <input
-                    type="text"
-                    placeholder="eg.MBBS"
-                    name="education"
-                    value={AdminValue.education}
-                    onChange={HandleDoctorChange}
-                    required
-                  />
                 </div>
               </div>
 

@@ -137,7 +137,7 @@ const Sidebar = () => {
                 <div
                   style={{ display: isOpen ? "block" : "none" }}
                   className='link_text'>
-                  Courses List
+                  Students List
                 </div>
               </Link>
             ) : null}
@@ -152,7 +152,7 @@ const Sidebar = () => {
                 <div
                   style={{ display: isOpen ? "block" : "none" }}
                   className='link_text'>
-                  Students List
+                  Courses List
                 </div>
               </Link>
             ) : null}
@@ -247,6 +247,21 @@ const Sidebar = () => {
                 className='link'
                 activeclassname='active'
                 to={"/doctorprofile"}>
+                <div className='icon'>
+                  <CgProfile className='mainIcon' />
+                </div>
+                <div
+                  style={{ display: isOpen ? "block" : "none" }}
+                  className='link_text'>
+                  Profile
+                </div>
+              </Link>
+            ) : null}
+            {user?.userType === "admin" ? (
+              <Link
+                className='link'
+                activeclassname='active'
+                to={"/adminprofile"}>
                 <div className='icon'>
                   <CgProfile className='mainIcon' />
                 </div>

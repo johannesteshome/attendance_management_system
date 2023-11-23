@@ -19,28 +19,51 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const admin = await AdminModel.findById(id);
+
+    if (!admin) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    res.status(200).send(admin);
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 router.post("/register", async (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
+  console.log(req);
   try {
     const admin = await AdminModel.findOne({ email });
+    console.log(admin);
     if (admin) {
       return res.send({
         message: "Admin already exists",
       });
     }
     let value = new AdminModel(req.body);
+    console.log(value);
     await value.save();
     const data = await AdminModel.findOne({ email });
     return res.send({ data, message: "Registered" });
   } catch (error) {
+    console.log(error);
     res.send({ message: "error" });
   }
 });
 
 router.post("/login", async (req, res) => {
-  const { adminID, password } = req.body;
+  const { email } = req.body;
+  console.log(req);
   try {
-    const admin = await AdminModel.findOne({ adminID, password });
+    const admin = await AdminModel.findOne({ email });
+    console.log(admin);
 
     if (admin) {
       const token = jwt.sign({ foo: "bar" }, process.env.key, {
@@ -68,6 +91,16 @@ router.patch("/:adminId", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: "Something went wrong, unable to Update." });
+  }
+});
+
+router.delete("/all", async (req, res) => {
+  try {
+    await AdminModel.deleteMany();
+    res.status(200).send("All admins deleted");
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).send("Server Error");
   }
 });
 

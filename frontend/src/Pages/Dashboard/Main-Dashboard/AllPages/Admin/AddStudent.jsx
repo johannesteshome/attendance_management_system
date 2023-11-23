@@ -25,6 +25,7 @@ const AddStudent = () => {
   const initData = {
     studentName: "",
     studentID: "",
+    department: "",
     class: "",
     email: "",
     password: Date.now(),
@@ -66,7 +67,7 @@ const AddStudent = () => {
     });
   };
 
-  if (data?.isAuthticated === false) {
+  if (data?.isAuthenticated === false) {
     return <Navigate to={"/"} />;
   }
 
@@ -114,13 +115,13 @@ const AddStudent = () => {
                   </div>
                 </div>
                 <div>
-                  <label>Class</label>
+                  <label>Department</label>
                   <div className='inputdiv'>
                     <input
                       type='text'
-                      placeholder='Class'
-                      name='class'
-                      value={StudentValue.class}
+                      placeholder='Department'
+                      name='department'
+                      value={StudentValue.department}
                       onChange={HandleStudentChange}
                       required
                     />

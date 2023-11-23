@@ -20,6 +20,7 @@ import FrontPage from "../Pages/Dashboard/Main-Dashboard/GlobalFiles/FrontPage";
 import AddTeacher from "../Pages/Dashboard/Main-Dashboard/AllPages/Admin/AddTeacher";
 import AddStudent from "../Pages/Dashboard/Main-Dashboard/AllPages/Admin/AddStudent";
 import AddCourse from "../Pages/Dashboard/Main-Dashboard/AllPages/Admin/AddCourse";
+import AdminProfile from "../Pages/Dashboard/Main-Dashboard/AllPages/Admin/AdminProfile";
 const AllRoutes = () => {
   return (
     <>
@@ -102,6 +103,10 @@ const AllRoutes = () => {
         <Route
           path='/addcourse'
           element={<AddCourse />}
+        />
+        <Route
+          path='/adminprofile'
+          element={<AdminProfile />}
         />
       </Routes>
     </>

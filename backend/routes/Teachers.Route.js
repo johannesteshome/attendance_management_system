@@ -68,6 +68,16 @@ router.patch("/:teacherId", async (req, res) => {
   }
 });
 
+router.delete("/all", async (req, res) => {
+  try {
+    await TeacherModel.deleteMany();
+    res.status(200).send("All teachers deleted");
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 router.delete("/:teacherId", async (req, res) => {
   const id = req.params.teacherId;
   try {

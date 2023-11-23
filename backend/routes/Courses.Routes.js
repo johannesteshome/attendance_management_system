@@ -42,28 +42,44 @@ router.post("/add", async (req, res) => {
 });
 
 // Route to update a course by ID
-router.patch("/:courseId", getCourse, async (req, res) => {
+router.patch("/:courseId", async (req, res) => {
   const id = req.params.courseId;
   const payload = req.body;
 
   try {
-    const course = await CourseModel.findByIdAndUpdate({ _id: id }, payload);
-    if (!course) {
-      return res.status(404).send({ msg: `Course with id ${id} not found` });
+    await CourseModel.findByIdAndUpdate({ _id: id }, payload);
+    const course = await CourseModel.findById(id);
+    if (!course){
+    return res
+        .status(404)
+        .send({ message: `Course with id ${id} not found` });
     }
+    res.status(200).send({ message: `Doctor Updated`, user: course });
   } catch (error) {
-    res.status(400).send({ error: "Something went wrong" });
+    res.status(400).send({ error: "Something went wrong. Unable to update" });
+  }
+});
+
+router.delete("/all", async (req, res) => {
+  try {
+    await CourseModel.deleteMany();
+    res.status(200).send("All courses deleted");
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).send("Server Error");
   }
 });
 
 // Route to delete a course by ID
-router.delete("/:courseId", getCourse, async (req, res) => {
+router.delete("/:courseId", async (req, res) => {
+  // console.log("here");
   const id = req.params.courseId;
   try {
     const course = await CourseModel.findByIdAndDelete({ _id: id });
-    if (!bed) {
+    if (!course) {
       res.status(404).send({ msg: `Course with id ${id} not found` });
     }
+    res.status(200).send(`Course with id ${id} deleted`);
   } catch (error) {
     res.status(400).send({ error: "Something went wrong" });
   }

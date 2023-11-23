@@ -2,6 +2,52 @@ import * as types from "./types";
 import axios from "axios";
 
 //login user
+export const TeacherLogin = (data) => async (dispatch) => {
+  try {
+    dispatch({ type: types.LOGIN_NURSE_REQUEST });
+    const res = await axios.post("http://localhost:5000/teachers/login", data);
+    dispatch({
+      type: types.LOGIN_NURSE_SUCCESS,
+      payload: {
+        message: res.data.message,
+        user: res.data.user,
+        token: res.data.token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    dispatch({
+      type: types.LOGIN_NURSE_ERROR,
+      payload: {
+        message: error,
+      },
+    });
+  }
+};
+
+export const StudentLogin = (data) => async (dispatch) => {
+  try {
+    dispatch({ type: types.LOGIN_NURSE_REQUEST });
+    const res = await axios.post("http://localhost:5000/students/login", data);
+    dispatch({
+      type: types.LOGIN_NURSE_SUCCESS,
+      payload: {
+        message: res.data.message,
+        user: res.data.user,
+        token: res.data.token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    dispatch({
+      type: types.LOGIN_NURSE_ERROR,
+      payload: {
+        message: error,
+      },
+    });
+  }
+};
+
 export const NurseLogin = (data) => async (dispatch) => {
   try {
     dispatch({ type: types.LOGIN_NURSE_REQUEST });
@@ -55,7 +101,7 @@ export const AdminLogin = (data) => async (dispatch) => {
   try {
     dispatch({ type: types.LOGIN_ADMIN_REQUEST });
     const res = await axios.post("http://localhost:5000/admin/login", data);
-    console.log(res.data);
+    console.log(res.data, "response");
     dispatch({
       type: types.LOGIN_ADMIN_SUCCESS,
       payload: {
@@ -135,7 +181,7 @@ export const AdminRegister = (data) => async (dispatch) => {
   try {
     dispatch({ type: types.REGISTER_ADMIN_REQUEST });
     const res = await axios.post("http://localhost:5000/admin/register", data);
-    // console.log(res);
+    console.log(res, "response");
     return res.data;
     // dispatch({
     //   type: types.REGISTER_ADMIN_SUCCESS,
@@ -225,7 +271,22 @@ export const UpdateDoctor = (data, id) => async (dispatch) => {
   }
 };
 
-//update doctor
+// export const UpdateAdmin = (data, id) => async (dispatch) => {
+//   try {
+//     dispatch({ type: types.EDIT_ADMIN_REQUEST });
+//     console.log(id, "id");
+//     const res = await axios.patch(
+//       `http://localhost:5000/admin/${id}`,
+//       data
+//     );
+//     console.log(res);
+//     dispatch({ type: types.EDIT_ADMIN_SUCCESS, payload: res.data.user });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// //update doctor
 export const SendPassword = (data) => async (dispatch) => {
   try {
     dispatch({ type: types.SEND_PASSWORD_REQUEST });

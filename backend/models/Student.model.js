@@ -15,6 +15,9 @@ const studentSchema = mongoose.Schema({
   },
   class: {
     type: String,
+  },
+  department: {
+    type: String,
     required: true,
   },
   email: {

@@ -27,6 +27,55 @@ export const CreateReport = (data) => async (dispatch) => {
   }
 };
 
+export const getAdminRequest = () => ({
+  type: types.GET_ADMIN_REQUEST,
+});
+
+export const getAdminSuccess = (data) => ({
+  type: types.GET_ADMIN_SUCCESS,
+  payload: { data },
+});
+
+export const getAdminError = (error) => ({
+  type: types.GET_ADMIN_ERROR,
+  payload: { error },
+});
+
+export const UpdateAdmin = (data, id) => async (dispatch) => {
+  try {
+    dispatch({ type: types.EDIT_ADMIN_REQUEST });
+    console.log(id, "id");
+    const res = await axios.patch(`http://localhost:5000/admin/${id}`, data);
+    console.log(res);
+    dispatch({ type: types.EDIT_ADMIN_SUCCESS });
+    const response = await axios.get(`http://localhost:5000/admin/${id}`);
+    console.log(response, "admin detail response");
+    dispatch({ type: types.GET_ADMIN_DETAILS_SUCCESS, payload: response.data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const GetAdminDetails = (id) => async (dispatch) => {
+  try {
+    dispatch(getAdminRequest());
+    const res = await axios.get(
+      `http://localhost:5000/admin/${id}`
+    );
+    dispatch(getAdminSuccess(res.data));
+    console.log(res, "get response");
+    // dispatch({
+    //   type: types.GET_DOCTOR_SUCCESS,
+    //   payload: {
+    //
+    //   },
+    // });
+    return res.data
+  } catch (error) {
+    dispatch(getAdminError(error));
+  }
+};
+
 // GET DOCTOR DETAILS
 export const GetDoctorDetails = () => async (dispatch) => {
   try {

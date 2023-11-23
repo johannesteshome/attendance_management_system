@@ -15,6 +15,7 @@ const notify = (text) => toast(text);
 
 const AddTeacher = () => {
   const { data } = useSelector((store) => store.auth);
+  console.log(data, "auth data");
 
   const dispatch = useDispatch();
 
@@ -66,7 +67,8 @@ const AddTeacher = () => {
     });
   };
 
-  if (data?.isAuthticated === false) {
+  if (data?.isAuthenticated === false) {
+    console.log("here");
     return <Navigate to={"/"} />;
   }
 

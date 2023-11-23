@@ -7,9 +7,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   AdminLogin,
-  DoctorLogin,
+  StudentLogin,
   forgetPassword,
-  NurseLogin,
+  TeacherLogin,
 } from "../../../Redux/auth/action";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,9 +29,9 @@ const DLogin = () => {
 
   // ************************************************
   const [Loading, setLoading] = useState(false);
-  const [placement, SetPlacement] = useState("Nurse");
+  const [placement, SetPlacement] = useState("Teacher");
   const [formvalue, setFormvalue] = useState({
-    ID: "",
+    email: "",
     password: "",
   });
   const dispatch = useDispatch();
@@ -43,13 +43,13 @@ const DLogin = () => {
   const HandleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    if (formvalue.ID !== "" && formvalue.password !== "") {
-      if (placement === "Nurse") {
+    if (formvalue.email !== "" && formvalue.password !== "") {
+      if (placement === "Teacher") {
         let data = {
           ...formvalue,
-          nurseID: formvalue.ID,
+          email: formvalue.email,
         };
-        dispatch(NurseLogin(data)).then((res) => {
+        dispatch(TeacherLogin(data)).then((res) => {
           if (res.message === "Successful") {
             notify("Login Successful");
             setLoading(false);
@@ -66,13 +66,13 @@ const DLogin = () => {
             notify("Something went Wrong, Please Try Again");
           }
         });
-      } else if (placement === "Doctor") {
+      } else if (placement === "Student") {
         let data = {
           ...formvalue,
-          docID: formvalue.ID,
+          email: formvalue.email,
         };
         console.log(data);
-        dispatch(DoctorLogin(data)).then((res) => {
+        dispatch(StudentLogin(data)).then((res) => {
           if (res.message === "Successful") {
             notify("Login Successful");
             setLoading(false);
@@ -93,7 +93,7 @@ const DLogin = () => {
       } else if (placement === "Admin") {
         let data = {
           ...formvalue,
-          adminID: formvalue.ID,
+          email: formvalue.email,
         };
         dispatch(AdminLogin(data)).then((res) => {
           if (res.message === "Successful") {
@@ -168,11 +168,11 @@ const DLogin = () => {
               onChange={placementChange}
               className={"radiogroup"}
             >
-              <Radio.Button value="Nurse" className={"radiobutton"}>
-                Nurse
+              <Radio.Button value="Teacher" className={"radiobutton"}>
+                Teacher
               </Radio.Button>
-              <Radio.Button value="Doctor" className={"radiobutton"}>
-                Doctor
+              <Radio.Button value="Student" className={"radiobutton"}>
+                Student
               </Radio.Button>
               <Radio.Button value="Admin" className={"radiobutton"}>
                 Admin
@@ -184,11 +184,11 @@ const DLogin = () => {
           </div>
           <div>
             <form onSubmit={HandleSubmit}>
-              <h3>{placement} ID</h3>
+              <h3>{placement} Email:</h3>
               <input
-                type="number"
-                name="ID"
-                value={formvalue.ID}
+                type="email"
+                name="email"
+                value={formvalue.email}
                 onChange={Handlechange}
                 required
               />
@@ -228,8 +228,8 @@ const DLogin = () => {
                     required
                   >
                     <option value="">User Type</option>
-                    <option value="nurse">Nurse</option>
-                    <option value="doctor">Doctor</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Student">Student</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>

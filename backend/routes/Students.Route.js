@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const StudentModel = require("../models/Student.model"); 
+const StudentModel = require("../models/Student.model");
 
 router.get("/", async (req, res) => {
   try {
@@ -31,9 +31,9 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { studentID, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const teacher = await StudentModel.findOne({ studentID, password });
+    const teacher = await StudentModel.findOne({ email, password });
 
     if (teacher) {
       const token = jwt.sign({ foo: "bar" }, process.env.key, {
@@ -64,6 +64,16 @@ router.patch("/:studentId", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: "Something went wrong, unable to Update." });
+  }
+});
+
+router.delete("/all", async (req, res) => {
+  try {
+    await StudentModel.deleteMany();
+    res.status(200).send("All students deleted");
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).send("Server Error");
   }
 });
 
