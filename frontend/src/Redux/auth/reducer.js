@@ -65,64 +65,64 @@ export default function authReducer(state = initialState, { type, payload }) {
         ...state,
         userLogin: { loading: false, error: true, message: payload.message },
       };
-    case types.LOGIN_TEACHER_REQUEST:
-      return {
-        ...state,
-        userLogin: { loading: true, error: false },
-      };
-    case types.LOGIN_TEACHER_SUCCESS:
-      localStorage.setItem("token", payload.token);
-      return {
-        ...state,
-        userLogin: { loading: false, error: false, message: payload.message },
-        data: {
-          isAuthenticated: payload.token ? true : false,
-          token: payload.token,
-          user: payload.user,
-        },
-      };
-    case types.LOGIN_TEACHER_ERROR:
-      return {
-        ...state,
-        userLogin: { loading: false, error: true, message: payload.message },
-      };
-    case types.LOGIN_STUDENT_REQUEST:
-      return {
-        ...state,
-        userLogin: { loading: true, error: false },
-      };
-    case types.LOGIN_STUDENT_SUCCESS:
-      localStorage.setItem("token", payload.token);
-      return {
-        ...state,
-        userLogin: { loading: false, error: false, message: payload.message },
-        data: {
-          isAuthenticated: payload.token ? true : false,
-          token: payload.token,
-          user: payload.user,
-        },
-      };
-    case types.LOGIN_STUDENT_ERROR:
-      return {
-        ...state,
-        userLogin: { loading: false, error: true, message: payload.message },
-      };
-    case types.LOGIN_ADMIN_REQUEST:
-      return {
-        ...state,
-        userLogin: { loading: true, error: false },
-      };
-    case types.LOGIN_ADMIN_SUCCESS:
-      localStorage.setItem("token", payload.token);
-      return {
-        ...state,
-        userLogin: { loading: false, error: false, message: payload.message },
-        data: {
-          isAuthenticated: payload.token ? true : false,
-          token: payload.token,
-          user: payload.user,
-        },
-      };
+    // case types.LOGIN_TEACHER_REQUEST:
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: true, error: false },
+    //   };
+    // case types.LOGIN_TEACHER_SUCCESS:
+    //   localStorage.setItem("token", payload.token);
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: false, error: false, message: payload.message },
+    //     data: {
+    //       isAuthenticated: payload.token ? true : false,
+    //       token: payload.token,
+    //       user: payload.user,
+    //     },
+    //   };
+    // case types.LOGIN_TEACHER_ERROR:
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: false, error: true, message: payload.message },
+    //   };
+    // case types.LOGIN_STUDENT_REQUEST:
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: true, error: false },
+    //   };
+    // case types.LOGIN_STUDENT_SUCCESS:
+    //   localStorage.setItem("token", payload.token);
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: false, error: false, message: payload.message },
+    //     data: {
+    //       isAuthenticated: payload.token ? true : false,
+    //       token: payload.token,
+    //       user: payload.user,
+    //     },
+    //   };
+    // case types.LOGIN_STUDENT_ERROR:
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: false, error: true, message: payload.message },
+    //   };
+    // case types.LOGIN_ADMIN_REQUEST:
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: true, error: false },
+    //   };
+    // case types.LOGIN_ADMIN_SUCCESS:
+    //   localStorage.setItem("token", payload.token);
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: false, error: false, message: payload.message },
+    //     data: {
+    //       isAuthenticated: payload.token ? true : false,
+    //       token: payload.token,
+    //       user: payload.user,
+    //     },
+    //   };
     case types.EDIT_NURSE_SUCCESS:
       return {
         ...state,
@@ -151,11 +151,11 @@ export default function authReducer(state = initialState, { type, payload }) {
           user: payload,
         },
       };
-    case types.LOGIN_ADMIN_ERROR:
-      return {
-        ...state,
-        userLogin: { loading: false, error: true, message: payload.message },
-      };
+    // case types.LOGIN_ADMIN_ERROR:
+    //   return {
+    //     ...state,
+    //     userLogin: { loading: false, error: true, message: payload.message },
+    //   };
 
     case "AUTH_LOGIN_RESET":
       return {
