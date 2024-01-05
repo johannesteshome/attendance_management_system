@@ -1,109 +1,217 @@
-const express = require("express");
-const { AdminModel } = require("../models/Admin.model");
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
-const bcrypt = require("bcrypt");
-const nodemailerConfig = require("../../utils/nodemailerConfig")
-
-const router = express.Router();
-
-
-
-
+const { AdminModel } = require("../../models/Admin.model");
+const { TokenModel } = require("../../models/Token.model");
+const { StatusCodes } = require("http-status-codes");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+const {
+  attachCookiesToResponse,
+  createTokenUser,
+  sendVerificationEmail,
+  sendResetPasswordEmail,
+} = require("../../utils/");
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
-  console.log(req);
+  const { email, password, name } = req.body;
   try {
-    const admin = await AdminModel.findOne({ email });
-    console.log(admin);
-    if (admin) {
+    const adminExists = await AdminModel.findOne({ email });
+    if (adminExists) {
       return res.send({
         message: "Admin already exists",
       });
     }
-    let value = new AdminModel(req.body);
-    console.log(value);
-    await value.save();
-    const data = await AdminModel.findOne({ email });
-    return res.send({ data, message: "Registered" });
+
+    const verificationToken = crypto.randomBytes(40).toString("hex");
+
+    const admin = await AdminModel.create({
+      email,
+      password,
+      name,
+      verificationToken,
+    });
+
+    await sendVerificationEmail({ name, email, verificationToken });
+
+    res.status(StatusCodes.CREATED).json({
+      success: true,
+      message:
+        "Admin created successfully. Please check your email for verification",
+    });
   } catch (error) {
     console.log(error);
-    res.send({ message: "error" });
+    res.send({ message: error });
   }
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req, "request");
-  try {
-    const admin = await AdminModel.findOne({ email });
-    // console.log(admin);
-    const validPassword = await bcrypt.compare(password, admin.password);
 
-    if (admin && validPassword) {
-      const token = admin.generateAuthToken();
-      res
-        .cookie("token", token, { httpOnly: true })
-        .send({ message: "Successful", user: admin, token: token });
-    } else {
-      res.send({ message: "Wrong credentials" });
-    }
-  } catch (error) {
-    console.log({ message: "Error" });
-    console.log(error);
+  if (!email || !password) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please provide email and password" });
   }
+
+  const admin = await AdminModel.findOne({ email });
+  console.log(admin._id, "admin id");
+
+  if (!admin) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No Such User" });
+  }
+
+  const isPasswordCorrect = await admin.comparePassword(password);
+
+  if (!isPasswordCorrect) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Password is Incorrect" });
+  }
+
+  if (!admin.isVerified) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please verify your email first" });
+  }
+
+  const tokenUser = createTokenUser(admin);
+
+  let refreshToken = "";
+
+  const existingToken = await TokenModel.findOne({ user: admin._id });
+
+  if (existingToken) {
+    const { isValid } = existingToken;
+
+    if (!isValid) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "Invalid token" });
+    }
+
+    refreshToken = existingToken.refreshToken;
+    attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+    res.status(StatusCodes.OK).json({ user: tokenUser });
+    return;
+  }
+
+  refreshToken = crypto.randomBytes(40).toString("hex");
+  const userAgent = req.headers["user-agent"];
+  const ip = req.ip;
+  const userToken = { refreshToken, ip, userAgent, user: admin._id };
+
+  await TokenModel.create(userToken);
+  attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+
+  res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
+const verifyEmail = async (req, res) => {
+  const { verificationToken, email } = req.body;
+  const admin = await AdminModel.findOne({ email });
 
-
-
-
-// router.post("/password", (req, res) => {
-//   const { email, userId, password } = req.body;
-//   console.log("here, password route");
-
-  
-// });
-
-router.post("/forgot", async (req, res) => {
-  const { email, type } = req.body;
-  let user;
-  let userId;
-  let password;
-
-  if (type == "admin") {
-    user = await AdminModel.find({ email });
-    userId = user[0]?.adminID;
-    password = user[0]?.password;
+  if (!admin) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Verification Failed" });
   }
 
-  if (!user) {
-    return res.send({ message: "User not found" });
+  if (admin.verificationToken !== verificationToken) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Verification Failed" });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "johnrobitm@gmail.com",
-      pass: "yyqg lcom uwjz psqa",
-    },
+  admin.isVerified = true;
+  admin.verified = Date.now();
+  admin.verificationToken = "";
+
+  await admin.save();
+
+  res.status(StatusCodes.OK).json({ success: true, message: "Email verified" });
+};
+
+const logout = async (req, res) => {
+  console.log(req.user._id);
+  await TokenModel.findOneAndDelete({ user: req.user._id });
+  res.cookie("accessToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
   });
+  res.cookie("refreshToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
+};
 
-  const mailOptions = {
-    from: "johnrobitm@gmail.com",
-    to: email,
-    subject: "Account ID and Password",
-    text: `This is your User Id : ${userId} and  Password : ${password} .`,
-  };
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return res.send(error);
+  if (!email) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please provide valid email" });
+  }
+
+  const admin = await AdminModel.findOne({ email });
+
+  if (admin) {
+    const passwordToken = crypto.randomBytes(70).toString("hex");
+
+    await sendResetPasswordEmail({
+      name: admin.name,
+      email: admin.email,
+      token: passwordToken
+    });
+
+    const tenMinutes = 1000 * 60 * 10;
+    const passwordTokenExpirationDate = new Date(Date.now() + tenMinutes);
+
+    admin.passwordToken = passwordToken;
+    admin.passwordTokenExpirationDate = passwordTokenExpirationDate;
+    await admin.save();
+  }
+
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Please check your email for reset password link" });
+};
+
+const resetPassword = async (req, res) => {
+  const { token, email, password } = req.body;
+  if (!token || !email || !password) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please provide all fields" });
+  }
+
+  const admin = await AdminModel.findOne({ email });
+  console.log(admin);
+
+  if (admin) {
+    const currentDate = new Date();
+
+    if (
+      admin.passwordToken === token &&
+      admin.passwordTokenExpirationDate > currentDate
+    ) {
+      console.log("here");
+      admin.password = password;
+      admin.passwordToken = null;
+      admin.passwordTokenExpirationDate = null;
+      await admin.save() 
     }
-    return res.send("Password reset email sent");
-  });
-});
+  }
 
-module.exports = router;
+  res.send("reset password");
+};
+
+module.exports = {
+  register,
+  login,
+  forgotPassword,
+  resetPassword,
+  verifyEmail,
+  logout,
+};

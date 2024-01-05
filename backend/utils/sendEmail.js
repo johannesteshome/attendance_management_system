@@ -1,23 +1,19 @@
 const nodemailer = require("nodemailer");
 const nodemailerConfig = require("../utils/nodemailerConfig");
 
-const sendEmail = async ({email, subject, text}) => {
-    const transporter = nodemailer.createTransport(nodemailerConfig)
+const sendEmail = async ({ email, subject, text }) => {
+    let testAccount = await nodemailer.createTestAccount();
+    
+    const transporter = nodemailer.createTransport(nodemailerConfig);
 
-    const mailOptions = {
-        from: "johnrobitm@gmail.com",
-        to: email,
-        subject,
-        text,
-    };
+  const mailOptions = {
+    from: "johnrobitm@gmail.com",
+    to: email,
+    subject,
+    text,
+  };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return res.send(error);
-        }
-        return res.send("Password Information is Sent through Email");
-    })
+  return transporter.sendMail(mailOptions);
+};
 
-}
-
-module.exports = sendEmail
+module.exports = sendEmail;

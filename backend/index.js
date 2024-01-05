@@ -4,7 +4,7 @@ require("dotenv").config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-const adminRouter = require("./routes/Admins.Route");
+const adminAuthRouter = require("./routes/authRoutes/AdminsAuth.Route");
 const teacherRouter = require("./routes/Teachers.Route");
 const studentRouter = require("./routes/Students.Route");
 const courseRouter = require("./routes/Courses.Routes");
@@ -15,11 +15,9 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser(process.env.JWT_SECRET));
 
-
-
-app.use("/admin", adminRouter);
-app.use("/teachers", teacherRouter);
-app.use("/students", studentRouter);
+app.use("/admin/auth", adminAuthRouter);
+app.use("/teachers/auth", teacherRouter);
+app.use("/students/auth", studentRouter);
 app.use("/courses", courseRouter);
 
 app.listen(process.env.port, async () => {

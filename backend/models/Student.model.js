@@ -33,7 +33,7 @@ const studentSchema = mongoose.Schema({
 
   role: {
     type: String,
-    default: "Student"
+    default: "Student",
   },
 
   age: {
@@ -46,6 +46,18 @@ const studentSchema = mongoose.Schema({
   },
   year: {
     type: Number,
+  },
+  verificationToken: String,
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verified: Date,
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpirationDate: {
+    type: Date,
   },
   image: {
     type: String,

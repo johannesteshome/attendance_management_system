@@ -1,4 +1,4 @@
-const sendEmail = requrie("./sendEmail.js")
+const sendEmail = require("./sendEmail.js")
 
 const sendVerificationEmail = async({name, email}) => {
     const subject = "Email Verification"

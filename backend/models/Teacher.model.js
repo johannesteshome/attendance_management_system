@@ -34,17 +34,29 @@ const teacherSchema = new mongoose.Schema({
 
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   role: {
     type: String,
-    default: 'Teacher'
+    default: "Teacher",
   },
 
   mobile: {
     type: Number,
     minlength: 10,
+  },
+  verificationToken: String,
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verified: Date,
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpirationDate: {
+    type: Date,
   },
   image: {
     type: String,

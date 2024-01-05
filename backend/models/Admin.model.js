@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const adminSchema = mongoose.Schema({
   name: {
@@ -20,7 +19,6 @@ const adminSchema = mongoose.Schema({
 
   gender: {
     type: String,
-    required: true,
   },
 
   age: {
@@ -33,7 +31,19 @@ const adminSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    default: "Admin"
+    default: "Admin",
+  },
+  verificationToken: String,
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verified: Date,
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpirationDate: {
+    type: Date,
   },
   image: {
     type: String,
@@ -43,22 +53,16 @@ const adminSchema = mongoose.Schema({
 });
 
 adminSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// adminSchema.methods.generateAuthToken = function () {
-//   const token = jwt.sign(
-//     {
-//       _id: this._id,
-//       name: this.adminName,
-//     },
-//     process.env.key,
-//     { expiresIn: "7d" }
-//   );
+adminSchema.methods.comparePassword = async function (canditatePassword) {
+  const isMatch = await bcrypt.compare(canditatePassword, this.password);
+  return isMatch;
+};
 
-//   return token;
-// };
 
 const AdminModel = mongoose.model("admin", adminSchema);
 
