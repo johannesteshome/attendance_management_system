@@ -1,39 +1,55 @@
-import {
-  legacy_createStore as createStore,
-  applyMiddleware,
-  compose,
-} from "redux";
-import thunk from "redux-thunk";
-import { rootReducer } from "./index.js";
+// import {
+//   legacy_createStore as createStore,
+//   applyMiddleware,
+//   compose,
+// } from "redux";
+// import thunk from "redux-thunk";
+// import { rootReducer } from "./index.js";
 
-function saveToLocalStorage(store) {
-  try {
-    const serializedStore = JSON.stringify(store);
-    window.localStorage.setItem("store", serializedStore);
-  } catch (e) {
-    console.log(e);
-  }
-}
+// function saveToLocalStorage(store) {
+//   try {
+//     const serializedStore = JSON.stringify(store);
+//     window.localStorage.setItem("store", serializedStore);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
-function loadFromLocalStorage() {
-  try {
-    const serializedStore = window.localStorage.getItem("store");
-    if (serializedStore === null) return undefined;
-    return JSON.parse(serializedStore);
-  } catch (e) {
-    console.log(e);
-    return undefined;
-  }
-}
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const persistedState = loadFromLocalStorage();
+// function loadFromLocalStorage() {
+//   try {
+//     const serializedStore = window.localStorage.getItem("store");
+//     if (serializedStore === null) return undefined;
+//     return JSON.parse(serializedStore);
+//   } catch (e) {
+//     console.log(e);
+//     return undefined;
+//   }
+// }
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const persistedState = loadFromLocalStorage();
 
-export const store = createStore(
-  rootReducer,
-  persistedState,
-  composeEnhancers(applyMiddleware(thunk))
-);
+// export const store = createStore(
+//   rootReducer,
+//   persistedState,
+//   composeEnhancers(applyMiddleware(thunk))
+// );
 
-store.subscribe(() => saveToLocalStorage(store.getState()));
+// store.subscribe(() => saveToLocalStorage(store.getState()));
+
+import { configureStore } from "@reduxjs/toolkit";
+// import { composeWithDevTools } from "redux-devtools-extension";
+
+import authReducer from "./features/authSlice";
+import dataReducer from "./features/dataSlice";
+
+const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    data: dataReducer,
+  },
+  // enhancers: [composeWithDevTools()],
+})
+
+export default store
 
 

@@ -12,7 +12,6 @@ import { TbReportMedical } from "react-icons/tb";
 import Sidebar from "./Sidebar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllData, GetPatients } from "../../../../Redux/Datas/action";
 
 let generator = require("generate-password");
 
@@ -28,12 +27,10 @@ const FrontPage = () => {
   //   { title: "Email", dataIndex: "email", key: "email" },
   // ];
 
-  const { patients } = useSelector((store) => store.data.patients);
-  const {
-    dashboard: { data },
-  } = useSelector((store) => store.data);
+  // const { patients } = useSelector((store) => store.data.patients);
+  // const { dashboard: { data },  } = useSelector((store) => store.data);
 
-  console.log(data, 'the data');
+  // console.log(data, 'the data');
 
   // const dispatch = useDispatch();
 
@@ -48,7 +45,7 @@ const FrontPage = () => {
       <Sidebar />
       <div className='AfterSideBar'>
         <h1 style={{ color: "rgb(184 191 234)" }}>Overview</h1>
-        <div className='maindiv'>
+        {/* <div className='maindiv'>
           <div className='one commondiv'>
             <div>
               <h1>{data?.doctor}</h1>
@@ -88,7 +85,7 @@ const FrontPage = () => {
             </div>
             <TbReportMedical className='overviewIcon' />
           </div>
-        </div>
+        </div> */}
         {/* 
         TODO:
         Make this table available for doctors, patients and admins

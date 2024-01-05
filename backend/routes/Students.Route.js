@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
     const teacher = await StudentModel.findOne({ email, password });
 
     if (teacher) {
-      const token = jwt.sign({ foo: "bar" }, process.env.key, {
+      const token = jwt.sign({ foo: "bar" }, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
       res.send({ message: "Successful", user: teacher, token: token });

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   TeacherRegister,
   SendPassword,
-} from "../../../../../Redux/auth/action";
+} from "../../../../../Redux/features/authActions";
 import Sidebar from "../../GlobalFiles/Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,7 +15,7 @@ const notify = (text) => toast(text);
 
 const AddTeacher = () => {
   const { data } = useSelector((store) => store.auth);
-  console.log(data, "auth data");
+  // console.log(data, "auth data");
 
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ const AddTeacher = () => {
     e.preventDefault();
     setLoading(true);
     dispatch(TeacherRegister(TeacherValue)).then((res) => {
-      // console.log(res);
+      console.log(res);
       if (res.message === "Teacher already exists") {
         setLoading(false);
         return notify("Teacher Already Exist");

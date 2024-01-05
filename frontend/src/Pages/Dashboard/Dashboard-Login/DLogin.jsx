@@ -3,14 +3,14 @@ import { Radio } from "antd";
 import banner from "../../../img/banner.png";
 import admin from "../../../img/admin.jpg";
 import "./DLogin.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   AdminLogin,
   StudentLogin,
   forgetPassword,
   TeacherLogin,
-} from "../../../Redux/auth/action";
+} from "../../../Redux/features/authActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Drawer } from "antd";
@@ -35,12 +35,13 @@ const DLogin = () => {
     password: "",
   });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const Handlechange = (e) => {
     setFormvalue({ ...formvalue, [e.target.name]: e.target.value });
   };
-  const navigate = useNavigate();
   const HandleSubmit = (e) => {
+    console.log("here");
     e.preventDefault();
     setLoading(true);
     if (formvalue.email !== "" && formvalue.password !== "") {
@@ -50,19 +51,18 @@ const DLogin = () => {
           email: formvalue.email,
         };
         dispatch(TeacherLogin(data)).then((res) => {
-          if (res.message === "Successful") {
+          console.log(res);
+          if (res.payload.message === "Successful") {
             notify("Login Successful");
             setLoading(false);
             return navigate("/dashboard");
           }
-          if (res.message === "Wrong credentials") {
+          if (res.payload.message === "Wrong credentials") {
             setLoading(false);
-
             notify("Wrong credentials");
           }
-          if (res.message === "Error") {
+          if (res.payload.message === "Error") {
             setLoading(false);
-
             notify("Something went Wrong, Please Try Again");
           }
         });
@@ -73,18 +73,18 @@ const DLogin = () => {
         };
         console.log(data);
         dispatch(StudentLogin(data)).then((res) => {
-          if (res.message === "Successful") {
+          if (res.payload.message === "Successful") {
             notify("Login Successful");
             setLoading(false);
 
             return navigate("/dashboard");
           }
-          if (res.message === "Wrong credentials") {
+          if (res.payload.message === "Wrong credentials") {
             setLoading(false);
 
             notify("Wrong credentials");
           }
-          if (res.message === "Error") {
+          if (res.payload.message === "Error") {
             setLoading(false);
 
             notify("Something went Wrong, Please Try Again");
@@ -96,18 +96,18 @@ const DLogin = () => {
           email: formvalue.email,
         };
         dispatch(AdminLogin(data)).then((res) => {
-          if (res.message === "Successful") {
+          console.log(res);
+          if (res.payload.message === "Successful") {
             notify("Login Successful");
             setLoading(false);
-
             return navigate("/dashboard");
           }
-          if (res.message === "Wrong credentials") {
+          if (res.payload.message === "Wrong credentials") {
             setLoading(false);
 
             notify("Wrong credentials");
           }
-          if (res.message === "Error") {
+          if (res.payload.message === "Error") {
             setLoading(false);
 
             notify("Something went Wrong, Please Try Again");
@@ -156,81 +156,89 @@ const DLogin = () => {
     <>
       <ToastContainer />
 
-      <div className="mainLoginPage">
-        <div className="leftside">
-          <img src={banner} alt="banner" />
+      <div className='mainLoginPage'>
+        <div className='leftside'>
+          <img
+            src={banner}
+            alt='banner'
+          />
         </div>
-        <div className="rightside">
+        <div className='rightside'>
           <h1>Login</h1>
           <div>
             <Radio.Group
               value={placement}
               onChange={placementChange}
-              className={"radiogroup"}
-            >
-              <Radio.Button value="Teacher" className={"radiobutton"}>
+              className={"radiogroup"}>
+              <Radio.Button
+                value='Teacher'
+                className={"radiobutton"}>
                 Teacher
               </Radio.Button>
-              <Radio.Button value="Student" className={"radiobutton"}>
+              <Radio.Button
+                value='Student'
+                className={"radiobutton"}>
                 Student
               </Radio.Button>
-              <Radio.Button value="Admin" className={"radiobutton"}>
+              <Radio.Button
+                value='Admin'
+                className={"radiobutton"}>
                 Admin
               </Radio.Button>
             </Radio.Group>
           </div>
-          <div className="Profileimg">
-            <img src={admin} alt="profile" />
+          <div className='Profileimg'>
+            <img
+              src={admin}
+              alt='profile'
+            />
           </div>
           <div>
             <form onSubmit={HandleSubmit}>
               <h3>{placement} Email:</h3>
               <input
-                type="email"
-                name="email"
+                type='email'
+                name='email'
                 value={formvalue.email}
                 onChange={Handlechange}
                 required
               />
               <h3>Password</h3>
               <input
-                type="password"
-                name="password"
+                type='password'
+                name='password'
                 value={formvalue.password}
                 onChange={Handlechange}
                 required
               />
-              <button type="submit">{Loading ? "Loading..." : "Submit"}</button>
+              <button type='submit'>{Loading ? "Loading..." : "Submit"}</button>
               <p style={{ marginTop: "10px" }}>
                 Forget Password?{" "}
                 <span
                   style={{ color: "blue", cursor: "pointer" }}
-                  onClick={showDrawer}
-                >
+                  onClick={showDrawer}>
                   Get it on Email !
                 </span>
               </p>
 
               {/* ********************************************************* */}
               <Drawer
-                title="Forget Password"
-                placement="left"
+                title='Forget Password'
+                placement='left'
                 onClose={onClose}
-                open={open}
-              >
+                open={open}>
                 <div>
                   <label style={{ fontSize: "18px" }}>Choose Type</label>
 
                   <select
-                    name="type"
+                    name='type'
                     value={ForgetPassword.type}
                     onChange={HandleForgetPassword}
-                    required
-                  >
-                    <option value="">User Type</option>
-                    <option value="Teacher">Teacher</option>
-                    <option value="Student">Student</option>
-                    <option value="admin">Admin</option>
+                    required>
+                    <option value=''>User Type</option>
+                    <option value='Teacher'>Teacher</option>
+                    <option value='Student'>Student</option>
+                    <option value='admin'>Admin</option>
                   </select>
                 </div>
                 <div>
@@ -238,9 +246,9 @@ const DLogin = () => {
                     Enter Email
                   </label>
                   <input
-                    type="email"
-                    placeholder="example@mail.com"
-                    name="email"
+                    type='email'
+                    placeholder='example@mail.com'
+                    name='email'
                     value={ForgetPassword.email}
                     onChange={HandleForgetPassword}
                     required
@@ -270,8 +278,7 @@ const DLogin = () => {
                     cursor: "pointer",
                     justifyContent: "center",
                   }}
-                  onClick={HandleChangePassword}
-                >
+                  onClick={HandleChangePassword}>
                   {forgetLoading ? "Loading..." : " Send Mail"}
                 </button>
               </Drawer>

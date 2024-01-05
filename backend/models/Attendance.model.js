@@ -13,6 +13,9 @@ const attendanceSchema = new mongoose.Schema({
   },
   date: { type: Date, default: Date.now },
   isPresent: { type: Boolean, default: false },
+  section: {
+    type: String,
+  }
   // Other attendance attributes as needed
 });
 

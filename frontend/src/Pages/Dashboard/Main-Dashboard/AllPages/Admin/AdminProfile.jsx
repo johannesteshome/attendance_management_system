@@ -9,8 +9,8 @@ import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import Sidebar from "../../GlobalFiles/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, message, Modal } from "antd";
-import { UpdateAdmin, } from "../../../../../Redux/Datas/action";
-import { GetAdminDetails } from "../../../../../Redux/Datas/action";
+import { UpdateAdmin } from "../../../../../Redux/features/authActions";
+// import { GetAdminDetails } from "../../../../../Redux/Datas/action";
 import { Navigate } from "react-router-dom";
 import "./CSS/Doctor_Profile.css";
 
@@ -31,7 +31,7 @@ const AdminProfile = () => {
 
     useEffect(() => {
         console.log("first useEffect, where did this go");
-      disptach(GetAdminDetails(data.user._id));
+      // disptach(GetAdminDetails(data.user._id));
     }, [disptach]);
 
     useEffect(() => {

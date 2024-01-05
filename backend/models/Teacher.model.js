@@ -32,6 +32,16 @@ const teacherSchema = new mongoose.Schema({
     type: Number,
   },
 
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+
+  role: {
+    type: String,
+    default: 'Teacher'
+  },
+
   mobile: {
     type: Number,
     minlength: 10,

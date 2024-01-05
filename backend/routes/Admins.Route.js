@@ -3,9 +3,7 @@ const { AdminModel } = require("../models/Admin.model");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const { NurseModel } = require("../models/Nurse.model");
-const { DoctorModel } = require("../models/Doctor.model");
-const { PatientModel } = require("../models/Patient.model");
+const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
@@ -59,17 +57,18 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { email } = req.body;
-  console.log(req);
+  const { email, password } = req.body;
+  console.log(req, 'request');
   try {
     const admin = await AdminModel.findOne({ email });
-    console.log(admin);
+    // console.log(admin);
+    const validPassword = await bcrypt.compare(password, admin.password);
 
-    if (admin) {
-      const token = jwt.sign({ foo: "bar" }, process.env.key, {
-        expiresIn: "24h",
-      });
-      res.send({ message: "Successful", user: admin, token: token });
+    if (admin && validPassword) {
+      const token = admin.generateAuthToken();
+      res
+        .cookie("token", token, { httpOnly: true })
+        .send({ message: "Successful", user: admin, token: token });
     } else {
       res.send({ message: "Wrong credentials" });
     }
@@ -151,28 +150,12 @@ router.post("/forgot", async (req, res) => {
   let userId;
   let password;
 
-  if (type == "nurse") {
-    user = await NurseModel.find({ email });
-    userId = user[0]?.nurseID;
-    password = user[0]?.password;
-  }
-  if (type == "patient") {
-    user = await PatientModel.find({ email });
-    userId = user[0]?.nurseID;
-    password = user[0]?.password;
-  }
-
-  if (type == "admin") {
+    if (type == "admin") {
     user = await AdminModel.find({ email });
     userId = user[0]?.adminID;
     password = user[0]?.password;
   }
 
-  if (type == "doctor") {
-    user = await DoctorModel.find({ email });
-    userId = user[0]?.docID;
-    password = user[0]?.password;
-  }
 
   if (!user) {
     return res.send({ message: "User not found" });
@@ -200,5 +183,7 @@ router.post("/forgot", async (req, res) => {
     return res.send("Password reset email sent");
   });
 });
+
+
 
 module.exports = router;

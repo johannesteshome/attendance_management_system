@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const TeacherModel = require("../models/Teacher.model"); // Adjust the path as needed
 
 router.get("/", async (req, res) => {
@@ -7,27 +8,27 @@ router.get("/", async (req, res) => {
     const teachers = await TeacherModel.find();
     res.status(200).send(teachers);
   } catch (error) {
-    res.status(400).send({error: "Something went wrong"});
+    res.status(400).send({ error: "Something went wrong" });
   }
 });
 
 // Route to create a new teacher
 router.post("/register", async (req, res) => {
-    const { email } = req.body;
+  const { email } = req.body;
 
-    try {
-        const teacher = await TeacherModel.findOne({ email })
-        if (teacher) {
-            return res.send({
-                message: "Teacher already exists",
-            })
-        }
-        let value = new TeacherModel(req.body);
-        await value.save();
-        const data = await TeacherModel.findOne({ email })
-        return res.send({data, message: "Teacher created"})
-    } catch (error) {
-      res.send({message: "error"})
+  try {
+    const teacher = await TeacherModel.findOne({ email });
+    if (teacher) {
+      return res.send({
+        message: "Teacher already exists",
+      });
+    }
+    let value = new TeacherModel(req.body);
+    await value.save();
+    const data = await TeacherModel.findOne({ email });
+    return res.send({ data, message: "Teacher created" });
+  } catch (error) {
+    res.send({ message: "error" });
   }
 });
 
@@ -35,9 +36,10 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const teacher = await TeacherModel.findOne({ email, password });
+    console.log(teacher);
 
     if (teacher) {
-      const token = jwt.sign({ foo: "bar" }, process.env.key, {
+      const token = jwt.sign({ foo: "bar" }, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
       res.send({ message: "Successful", user: teacher, token: token });
@@ -91,7 +93,6 @@ router.delete("/:teacherId", async (req, res) => {
     res.status(400).send({ error: "Something went wrong, unable to Delete." });
   }
 });
-
 
 // Export the router
 module.exports = router;

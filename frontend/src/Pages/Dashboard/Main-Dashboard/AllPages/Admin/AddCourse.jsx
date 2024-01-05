@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import "./CSS/Add_Doctor.css";
 import course from "../../../../../img/course-avatar.png";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  CreateCourse
-} from "../../../../../Redux/Datas/action";
 import Sidebar from "../../GlobalFiles/Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,7 +32,7 @@ const AddCourse = () => {
   const HandleCourseSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    dispatch(CreateCourse(CourseValue))
+    // dispatch(CreateCourse(CourseValue))
     setLoading(false)
   };
 

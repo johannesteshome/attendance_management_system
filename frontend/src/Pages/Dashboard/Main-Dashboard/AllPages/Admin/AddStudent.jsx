@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   StudentRegister,
   SendPassword,
-} from "../../../../../Redux/auth/action";
+} from "../../../../../Redux/features/authActions";
 import Sidebar from "../../GlobalFiles/Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

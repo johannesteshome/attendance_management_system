@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 
 const studentSchema = mongoose.Schema({
-  userType: {
-    type: String,
-    default: "student",
-  },
-  studentName: {
+  name: {
     type: String,
     required: true,
   },
@@ -13,7 +9,7 @@ const studentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  class: {
+  section: {
     type: String,
   },
   department: {
@@ -35,6 +31,11 @@ const studentSchema = mongoose.Schema({
     required: true,
   },
 
+  role: {
+    type: String,
+    default: "Student"
+  },
+
   age: {
     type: Number,
   },
@@ -42,6 +43,9 @@ const studentSchema = mongoose.Schema({
   mobile: {
     type: Number,
     minlength: 10,
+  },
+  year: {
+    type: Number,
   },
   image: {
     type: String,

@@ -19,10 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-
-  const {
-    data: { user },
-  } = useSelector((state) => state.auth);
+  
+  const {user} = useSelector((state) => state.auth);
+  
+  // console.log(authState, "authState");
 
   function toggle() {
     setIsOpen(!isOpen);
@@ -175,23 +175,6 @@ const Sidebar = () => {
               </Link>
             ) : null}
 
-            {/* {user?.userType === "admin" ? (
-              <Link
-                className="link"
-                activeclassname="active"
-                to={"/checkpayment"}
-              >
-                <div className="icon">
-                  <RiSecurePaymentLine className="mainIcon" />
-                </div>
-                <div
-                  style={{ display: isOpen ? "block" : "none" }}
-                  className="link_text"
-                >
-                  Payments
-                </div>
-              </Link>
-            ) : null} */}
 
             {user?.userType === "doctor" ? (
               <Link
@@ -210,7 +193,7 @@ const Sidebar = () => {
             ) : null}
 
             {
-              /* add this to the admin side */ user?.userType === "doctor" ? (
+             user?.userType === "doctor" ? (
                 <Link
                   className='link'
                   activeclassname='active'
@@ -272,23 +255,6 @@ const Sidebar = () => {
                 </div>
               </Link>
             ) : null}
-            {/* {user?.userType === "doctor" ? (
-              <Link
-                className="link"
-                activeclassname="active"
-                to={"/patientdetails"}
-              >
-                <div className="icon">
-                  <TbListDetails className="mainIcon" />
-                </div>
-                <div
-                  style={{ display: isOpen ? "block" : "none" }}
-                  className="link_text"
-                >
-                  Patients
-                </div>
-              </Link>
-            ) : null} */}
 
             <Link
               className='LogOutPath link'
