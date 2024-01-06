@@ -9,6 +9,10 @@ import StudentsPage from "../Pages/StudentsPage"
 import AdminsPage from "../Pages/AdminsPage"
 import CoursesPage from "../Pages/CoursesPage";
 import LogsPage from "../Pages/LogsPage";
+import AddTeacher from "../Pages/AddTeacher";
+import AddStudent from "../Pages/AddStudent";
+import AddAdmin from "../Pages/AddAdmin";
+import NotFoundPage from "../Pages/NotFoundPage";
 
 const AllRoutes = () => {
   return (
@@ -54,8 +58,20 @@ const AllRoutes = () => {
             element={<LogsPage />}
           />
           <Route
+            path='add-teacher'
+            element={<AddTeacher />}
+          />
+          <Route
+            path='add-student'
+            element={<AddStudent />}
+          />
+          <Route
+            path='add-admin'
+            element={<AddAdmin />}
+          />
+          <Route
             path='*'
-            element={<LogsPage />}
+            element={<NotFoundPage />}
           />
         </Route>
       </Routes>

@@ -1,6 +1,7 @@
 import { Table } from "antd";
 import { Button } from "antd";
 import { Icon } from "@iconify/react";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -85,18 +86,21 @@ for (let i = 0; i < 100; i++) {
 
 const StudentsPage = () => {
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 my-4'>
       <div className='flex items-center'>
-        <h1 className='text-3xl font-bold'>Teachers List</h1>
+        <h1 className='text-3xl font-bold'>Students List</h1>
       </div>
       <div className='flex items-center justify-end gap-4'>
-        <Button>Assign Course</Button>
-        <Button className='flex items-center text-black gap-2'>
-          <Icon
-            className='w-8 h-8'
-            icon='material-symbols-light:add'
-          />
-          Add Teacher
+        <Button className="flex items-center">
+          <Link
+            to='/dashboard/add-student'
+            className='flex items-center text-black gap-2'>
+            <Icon
+              className='w-8 h-8'
+              icon='material-symbols-light:add'
+            />
+            Add Student
+          </Link>
         </Button>
       </div>
       <Table

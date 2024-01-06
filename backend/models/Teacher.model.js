@@ -33,11 +33,6 @@ const teacherSchema = new mongoose.Schema({
     default: false,
   },
 
-  role: {
-    type: String,
-    default: "Teacher",
-  },
-
   mobile: {
     type: Number,
     minlength: 10,
