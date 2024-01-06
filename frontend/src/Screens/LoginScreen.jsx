@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Radio } from "antd";
-import banner from "../../../img/banner.png";
-import admin from "../../../img/admin.jpg";
-import "./DLogin.css";
+import { Radio, Drawer } from "antd";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import banner from "../img/banner.png";
+import admin from "../img/admin.jpg";
+import "./LoginScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,13 +12,11 @@ import {
   StudentLogin,
   forgetPassword,
   TeacherLogin,
-} from "../../../Redux/features/authActions";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Drawer } from "antd";
+} from "../Redux/features/authActions";
+
 const notify = (text) => toast(text);
 
-const DLogin = () => {
+const LoginScreen = () => {
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -29,7 +29,7 @@ const DLogin = () => {
 
   // ************************************************
   const [Loading, setLoading] = useState(false);
-  const [placement, SetPlacement] = useState("Teacher");
+  const [placement, setPlacement] = useState("Teacher");
   const [formvalue, setFormvalue] = useState({
     email: "",
     password: "",
@@ -40,6 +40,7 @@ const DLogin = () => {
   const Handlechange = (e) => {
     setFormvalue({ ...formvalue, [e.target.name]: e.target.value });
   };
+
   const HandleSubmit = (e) => {
     console.log("here");
     e.preventDefault();
@@ -52,7 +53,7 @@ const DLogin = () => {
         };
         dispatch(TeacherLogin(data)).then((res) => {
           console.log(res, "res Here");
-          if (res.payload.message === "Successful") {
+          if (res.meta.requestStatus === "fulfilled") {
             notify("Login Successful");
             setLoading(false);
             return navigate("/dashboard");
@@ -118,7 +119,7 @@ const DLogin = () => {
   };
 
   const placementChange = (e) => {
-    SetPlacement(e.target.value);
+    setPlacement(e.target.value);
   };
 
   const [ForgetPassword, setForgetPassword] = useState({
@@ -221,7 +222,7 @@ const DLogin = () => {
                 </span>
               </p>
 
-              {/* ********************************************************* */}
+              {/* Forgot Password Drawer */}
               <Drawer
                 title='Forget Password'
                 placement='left'
@@ -290,4 +291,4 @@ const DLogin = () => {
   );
 };
 
-export default DLogin;
+export default LoginScreen;

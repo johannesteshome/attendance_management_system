@@ -4,7 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 const { ObjectId } = require("mongodb");
 
 const authenticateUser = async (req, res, next) => {
-  const { refreshToken, accessToken } = req.signedCookies
+  const { refreshToken, accessToken } = req.signedCookies;
   try {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
@@ -15,8 +15,8 @@ const authenticateUser = async (req, res, next) => {
     const payload = isTokenValid(refreshToken);
     // console.log(payload.refreshToken, payload.user._id, "here");
 
-    // TODO: User part is a little bit confusing look into that
-    const userId = new ObjectId(payload.user._id)
+    // TODO: What if the access token is deleted? Will the refresh token generate an access token
+    const userId = new ObjectId(payload.user._id);
     const existingToken = await TokenModel.findOne({
       user: userId,
       refreshToken: payload.refreshToken,
@@ -39,14 +39,14 @@ const authenticateUser = async (req, res, next) => {
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "Authentication Invalid! No logged in session" });
   }
-}
+};
 
 const authorizePermissions = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return res
-      .status(StatusCodes.FORBIDDEN)
-      .json({ message: "Unauthorized to access this route" });
+        .status(StatusCodes.FORBIDDEN)
+        .json({ message: "Unauthorized to access this route" });
     }
     next();
   };
@@ -56,4 +56,3 @@ module.exports = {
   authenticateUser,
   authorizePermissions,
 };
-

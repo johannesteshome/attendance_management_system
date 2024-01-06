@@ -33,6 +33,7 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(TeacherLogin.fulfilled, (state, action) => {
+        console.log(action, "slice");
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;

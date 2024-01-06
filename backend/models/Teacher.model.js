@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs")
 
 const teacherSchema = new mongoose.Schema({
-  userType: {
+  role: {
     type: String,
     default: "teacher",
   },
-  teacherName: {
+  name: {
     type: String,
-    required: true,
-  },
-  teacherID: {
-    type: Number,
     required: true,
   },
   email: {
@@ -25,7 +22,6 @@ const teacherSchema = new mongoose.Schema({
 
   gender: {
     type: String,
-    required: true,
   },
 
   age: {
@@ -65,6 +61,18 @@ const teacherSchema = new mongoose.Schema({
   },
 });
 
-const Teacher = mongoose.model("Teacher", teacherSchema);
+teacherSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
-module.exports = Teacher;
+teacherSchema.methods.comparePassword = async function (canditatePassword) {
+  const isMatch = await bcrypt.compare(canditatePassword, this.password);
+  return isMatch;
+};
+
+const TeacherModel = mongoose.model("teacher", teacherSchema);
+
+module.exports = { TeacherModel };
+

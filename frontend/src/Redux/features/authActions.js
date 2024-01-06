@@ -4,11 +4,11 @@ import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 const url = "http://localhost:5000";
 
 export const TeacherLogin = createAsyncThunk(
-    'teachers/login', async (data, { rejectWithValue }) => {
+    'teacher/auth/login', async (data, { rejectWithValue }) => {
         try {
             console.log("what about here");
-            const response = await axios.post(`${url}/teachers/login`, data);
-            console.log(response);
+            const response = await axios.post(`${url}/teacher/auth/login`, data);
+            console.log(response, "response from redux");
             return response.data;
         } catch (error) {
             console.log(error);
@@ -47,7 +47,11 @@ export const TeacherRegister = createAsyncThunk(
       const response = await axios.post(`${url}/teachers/register`, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
     }
   }
 );

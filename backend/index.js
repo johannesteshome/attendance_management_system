@@ -5,19 +5,26 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const adminAuthRouter = require("./routes/authRoutes/AdminsAuth.Route");
-const teacherRouter = require("./routes/Teachers.Route");
-const studentRouter = require("./routes/Students.Route");
+const teacherAuthRouter = require("./routes/authRoutes/TeacherAuthRoute");
+const studentAuthRouter = require("./routes/authRoutes/StudentAuthRoute");
 const courseRouter = require("./routes/Courses.Routes");
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
 app.use(cookieParser(process.env.JWT_SECRET));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    optionSuccessStatus: 200,
+  })
+);
 
 app.use("/admin/auth", adminAuthRouter);
-app.use("/teachers/auth", teacherRouter);
-app.use("/students/auth", studentRouter);
+app.use("/teacher/auth", teacherAuthRouter);
+app.use("/student/auth", studentAuthRouter);
 app.use("/courses", courseRouter);
 
 app.listen(process.env.port, async () => {
