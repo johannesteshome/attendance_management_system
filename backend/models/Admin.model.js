@@ -1,17 +1,8 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const adminSchema = mongoose.Schema({
-  userType: {
-    type: String,
-    default: "admin",
-  },
-
-  adminID: {
-    type: Number,
-    required: true,
-  },
-
-  adminName: {
+  name: {
     type: String,
     required: true,
   },
@@ -28,7 +19,6 @@ const adminSchema = mongoose.Schema({
 
   gender: {
     type: String,
-    required: true,
   },
 
   age: {
@@ -39,6 +29,22 @@ const adminSchema = mongoose.Schema({
     type: Number,
     minlength: 10,
   },
+  role: {
+    type: String,
+    default: "Admin",
+  },
+  verificationToken: String,
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verified: Date,
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpirationDate: {
+    type: Date,
+  },
   image: {
     type: String,
     default:
@@ -46,6 +52,18 @@ const adminSchema = mongoose.Schema({
   },
 });
 
-const AdminModel = mongoose.model("admin", adminSchema);
+adminSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+adminSchema.methods.comparePassword = async function (canditatePassword) {
+  const isMatch = await bcrypt.compare(canditatePassword, this.password);
+  return isMatch;
+};
+
+
+const AdminModel = mongoose.model("admins", adminSchema);
 
 module.exports = { AdminModel };

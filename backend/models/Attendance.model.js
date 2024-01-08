@@ -13,9 +13,12 @@ const attendanceSchema = new mongoose.Schema({
   },
   date: { type: Date, default: Date.now },
   isPresent: { type: Boolean, default: false },
+  section: {
+    type: String,
+  }
   // Other attendance attributes as needed
 });
 
-const Attendance = mongoose.model("Attendance", attendanceSchema);
+const AttendanceModel = mongoose.model("attendances", attendanceSchema);
 
-module.exports = Attendance;
+module.exports = {AttendanceModel};

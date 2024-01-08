@@ -1,11 +1,8 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const studentSchema = mongoose.Schema({
-  userType: {
-    type: String,
-    default: "student",
-  },
-  studentName: {
+  name: {
     type: String,
     required: true,
   },
@@ -13,7 +10,7 @@ const studentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  class: {
+  section: {
     type: String,
   },
   department: {
@@ -32,7 +29,11 @@ const studentSchema = mongoose.Schema({
 
   gender: {
     type: String,
-    required: true,
+  },
+
+  role: {
+    type: String,
+    default: "Student",
   },
 
   age: {
@@ -43,6 +44,21 @@ const studentSchema = mongoose.Schema({
     type: Number,
     minlength: 10,
   },
+  year: {
+    type: Number,
+  },
+  verificationToken: String,
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verified: Date,
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpirationDate: {
+    type: Date,
+  },
   image: {
     type: String,
     default:
@@ -50,6 +66,17 @@ const studentSchema = mongoose.Schema({
   },
 });
 
-const Student = mongoose.model("Student", studentSchema);
+studentSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
-module.exports = Student;
+studentSchema.methods.comparePassword = async function (canditatePassword) {
+  const isMatch = await bcrypt.compare(canditatePassword, this.password);
+  return isMatch;
+};
+
+const StudentModel = mongoose.model("students", studentSchema);
+
+module.exports = {StudentModel};

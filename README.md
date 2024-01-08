@@ -1,4 +1,4 @@
-
+<!-- 
 ## To Run Locally
 
 Clone the project
@@ -116,4 +116,4 @@ Link - <a href="https://drive.google.com/file/d/1xwcSsjdl6QHnJ-JXl11moBAwSqSQFRj
 - [@Piyush Agrawal](https://github.com/piyush-agrawal6)
 - [@Rajendra Patel](https://github.com/centauricoder01)
 - [@Salman Ajani](https://github.com/SalmanAjani)
-
+ -->
