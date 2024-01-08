@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const StudentModel = require("../../models/Student.model");
+const {StudentModel} = require("../../models/Student.model");
 
 const allStudents = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ const allStudents = async (req, res) => {
 };
 
 const getStudent = async (req, res) => {
-  const { id } = req.params;
+  const id  = req.params.studentId;
 
   try {
     const student = await StudentModel.findById(id);

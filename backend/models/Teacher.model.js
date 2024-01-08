@@ -14,7 +14,7 @@ const teacherSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "courses" }],
   password: {
     type: String,
     required: true,
@@ -67,7 +67,7 @@ teacherSchema.methods.comparePassword = async function (canditatePassword) {
   return isMatch;
 };
 
-const TeacherModel = mongoose.model("teacher", teacherSchema);
+const TeacherModel = mongoose.model("teachers", teacherSchema);
 
 module.exports = { TeacherModel };
 

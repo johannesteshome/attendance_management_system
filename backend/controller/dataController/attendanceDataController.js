@@ -1,5 +1,5 @@
-const AttendanceModel = require("../../models/Attendance.model");
-const CourseModel = require("../../models/Course.model");
+const {AttendanceModel} = require("../../models/Attendance.model");
+const {CourseModel} = require("../../models/Course.model");
 const { StudentModel } = require("../../models/Student.model");
 const {StatusCodes} = require("http-status-codes");
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Radio, Drawer } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,6 +18,15 @@ const notify = (text) => toast(text);
 
 const LoginScreen = () => {
   const [open, setOpen] = useState(false);
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated])
 
   const showDrawer = () => {
     setOpen(true);
@@ -27,7 +36,6 @@ const LoginScreen = () => {
     setOpen(false);
   };
 
-  // ************************************************
   const [Loading, setLoading] = useState(false);
   const [placement, setPlacement] = useState("Teacher");
   const [formvalue, setFormvalue] = useState({
@@ -35,7 +43,6 @@ const LoginScreen = () => {
     password: "",
   });
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const Handlechange = (e) => {
     setFormvalue({ ...formvalue, [e.target.name]: e.target.value });

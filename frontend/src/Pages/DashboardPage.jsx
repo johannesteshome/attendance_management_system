@@ -1,17 +1,34 @@
 import React from "react";
-import { Avatar, Card } from "antd";
+import { Avatar, Card, Table } from "antd";
 import Chart from "react-apexcharts";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 const { Meta } = Card;
+const teacherAttendanceData = require("../sampleData/teacherAttendanceData.json");
+const studentAttendanceData = require("../sampleData/studentAttendanceData.json");
 
-const cardItems = [
+const adminCardItems = [
   ["20", "Teachers"],
   ["120", "Students"],
   ["40", "Courses"],
   ["3", "Admins"],
 ];
 
+const teacherCardItems = [
+  ["5", "Courses"],
+  ["12", "Sections"]
+]
+
+const studentCardItems = [
+  ["5", "Courses"],
+  ["2", "Attendances"]
+]
+
 const DashboardPage = () => {
-    const donutOptions = {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user.role, "user role");
+  const membersPercentages = [
+      {
       chart: {
         id: "basic-donut",
       },
@@ -29,11 +46,12 @@ const DashboardPage = () => {
           },
         },
       ],
-    };
-    
-    const donutSeries = [44, 55, 41, 17, 15];
-        
-    const lineOptions = {
+    },
+    [44, 55, 41, 17, 15]
+  ]
+
+  const websiteVisits = [
+    {
       chart: {
         id: "basic-line",
       },
@@ -45,16 +63,15 @@ const DashboardPage = () => {
           text: "Value",
         },
       },
-    };
+    },
+    [{
+      name: "series-1",
+      data: [30, 40, 45, 50, 49, 60, 70, 91],
+    }]
+  ];
 
-    const lineSeries = [
-      {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
-      },
-    ];
-
-    const columnOptions = {
+  const attendancesRecorded = [
+    {
       chart: {
         id: "basic-column",
       },
@@ -66,69 +83,169 @@ const DashboardPage = () => {
           text: "Value",
         },
       },
-    };
-
-    const columnSeries = [
+    },
+    [
       {
         name: "series-1",
         data: [30, 40, 45, 50, 49, 60, 70, 91],
       },
-    ];
+    ],
+  ];
+
+  const teacherAttendanceColumns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Date",
+      dataIndex: "Date",
+    },
+    {
+      title: "Course",
+      dataIndex: "Course",
+    },
+    {
+      title: "Section",
+      dataIndex: "Section",
+    },
+    {
+      title: "Percentage",
+      dataIndex: "Percentage",
+    },
+    {
+      title: "Goto Attendance",
+      render: () => <Link to='/:attendanceId'>View</Link>,
+    },
+  ];
+
+  const studentAttendanceColumns = [
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "id"
+    },
+    {
+      title: "Course",
+      dataIndex: "course",
+    },
+    {
+      title: "teacher",
+      dataIndex: 'name'
+    }
+  ]
+        
+
   return (
     <div className='p-4'>
       <div className='flex flex-wrap gap-2 my-4'>
-        {cardItems.map((item, index) => {
-          return (
-            <Card
-              style={{
-                width: 300,
-              }}
-              key={index}>
-              <Meta
-                avatar={<h2 className='text-3xl font-bold'>{item[0]}</h2>}
-                title={item[1]}
-                description='Registered'
-              />
-            </Card>
-          );
-        })}
+        {user.role === "admin"
+          ? adminCardItems.map((item, index) => {
+              return (
+                <Card
+                  style={{
+                    width: 300,
+                  }}
+                  key={index}>
+                  <Meta
+                    avatar={<h2 className='text-3xl font-bold'>{item[0]}</h2>}
+                    title={item[1]}
+                    description='Registered'
+                  />
+                </Card>
+              );
+            })
+          : user.role === "teahcer"
+          ? teacherCardItems.map((item, index) => {
+              return (
+                <Card
+                  style={{
+                    width: 300,
+                  }}
+                  key={index}>
+                  <Meta
+                    avatar={<h2 className='text-3xl font-bold'>{item[0]}</h2>}
+                    title={item[1]}
+                    description='Registered'
+                  />
+                </Card>
+              );
+            })
+          : studentCardItems.map((item, index) => {
+              return (
+                <Card
+                  style={{
+                    width: 300,
+                  }}
+                  key={index}>
+                  <Meta
+                    avatar={<h2 className='text-3xl font-bold'>{item[0]}</h2>}
+                    title={item[1]}
+                    description='Registered'
+                  />
+                </Card>
+              );
+            })}
       </div>
 
-      <div className='flex flex-wrap gap-4 my-4'>
-        <Card
-          title='Website Visits'
-          className='w-fit'
-          bordered={false}>
-          <Chart
-            options={lineOptions}
-            series={lineSeries}
-            type='line'
-            width='500'
+      {user.role === "admin" ? (
+        <div className='flex flex-wrap gap-4 my-4'>
+          <Card
+            title='Website Visits'
+            className='w-fit'
+            bordered={false}>
+            <Chart
+              options={websiteVisits[0]}
+              series={websiteVisits[1]}
+              type='line'
+              width='500'
+            />
+          </Card>
+          <Card
+            title='Members Percentages'
+            className='w-fit'
+            bordered={false}>
+            <Chart
+              options={membersPercentages[0]}
+              series={membersPercentages[1]}
+              type='polarArea'
+              width='500'
+            />
+          </Card>
+          <Card
+            title='Attendances Recorded'
+            className='w-fit'
+            bordered={false}>
+            <Chart
+              options={attendancesRecorded[0]}
+              series={attendancesRecorded[1]}
+              type='bar'
+              width='500'
+            />
+          </Card>
+        </div>
+      ) : user.role === "teacher" ? (
+        <div>
+          <div className='flex items-center my-4'>
+            <h1 className='text-xl font-bold'>Total Attendances</h1>
+          </div>
+          <Table
+            columns={teacherAttendanceColumns}
+            dataSource={teacherAttendanceData}
           />
-        </Card>
-        <Card
-          title='Members Percentages'
-          className='w-fit'
-          bordered={false}>
-          <Chart
-            options={donutOptions}
-            series={donutSeries}
-            type='polarArea'
-            width='500'
+        </div>
+      ) : (
+        <div>
+          <div className='flex items-center my-4'>
+            <h1 className='text-xl font-bold'>Total Attendances</h1>
+          </div>
+          <Table
+            columns={studentAttendanceColumns}
+            dataSource={studentAttendanceData}
           />
-        </Card>
-        <Card
-          title='Attendances Recorded'
-          className='w-fit'
-          bordered={false}>
-          <Chart
-            options={columnOptions}
-            series={columnSeries}
-            type='bar'
-            width='500'
-          />
-        </Card>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

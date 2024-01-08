@@ -1,10 +1,10 @@
 const { StatusCodes } = require("http-status-codes");
-const CourseModel = require("../../models/Course.model");
+const { CourseModel } = require("../../models/Course.model");
 
 
 const allCourses = async (req, res) => {
   try {
-    const courses = await CourseModel.find().populate("teacher", "teacherName");;
+    const courses = await CourseModel.find().populate("teacher", "name");
     res.status(StatusCodes.OK).send(courses);
   } catch (error) {
     console.log(error);

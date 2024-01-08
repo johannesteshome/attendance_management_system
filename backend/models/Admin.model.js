@@ -64,6 +64,6 @@ adminSchema.methods.comparePassword = async function (canditatePassword) {
 };
 
 
-const AdminModel = mongoose.model("admin", adminSchema);
+const AdminModel = mongoose.model("admins", adminSchema);
 
 module.exports = { AdminModel };

@@ -172,7 +172,7 @@ const TeachersPage = () => {
         </Button>
       </div>
       {
-        // TODO change the table with filters - you can find it on the snippets extension
+        // TODO change the table with filters and editable rows - you can find it on the snippets extension
       }
       <Table
         columns={columns}

@@ -15,10 +15,11 @@ import {
 } from "./authActions";
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: localStorage.getItem("userInfo") ? true : false,
   loading: false,
-  token: null,
-  user: null,
+  user: localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null,
 };
 
 console.log(initialState, "initialState");
@@ -37,15 +38,15 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       })
       .addCase(TeacherLogin.rejected, (state) => {
         state.loading = false;
       })
       .addCase(authLogout, (state) => {
         state.isAuthenticated = false;
-        state.token = null;
         state.user = null;
+        localStorage.removeItem("userInfo");
       })
       .addCase(AdminLogin.pending, (state) => {
         state.loading = true;
@@ -54,7 +55,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       })
       .addCase(AdminLogin.rejected, (state) => {
         state.loading = false;
@@ -66,7 +67,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       })
       .addCase(StudentLogin.rejected, (state) => {
         state.loading = false;

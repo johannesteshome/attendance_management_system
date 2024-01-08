@@ -3,18 +3,27 @@ import { Route, Routes } from "react-router-dom";
 import LoginScreen from "../Screens/LoginScreen";
 import DashboardScreen from "../Screens/DashboardScreen";
 
-import DashboardPage from "../Pages/DashboardPage"
-import TeachersPage from "../Pages/TeachersPage"
-import StudentsPage from "../Pages/StudentsPage"
-import AdminsPage from "../Pages/AdminsPage"
+import DashboardPage from "../Pages/DashboardPage";
+import TeachersPage from "../Pages/TeachersPage";
+import StudentsPage from "../Pages/StudentsPage";
+import AdminsPage from "../Pages/AdminsPage";
 import CoursesPage from "../Pages/CoursesPage";
 import LogsPage from "../Pages/LogsPage";
 import AddTeacher from "../Pages/AddTeacher";
 import AddStudent from "../Pages/AddStudent";
 import AddAdmin from "../Pages/AddAdmin";
 import NotFoundPage from "../Pages/NotFoundPage";
+import ProtectedRoutes from "../Screens/ProtectedRoutes";
+import SharedLayout from "../Screens/SharedLayout";
+import { useSelector } from "react-redux";
+import MyCoursesPage from "../Pages/MyCoursesPage";
+import TakeAttendancePage from "../Pages/TakeAttendancePage";
+import CourseDetailsPage from "../Pages/CourseDetailsPage";
+import AttendanceDetailsPage from "../Pages/AttendanceDetailsPage";
+import ProfileDetails from "../Pages/ProfileDetails";
 
 const AllRoutes = () => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
   return (
     <>
       <Routes>
@@ -23,18 +32,18 @@ const AllRoutes = () => {
           element={<LoginScreen />}
         />
         <Route
-          path='/'
+          path='signin'
           element={<LoginScreen />}
         />
         <Route
-          path='dashboard'
-          element={<DashboardScreen />}>
+          path='/dashboard'
+          element={
+            <ProtectedRoutes isAuthenticated={isAuthenticated}>
+              <DashboardScreen />
+            </ProtectedRoutes>
+          }>
           <Route
-            index
-            element={<DashboardPage />}
-          />
-          <Route
-            path='dashboard-page'
+            path=''
             element={<DashboardPage />}
           />
           <Route
@@ -70,10 +79,34 @@ const AllRoutes = () => {
             element={<AddAdmin />}
           />
           <Route
+            path='my-courses'
+            element={<MyCoursesPage />}
+          />
+          <Route
+            path='courses/:courseId'
+            element={<CourseDetailsPage />}
+          />
+          <Route
+            path='attendances/:attendanceId'
+            element={<AttendanceDetailsPage />}
+          />
+          <Route
+            path='take-attendance'
+            element={<TakeAttendancePage />}
+          />
+          <Route
+            path='profile'
+            element={<ProfileDetails />}
+          />
+          <Route
             path='*'
             element={<NotFoundPage />}
           />
         </Route>
+        <Route
+          path='*'
+          element={<NotFoundPage />}
+        />
       </Routes>
     </>
   );

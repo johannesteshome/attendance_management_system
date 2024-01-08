@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const TeacherModel = require("../../models/Teacher.model");
+const {TeacherModel} = require("../../models/Teacher.model");
 
 
 const allTeachers = async (req, res) => {

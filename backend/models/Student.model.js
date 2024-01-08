@@ -77,6 +77,6 @@ studentSchema.methods.comparePassword = async function (canditatePassword) {
   return isMatch;
 };
 
-const StudentModel = mongoose.model("student", studentSchema);
+const StudentModel = mongoose.model("students", studentSchema);
 
 module.exports = {StudentModel};
