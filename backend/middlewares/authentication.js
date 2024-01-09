@@ -41,7 +41,7 @@ const authenticateUser = async (req, res, next) => {
 const authorizePermissions = (...roles) => {
   // roles param can be a single role, or an array of roles
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
+    if (!roles.includes(req.user.role.toLowerCase())) {
       return res
         .status(StatusCodes.FORBIDDEN)
         .json({ message: "Unauthorized to access this route" });

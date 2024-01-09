@@ -14,8 +14,9 @@ const studentSchema = mongoose.Schema({
     type: String,
   },
   department: {
-    type: String,
-    required: true,
+    // refer the department model
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "departments",
   },
   email: {
     type: String,
@@ -47,6 +48,7 @@ const studentSchema = mongoose.Schema({
   year: {
     type: Number,
   },
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "courses" }],
   verificationToken: String,
   isVerified: {
     type: Boolean,

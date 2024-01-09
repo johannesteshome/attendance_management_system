@@ -15,7 +15,7 @@ const {
 router.get("/", authenticateUser, allTeachers);
 router.get("/:teacherId", authenticateUser, getTeacher);
 router.patch("/:teacherId", authenticateUser, updateTeacher);
-router.delete("/all", authenticateUser, deleteAllTeachers);
-router.delete("/:teacherId", authenticateUser, deleteTeacher);
+router.delete("/all", authenticateUser, authorizePermissions("admin"), deleteAllTeachers);
+router.delete("/:teacherId", authenticateUser,authorizePermissions("admin"), deleteTeacher);
 
 module.exports = router;

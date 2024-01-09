@@ -6,7 +6,7 @@ const { authenticateUser, authorizePermissions } = require("../../middlewares/au
 router.get("/", authenticateUser, allStudents);
 router.get("/:studentId", authenticateUser, getStudent);
 router.patch("/:studentId", authenticateUser, updateStudent);
-router.delete("/all", authenticateUser, deleteAllStudents);
-router.delete("/:studentId", authenticateUser, deleteStudent);
+router.delete("/all", authenticateUser, authorizePermissions("admin"), deleteAllStudents);
+router.delete("/:studentId", authenticateUser, authorizePermissions("admin"), deleteStudent);
 
 module.exports = router;

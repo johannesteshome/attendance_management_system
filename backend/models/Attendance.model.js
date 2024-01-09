@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const attendanceSchema = new mongoose.Schema({
-  student: [{studentID: {
+  students: [{studentID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "students",
     required: true,
   },
   isPresent: { type: Boolean, default: false }}],
-  course: {
+  courseID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "courses",
     required: true,

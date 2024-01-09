@@ -13,6 +13,7 @@ const studentRouter = require("./routes/dataRoutes/Students.Route");
 const teacherRouter = require("./routes/dataRoutes/Teachers.Route");
 const attendanceRouter = require("./routes/dataRoutes/Attendances.Route");
 const courseRouter = require("./routes/dataRoutes/Courses.Routes");
+const departmentRouter = require("./routes/dataRoutes/Departments.Route");
 
 
 const app = express();
@@ -36,6 +37,7 @@ app.use("/students", studentRouter)
 app.use("/teachers", teacherRouter)
 app.use("/attendances", attendanceRouter);
 app.use("/courses", courseRouter);
+app.use("/departments", departmentRouter);
 
 app.listen(process.env.port, async () => {
   try {

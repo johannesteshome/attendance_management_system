@@ -6,15 +6,17 @@ const {
   updateCourse,
   addCourse,
   deleteAllCourses,
+  courseAssignment,
   deleteCourse,
 } = require("../../controller/dataController/courseDataController");
-const { authenticateUser } = require("../../middlewares/authentication");
+const { authenticateUser, authorizePermissions } = require("../../middlewares/authentication");
 
 router.get("/", authenticateUser, allCourses);
 router.get("/:id", authenticateUser, getCourse);
 router.post("/add", authenticateUser, addCourse);
 router.patch("/:courseId", authenticateUser, updateCourse);
-router.delete("/all", authenticateUser, deleteAllCourses);
-router.delete("/:courseId", authenticateUser, deleteCourse);
+router.patch("/:courseId/assign", authenticateUser, authorizePermissions("admin"), courseAssignment);
+router.delete("/all", authenticateUser, authorizePermissions("admin"), deleteAllCourses);
+router.delete("/:courseId", authenticateUser, authorizePermissions("admin"), deleteCourse);
 
 module.exports = router;

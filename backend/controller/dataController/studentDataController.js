@@ -3,7 +3,7 @@ const {StudentModel} = require("../../models/Student.model");
 
 const allStudents = async (req, res) => {
   try {
-    const students = await StudentModel.find();
+    const students = await StudentModel.find().populate("department", "name");
     res.status(StatusCodes.OK).send(students);
   } catch (error) {
     console.log(error);
@@ -15,7 +15,7 @@ const getStudent = async (req, res) => {
   const id  = req.params.studentId;
 
   try {
-    const student = await StudentModel.findById(id);
+    const student = await StudentModel.findById(id).populate("department", "name");
 
     if (!student) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: "User not found" });
