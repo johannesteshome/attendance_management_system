@@ -3,6 +3,7 @@ const {CourseModel} = require("../../models/Course.model");
 const { DepartmentModel } = require("../../models/Department.model");
 const { StudentModel } = require("../../models/Student.model");
 const {StatusCodes} = require("http-status-codes");
+const { TeacherModel } = require("../../models/Teacher.model");
 
 // Route to get all attendance records
 const allAttendance = async (req, res) => {
@@ -14,11 +15,22 @@ const allAttendance = async (req, res) => {
   }
 };
 
+const getAttendance = async (req, res) => {
+  try {
+    const attendanceId = req.params.attendanceId;
+    const attendance = await AttendanceModel.findById(attendanceId);
+    res.json(attendance);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+}
+
 // Route to get attendance records for a specific student
 const getStudentAttendance = async (req, res) => {
   try {
     const studentId = req.params.studentId;
-    const attendances = await AttendanceModel.find({}, { 'student.studentID': studentId });
+    
+    const attendances = await AttendanceModel.find({ 'students.studentID': studentId });
     res.json(attendances);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
@@ -29,25 +41,42 @@ const getStudentAttendance = async (req, res) => {
 const getCourseAttendance = async (req, res) => {
   try {
     const courseId = req.params.courseId;
-    const attendances = await AttendanceModel.find({ course: courseId });
+    const attendances = await AttendanceModel.find({ courseID: courseId });
     res.json(attendances);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 };
 
+const getTeacherAttendance = async (req, res) => {
+  try {
+    const teacherId = req.params.teacherId;
+    const attendances = await AttendanceModel.find({ teacherID: teacherId });
+    res.json(attendances);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+}
+
 // Route to mark attendance for a student in a course
 const markAttendance = async (req, res) => {
 
-  const { students, departmentID, courseID, section, year } = req.body;
+  const { students, departmentID, courseID, teacherID, section, year } = req.body;
   try {
     const courseExists = await CourseModel.findById(courseID);
-    console.log(students);
 
     if (!courseExists) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Course not found" });
+    }
+
+    const teacherExists = await TeacherModel.findById(teacherID);
+
+    if (!teacherExists) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Teacher not found" });
     }
 
     for (student of students) {
@@ -73,7 +102,8 @@ const markAttendance = async (req, res) => {
       students,
       courseID,
       section,
-      year
+      year,
+      teacherID
     });
 
     const savedAttendance = await newAttendance.save();
@@ -120,6 +150,7 @@ module.exports = {
   allAttendance,
   getStudentAttendance,
   getCourseAttendance,
+  getTeacherAttendance,
   markAttendance,
   deleteAllAttendance,
   deleteAttendance

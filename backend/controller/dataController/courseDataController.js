@@ -95,7 +95,6 @@ const courseAssignment = async (req, res) => {
     const students = await StudentModel.find({ departmentId, section, year });
     console.log(students);
     await TeacherModel.findByIdAndUpdate({ _id: teacherId }, { $addToSet: { courses: courseId } });
-    console.log("here");
     await StudentModel.updateMany(
       { _id: { $in: students.map((student) => student._id) } },
       { $addToSet: { courses: courseId } }

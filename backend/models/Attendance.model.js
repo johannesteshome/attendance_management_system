@@ -15,7 +15,12 @@ const attendanceSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   section: [{
     type: String,
-  }]
+  }],
+  teacherID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "teachers",
+    required: true,
+  }
 });
 
 const AttendanceModel = mongoose.model("attendances", attendanceSchema);
