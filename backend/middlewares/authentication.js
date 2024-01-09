@@ -1,5 +1,5 @@
 const { isTokenValid, attachCookiesToResponse } = require("../utils/jwt");
-const TokenModel = require("../models/Token.model");
+const {TokenModel} = require("../models/Token.model");
 const { StatusCodes } = require("http-status-codes");
 const { ObjectId } = require("mongodb");
 
@@ -9,19 +9,16 @@ const authenticateUser = async (req, res, next) => {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
       req.user = payload.user;
-      // console.log("are you here", req.user);
       return next();
     }
     const payload = isTokenValid(refreshToken);
-    // console.log(payload.refreshToken, payload.user._id, "here");
+    console.log(payload.refreshToken, payload.user._id, "here");
 
-    // TODO: What if the access token is deleted? Will the refresh token generate an access token
     const userId = new ObjectId(payload.user._id);
     const existingToken = await TokenModel.findOne({
       user: userId,
       refreshToken: payload.refreshToken,
     });
-    // console.log(existingToken, 'existing token');
 
     if (!existingToken || !existingToken?.isValid) {
       throw new Error("Invalid token or session expired");
@@ -42,6 +39,7 @@ const authenticateUser = async (req, res, next) => {
 };
 
 const authorizePermissions = (...roles) => {
+  // roles param can be a single role, or an array of roles
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return res

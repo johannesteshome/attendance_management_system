@@ -1,18 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const {allCourses, getCourse, updateCourse, addCourse, deleteAllCourses, deleteCourse} = require("../../controller/dataController/courseDataController");
+const {
+  allCourses,
+  getCourse,
+  updateCourse,
+  addCourse,
+  deleteAllCourses,
+  deleteCourse,
+} = require("../../controller/dataController/courseDataController");
+const { authenticateUser } = require("../../middlewares/authentication");
 
-
-router.get("/", allCourses);
-
-router.get("/:id", getCourse);
-
-router.post("/add", addCourse);
-
-router.patch("/:courseId", updateCourse);
-
-router.delete("/all", deleteAllCourses);
-
-router.delete("/:courseId", deleteCourse);
+router.get("/", authenticateUser, allCourses);
+router.get("/:id", authenticateUser, getCourse);
+router.post("/add", authenticateUser, addCourse);
+router.patch("/:courseId", authenticateUser, updateCourse);
+router.delete("/all", authenticateUser, deleteAllCourses);
+router.delete("/:courseId", authenticateUser, deleteCourse);
 
 module.exports = router;
