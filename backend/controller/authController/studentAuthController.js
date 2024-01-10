@@ -11,6 +11,7 @@ const {
   sendVerificationEmail,
   sendResetPasswordEmail,
 } = require("../../utils/");
+const { OTPModel } = require("../../models/OTP.model");
 
 const register = async (req, res) => {
   const { email, password, name, department, studentID } = req.body;
@@ -61,7 +62,7 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+const sendOTP = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -91,6 +92,55 @@ const login = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .json({ message: "Please verify your email first" });
   }
+
+  const otpExists = await OTPModel.findOne({ email })
+  
+  if (otpExists) {
+    await OTPModel.findOneAndDelete({ email });
+  }
+
+  const newOTP = new OTPModel({ email });
+  console.log(newOTP);
+
+  await newOTP.save();
+  return res
+    .status(StatusCodes.OK)
+    .json({ success: true, message: "OTP sent" });
+
+}
+
+const login = async (req, res) => {
+
+  const { email, otp } = req.body;
+
+  if (!email || !otp) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please provide email and otp" });
+  }
+
+  const student = await StudentModel.findOne({ email });
+
+  if (!student) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No Such User" });
+  }
+
+  const otpExists = await OTPModel.findOne({ email });
+
+  if (!otpExists) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No such OTP sent for this account" });
+  }
+
+  if (!bcrypt.compare(otp, otpExists.otp)) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Please Verify with valid OTP" });
+  }
+
 
   const tokenUser = createTokenUser(student);
 
@@ -227,6 +277,7 @@ const resetPassword = async (req, res) => {
 
 module.exports = {
   register,
+  sendOTP,
   login,
   forgotPassword,
   resetPassword,

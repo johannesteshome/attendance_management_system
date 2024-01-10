@@ -36,20 +36,30 @@
 
 // store.subscribe(() => saveToLocalStorage(store.getState()));
 
-import { configureStore } from "@reduxjs/toolkit";
-// import { composeWithDevTools } from "redux-devtools-extension";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import thunk from "redux-thunk";
 
 import authReducer from "./features/authSlice";
 import dataReducer from "./features/dataSlice";
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    data: dataReducer,
-  },
-  // enhancers: [composeWithDevTools()],
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+  data: dataReducer,
 })
 
-export default store
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export const store = configureStore({
+  reducer: persistedReducer
+})
+
+export const persistor = persistStore(store)
 
 
