@@ -31,7 +31,7 @@ const adminSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    default: "Admin",
+    default: "admin",
   },
   verificationToken: String,
   isVerified: {

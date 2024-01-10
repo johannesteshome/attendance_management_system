@@ -109,9 +109,9 @@ const login = async (req, res) => {
       .json({ message: "Please provide email and otp" });
   }
 
-  const admin = await AdminModel.findOne({ email });
+  const teacher = await TeacherModel.findOne({ email });
 
-  if (!admin) {
+  if (!teacher) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "No Such User" });

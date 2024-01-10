@@ -12,10 +12,14 @@ import {
   authLogout,
   forgetPassword,
   SendPassword,
+  TeacherSendOTP,
+  StudentSendOTP,
+  AdminSendOTP,
 } from "./authActions";
 
 const initialState = {
   isAuthenticated: false,
+  loggedInSession: false,
   loading: false,
   user: null,
 };
@@ -34,9 +38,7 @@ const authSlice = createSlice({
       .addCase(TeacherLogin.fulfilled, (state, action) => {
         console.log(action, "slice");
         state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+        state.loggedInSession = true;
       })
       .addCase(TeacherLogin.rejected, (state) => {
         state.loading = false;
@@ -51,9 +53,7 @@ const authSlice = createSlice({
       })
       .addCase(AdminLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+        state.loggedInSession = true;
       })
       .addCase(AdminLogin.rejected, (state) => {
         state.loading = false;
@@ -63,11 +63,48 @@ const authSlice = createSlice({
       })
       .addCase(StudentLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+        state.loggedInSession = true;
       })
       .addCase(StudentLogin.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(TeacherSendOTP.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(TeacherSendOTP.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.loggedInSession = false;
+        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+      })
+      .addCase(TeacherSendOTP.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(StudentSendOTP.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(StudentSendOTP.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.loggedInSession = false
+        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+      })
+      .addCase(StudentSendOTP.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(AdminSendOTP.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(AdminSendOTP.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.loggedInSession = false
+        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+      })
+      .addCase(AdminSendOTP.rejected, (state) => {
         state.loading = false;
       });
   },

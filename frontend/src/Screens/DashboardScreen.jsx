@@ -10,10 +10,9 @@ import {
 const { Header, Content, Footer, Sider } = Layout;
 
 
-
-
 const DashboardScreen = () => {
   const { user } = useSelector((state) => state.auth);
+  
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
 

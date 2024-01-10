@@ -20,7 +20,7 @@ export const TeacherLogin = createAsyncThunk(
 export const StudentLogin = createAsyncThunk(
     'students/login', async (data, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${url}/students/login`, data);
+            const response = await axios.post(`${url}/student/auth/login`, data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -31,7 +31,7 @@ export const StudentLogin = createAsyncThunk(
 export const AdminLogin = createAsyncThunk(
     'admin/login', async (data, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${url}/admin/login`, data);
+            const response = await axios.post(`${url}/admin/auth/login`, data);
             return response;
         } catch (error) {
             console.log(error, "error");
@@ -40,11 +40,47 @@ export const AdminLogin = createAsyncThunk(
     }
 )
 
+export const AdminSendOTP = createAsyncThunk(
+    'admin/sendOTP', async (data, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(`${url}/admin/auth/login-otp`, data);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+export const TeacherSendOTP = createAsyncThunk(
+  "teacher/sendOTP",
+  async (data, { rejectWithValue }) => {
+    try {
+        const response = await axios.post(`${url}/teacher/auth/login-otp`, data);
+        console.log(response.data, 'response from redux in otp');
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const StudentSendOTP = createAsyncThunk(
+  "student/sendOTP",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${url}/student/auth/login-otp`, data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const TeacherRegister = createAsyncThunk(
   "teachers/register",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${url}/teachers/register`, data);
+      const response = await axios.post(`${url}/teacher/register`, data);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -59,7 +95,7 @@ export const TeacherRegister = createAsyncThunk(
 export const StudentRegister = createAsyncThunk(
     'students/login', async (data, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${url}/students/register`, data);
+            const response = await axios.post(`${url}/student/register`, data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);

@@ -21,6 +21,7 @@ import TakeAttendancePage from "../Pages/TakeAttendancePage";
 import CourseDetailsPage from "../Pages/CourseDetailsPage";
 import AttendanceDetailsPage from "../Pages/AttendanceDetailsPage";
 import ProfileDetails from "../Pages/ProfileDetails";
+import OTPScreen from "../Screens/OTPScreen";
 
 const AllRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -34,6 +35,10 @@ const AllRoutes = () => {
         <Route
           path='signin'
           element={<LoginScreen />}
+        />
+        <Route
+          path='verify-otp/*'
+          element={<OTPScreen />}
         />
         <Route
           path='/dashboard'

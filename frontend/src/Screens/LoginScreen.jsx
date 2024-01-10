@@ -62,7 +62,7 @@ const LoginScreen = () => {
           if (res.meta.requestStatus === "fulfilled") {
             notify("Login Successful");
             setLoading(false);
-            return navigate("/dashboard");
+            return navigate("/verify-otp?email=" + formvalue.email + "&role=Teacher");
           }
           if (res.meta.requestStatus === "rejected") {
             // console.log(res.payload.message);
@@ -83,7 +83,7 @@ const LoginScreen = () => {
           if (res.meta.requestStatus === "fulfilled") {
             notify("Login Successful");
             setLoading(false);
-            return navigate("/dashboard");
+            return navigate("/verify-otp?email=" + formvalue.email + "&role=Student");
           }
           if (res.meta.requestStatus === "rejected") {
             setLoading(false);
@@ -91,7 +91,6 @@ const LoginScreen = () => {
           }
           if (res.payload.message === "Error") {
             setLoading(false);
-
             notify("Something went Wrong, Please Try Again");
           }
         });
@@ -101,12 +100,12 @@ const LoginScreen = () => {
           email: formvalue.email,
         };
         dispatch(AdminLogin(data)).then((res) => {
-          if (res.payload.message === "Successful") {
+          if (res.meta.requestStatus === "fulfilled") {
             notify("Login Successful");
             setLoading(false);
-            return navigate("/dashboard");
+            return navigate("/verify-otp?email=" + formvalue.email + "&role=Admin");
           }
-          if (res.payload.message === "Wrong credentials") {
+          if (res.meta.requestStatus === "rejected") {
             setLoading(false);
 
             notify("Wrong credentials");
