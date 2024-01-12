@@ -76,6 +76,90 @@ export const StudentSendOTP = createAsyncThunk(
   }
 );
 
+export const StudentForgetPassword = createAsyncThunk(
+  "student/forget-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${url}/student/auth/forgot-password`, data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const TeacherForgetPassword = createAsyncThunk(
+  "teacher/forget-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${url}/teacher/auth/forgot-password`, data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const AdminForgetPassword = createAsyncThunk(
+  "admin/forget-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${url}/admin/auth/forgot-password`, data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+export const StudentResetPassword = createAsyncThunk(
+  "student/reset-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${url}/student/auth/reset-password`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const TeacherResetPassword = createAsyncThunk(
+  "teacher/reset-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${url}/teacher/auth/reset-password`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const AdminResetPassword = createAsyncThunk(
+  "admin/reset-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${url}/admin/auth/reset-password`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const authLogout = createAction("user/logout");
+
 export const TeacherRegister = createAsyncThunk(
   "teachers/register",
   async (data, { rejectWithValue }) => {
@@ -158,15 +242,3 @@ export const SendPassword = createAsyncThunk(
     }
 )
 
-export const forgetPassword = createAsyncThunk(
-    'password/forget', async (data, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(`${url}/admin/forgot`, data);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
-    }
-)
-
-export const authLogout = createAction("user/logout");

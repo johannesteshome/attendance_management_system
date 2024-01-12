@@ -22,6 +22,7 @@ import CourseDetailsPage from "../Pages/CourseDetailsPage";
 import AttendanceDetailsPage from "../Pages/AttendanceDetailsPage";
 import ProfileDetails from "../Pages/ProfileDetails";
 import OTPScreen from "../Screens/OTPScreen";
+import ResetPasswordScreen from "../Screens/ResetPasswordScreen";
 
 const AllRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -39,6 +40,10 @@ const AllRoutes = () => {
         <Route
           path='verify-otp/*'
           element={<OTPScreen />}
+        />
+        <Route
+          path='reset-password/*'
+          element={<ResetPasswordScreen/>}
         />
         <Route
           path='/dashboard'

@@ -4,14 +4,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import banner from "../img/banner.png";
 import ticktime from "../img/ticktime-banner.png";
-// import "./LoginScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   AdminLogin,
   StudentLogin,
-  forgetPassword,
+  StudentForgetPassword,
+  AdminForgetPassword,
   TeacherLogin,
+  TeacherForgetPassword,
 } from "../Redux/features/authActions";
 import FormItem from "antd/es/form/FormItem";
 const { Option } = Select;
@@ -140,24 +141,60 @@ const LoginScreen = () => {
   const [forgetLoading, setforgetLoading] = useState(false);
 
   const HandleChangePassword = () => {
+    console.log(ForgetPassword.type, ForgetPassword.email);
     if (ForgetPassword.type === "") {
       return notify("Please Fill all Details");
     }
     setforgetLoading(true);
-    dispatch(forgetPassword(ForgetPassword)).then((res) => {
-      if (res.message === "User not found") {
+    if (ForgetPassword.type === "teacher") {
+      dispatch(TeacherForgetPassword({email: ForgetPassword.email})).then((res) => {
+        console.log(res.meta);
+        if (res.meta.requestStatus === "rejected") {
+          setforgetLoading(false);
+          return notify("User Not Found");
+        }
+        setForgetPassword({
+          type: "",
+          email: "",
+        });
+        onClose();
         setforgetLoading(false);
-        return notify("User Not Found");
-      }
-      setForgetPassword({
-        type: "",
-        email: "",
+        return notify("Please check your email for reset password link!");
       });
-      onClose();
-      setforgetLoading(false);
-      return notify("Account Details Send");
-    });
-  };
+    }
+    if (ForgetPassword.type === "student") {
+      dispatch(StudentForgetPassword({email:ForgetPassword.email})).then((res) => {
+        if (res.meta.requestStatus === "rejected") {
+          setforgetLoading(false);
+          return notify("User Not Found");
+        }
+        setForgetPassword({
+          type: "",
+          email: "",
+        });
+        onClose();
+        setforgetLoading(false);
+        return notify("Please check your email for reset password link!");
+      });
+    }
+    if (ForgetPassword.type === "admin") {
+      dispatch(AdminForgetPassword({email: ForgetPassword.email})).then((res) => {
+        if (res.meta.requestStatus === "rejected") {
+          setforgetLoading(false);
+          return notify("User Not Found");
+        }
+        setForgetPassword({
+          type: "",
+          email: "",
+        });
+        onClose();
+        setforgetLoading(false);
+        return notify("Please check your email for reset password link!");
+      });
+    }
+      
+        
+      }
 
   return (
     <>
@@ -276,15 +313,16 @@ const LoginScreen = () => {
                   <Form.Item
                     label='User Type: '
                     name={"type"}
-                    initialValue={"Teacher"}
+                    initialValue={"teacher"}
                     rules={[{ required: true }]}>
                     <Select
                       placeholder='User Type'
-                      defaultValue='Teacher'
+                      defaultValue=''
                       value={ForgetPassword.type}
                       onChange={HandleForgetPasswordType}>
-                      <Option value='Teacher'>Teacher</Option>
-                      <Option value='Student'>Student</Option>
+                      <Option value=''>Choose User Type</Option>
+                      <Option value='teacher'>Teacher</Option>
+                      <Option value='student'>Student</Option>
                       <Option value='admin'>Admin</Option>
                     </Select>
                   </Form.Item>

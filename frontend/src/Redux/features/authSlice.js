@@ -15,6 +15,12 @@ import {
   TeacherSendOTP,
   StudentSendOTP,
   AdminSendOTP,
+  AdminForgetPassword,
+  TeacherForgetPassword,
+  StudentForgetPassword,
+  AdminResetPassword,
+  StudentResetPassword,
+  TeacherResetPassword
 } from "./authActions";
 
 const initialState = {
@@ -88,7 +94,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.loggedInSession = false
+        state.loggedInSession = false;
         // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       })
       .addCase(StudentSendOTP.rejected, (state) => {
@@ -101,10 +107,64 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.loggedInSession = false
+        state.loggedInSession = false;
         // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       })
       .addCase(AdminSendOTP.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(AdminForgetPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(AdminForgetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(AdminForgetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(StudentForgetPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(StudentForgetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(StudentForgetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(TeacherForgetPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(TeacherForgetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(TeacherForgetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(AdminResetPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(AdminResetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(AdminResetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(StudentResetPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(StudentResetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(StudentResetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(TeacherResetPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(TeacherResetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(TeacherResetPassword.rejected, (state) => {
         state.loading = false;
       });
   },

@@ -13,6 +13,8 @@ const {
 const { TeacherModel } = require("../../models/Teacher.model");
 const { StudentModel } = require("../../models/Student.model");
 
+const origin = 'http://localhost:3000'
+
 const register = async (req, res) => {
   const { email, password, name } = req.body;
   try {
@@ -203,7 +205,8 @@ const logout = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
-
+  
+  console.log(req.body);
   if (!email) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -219,6 +222,8 @@ const forgotPassword = async (req, res) => {
       name: teacher.name,
       email: teacher.email,
       token: passwordToken,
+      role: 'teacher',
+      origin
     });
 
     const tenMinutes = 1000 * 60 * 10;
