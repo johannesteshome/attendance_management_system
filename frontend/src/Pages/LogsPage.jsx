@@ -91,11 +91,11 @@ const LogsPage = () => {
         <h1 className='text-3xl font-bold'>System Activity</h1>
       </div>
       <div className='flex items-center justify-end gap-4'>
-        <Button className='flex items-center text-black gap-2'>
+        <Button className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
           <Icon icon='clarity:backup-line' />
           Take Backup
         </Button>
-        <Button className='flex items-center text-black gap-2'>
+        <Button className='flex items-center text-black gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
           <Icon icon='clarity:export-line' />
           Export CSV
         </Button>

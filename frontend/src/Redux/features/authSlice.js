@@ -6,12 +6,7 @@ import {
   TeacherRegister,
   AdminRegister,
   StudentRegister,
-  UpdateTeacher,
-  UpdateStudent,
-  UpdateAdmin,
   authLogout,
-  forgetPassword,
-  SendPassword,
   TeacherSendOTP,
   StudentSendOTP,
   AdminSendOTP,
@@ -23,7 +18,10 @@ import {
   TeacherResetPassword,
   AdminVerifyEmail,
   StudentVerifyEmail,
-  TeacherVerifyEmail
+  TeacherVerifyEmail,
+  AdminChangePassword,
+  StudentChangePassword,
+  TeacherChangePassword
 } from "./authActions";
 
 const initialState = {
@@ -222,6 +220,33 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(TeacherRegister.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(AdminChangePassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(AdminChangePassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(AdminChangePassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(StudentChangePassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(StudentChangePassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(StudentChangePassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(TeacherChangePassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(TeacherChangePassword.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(TeacherChangePassword.rejected, (state) => {
         state.loading = false;
       });
   },

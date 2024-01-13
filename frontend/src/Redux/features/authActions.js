@@ -243,47 +243,47 @@ export const AdminRegister = createAsyncThunk(
     }
 )
 
-export const UpdateAdmin = createAsyncThunk(
-    'student/update', async (data, id, { rejectWithValue }) => {
+export const AdminChangePassword = createAsyncThunk(
+  'admin/change-password', async (data, { rejectWithValue }) => {
+    const {_id} = data
         try {
-            const response = await axios.patch(`${url}/admin/${id}`, data);
-            return response.data;
+          const response = await axios.post(`${url}/admin/auth/change-password/${_id}`, data);
+          return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+          return rejectWithValue(error.response.data);
         }
     }
 )
 
-export const UpdateTeacher = createAsyncThunk(
-    'teacher/update', async (data, id, { rejectWithValue }) => {
-        try {
-            const response = await axios.patch(`${url}/teachers/${id}`, data);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
+export const StudentChangePassword = createAsyncThunk(
+  "student/change-password",
+  async (data, { rejectWithValue }) => {
+    const { _id } = data;
+    try {
+      const response = await axios.post(
+        `${url}/student/auth/change-password/${_id}`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
-)
+  }
+);
 
-export const UpdateStudent = createAsyncThunk(
-    'student/update', async (data, id, { rejectWithValue }) => {
-        try {
-            const response = await axios.patch(`${url}/students/${id}`, data);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
+export const TeacherChangePassword = createAsyncThunk(
+  "teacher/change-password",
+  async (data, { rejectWithValue }) => {
+    const { _id } = data;
+    try {
+      const response = await axios.post(
+        `${url}/teacher/auth/change-password/${_id}`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
-)
-
-export const SendPassword = createAsyncThunk(
-    'password/reset', async (data, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(`${url}/admin/password`, data);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
-    }
-)
+  }
+);
 

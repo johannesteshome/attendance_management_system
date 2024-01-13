@@ -6,6 +6,7 @@ const {
   login,
   logout,
   verifyEmail,
+  changePassword,
   forgotPassword,
   resetPassword,
   sendOTP,
@@ -18,6 +19,7 @@ router.post("/login-otp", login);
 router.post("/verify-email", verifyEmail);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+router.post("/change-password/:teacherId", authenticateUser, changePassword);
 router.delete("/logout", authenticateUser, logout);
 
 module.exports = router;

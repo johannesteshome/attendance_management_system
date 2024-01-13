@@ -237,6 +237,42 @@ const logout = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "user logged out!" });
 };
 
+const changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const id = req.params.studentId;
+
+  if (!oldPassword || !newPassword) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please provide new and old passwords" });
+  }
+
+  const student = await StudentModel.findOne({ _id: id });
+
+  if (!student) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No Such User" });
+  }
+
+  const isMatch = await bcrypt.compare(oldPassword, student.password);
+
+  if (!isMatch) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      success: false,
+      message: "Old password is incorrect",
+    });
+  }
+
+  student.password = newPassword;
+
+  await student.save();
+
+  return res
+    .status(StatusCodes.OK)
+    .json({ success: true, message: "Password changed successfully" });
+};
+
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -305,6 +341,7 @@ module.exports = {
   register,
   sendOTP,
   login,
+  changePassword,
   forgotPassword,
   resetPassword,
   verifyEmail,

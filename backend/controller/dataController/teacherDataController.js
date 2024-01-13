@@ -25,7 +25,7 @@ const getTeacher = async (req, res) => {
     res.status(StatusCodes.OK).send(teacher);
   } catch (error) {
     console.error("Error:", error.message);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message: "Server Error"});
   }
 };
 
@@ -35,9 +35,9 @@ const updateTeacher = async (req, res) => {
   try {
     const teacher = await TeacherModel.findByIdAndUpdate({ _id: id }, payload);
     if (!teacher) {
-      res.status(StatusCodes.NOT_FOUND).send({ msg: `teacher with id ${id} not found` });
+      res.status(StatusCodes.NOT_FOUND).send({ message: `teacher not found` });
     }
-    res.status(StatusCodes.OK).send(`teacher with id ${id} updated`);
+    res.status(StatusCodes.OK).send({ message:  `teacher updated`});
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).send({ error: "Something went wrong, unable to Update." });

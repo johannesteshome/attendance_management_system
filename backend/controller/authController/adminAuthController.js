@@ -214,6 +214,41 @@ const logout = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "user logged out!" });
 };
 
+const changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const id = req.params.adminId;
+
+  if (!oldPassword || !newPassword) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Please provide new and old passwords" });
+  }
+
+  const admin = await AdminModel.findOne({ _id: id });
+
+  if (!admin) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No Such User" });
+  }
+
+  const isMatch = await bcrypt.compare(oldPassword, admin.password);
+
+  if (!isMatch) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      success: false,
+      message: "Old password is incorrect",
+    })
+  }
+
+  admin.password = newPassword;
+
+  await admin.save();
+
+  return res.status(StatusCodes.OK).json({ success: true, message: "Password changed successfully" });
+
+}
+
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -275,13 +310,14 @@ const resetPassword = async (req, res) => {
     }
   }
 
-  res.send("reset password");
+  res.send({message: "Reset Password successful"});
 };
 
 module.exports = {
   register,
   sendOTP,
   login,
+  changePassword,
   forgotPassword,
   resetPassword,
   verifyEmail,

@@ -129,7 +129,7 @@ const ResetPasswordScreen = () => {
             <Input
               name='password'
               className='w-full'
-              value={formvalue.otp}
+              value={formvalue.password}
               onChange={Handlechange}
               required
             />
