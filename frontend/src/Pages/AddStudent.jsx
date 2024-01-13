@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
 import ReCAPTCHA from "react-google-recaptcha";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StudentRegister } from "../Redux/features/authActions";
+import { FetchAllDepartments } from "../Redux/features/dataActions";
 const { Option } = Select;
 const notify = (text) => toast(text);
 
@@ -42,18 +43,35 @@ const AddStudent = () => {
   const [form] = Form.useForm();
   const captchaRef = useRef(null);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect to fetch all departments
+  useEffect(() => {
+    dispatch(FetchAllDepartments());
+  }, []);
+
+  const departments = useSelector((state) => state.data.departments);
+
   const onFinish = (values) => {
+    setIsLoading(true);
     const token = captchaRef.current.getValue();
     captchaRef.current.reset();
-    console.log("Received values of form: ", values, token);
+    // console.log("Received values of form: ", values, token);
     if (token) {
-      dispatch(StudentRegister({ ...values })).then((res) => {
-        if (res) {
-          notify(res.payload.message);
+      dispatch(StudentRegister({ ...values, token })).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setIsLoading(false);
+          return notify(res.payload.message);
+        }
+        if (res.meta.requestStatus === "rejected") {
+          setIsLoading(false);
+          return notify(res.payload.message);
         }
       });
     }
-    notify("Please Verify Captcha");
+    else {
+      notify("Please Verify Captcha");
+    }
   };
   const prefixSelector = (
     <Form.Item
@@ -152,7 +170,15 @@ const AddStudent = () => {
               whitespace: true,
             },
           ]}>
-          <Input />
+          <Select placeholder='Select your Department'>
+
+            {
+              departments.map((department) => (
+                <Option key={department._id} value={department._id}>{department.name}</Option>
+              ))
+            }
+
+          </Select>
         </Form.Item>
 
         <Form.Item
@@ -233,7 +259,7 @@ const AddStudent = () => {
           <Button
             htmlType='submit'
             className='bg-blue-500 text-white hover:bg-white hover:text-blue-500'>
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </Button>
         </Form.Item>
       </Form>

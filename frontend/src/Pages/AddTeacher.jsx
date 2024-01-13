@@ -47,19 +47,28 @@ const AddTeacher = () => {
   const [form] = Form.useForm();
   const captchaRef = useRef(null);
   const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = (values) => {
+    setIsLoading(true);
     const token = captchaRef.current.getValue();
     captchaRef.current.reset();
     console.log("Received values of form: ", values, token);
     if (token) {
-      dispatch(TeacherRegister({...values})).then((res) => {
-        if (res) {
-          notify(res.payload.message);
+      dispatch(TeacherRegister({...values, token})).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setIsLoading(false);
+          return notify(res.payload.message);
+        }
+        if (res.meta.requestStatus === "rejected") {
+          setIsLoading(false);
+          return notify(res.payload.message);
         }
       })
     }
-    notify("Please Verify Captcha");
+    else {
+      notify("Please Verify Captcha");
+    }
   };
   const prefixSelector = (
     <Form.Item
@@ -185,7 +194,7 @@ const AddTeacher = () => {
             <Button
               htmlType='submit'
               className='bg-blue-500 text-white hover:bg-white hover:text-blue-500'>
-              Register
+              {isLoading ? "Registering" : "Register"}
             </Button>
           </Form.Item>
         </Form>

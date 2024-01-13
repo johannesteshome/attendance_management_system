@@ -61,7 +61,7 @@ const register = async (req, res) => {
       age,
     });
 
-    await sendVerificationEmail({ name, email, verificationToken, password, origin, role:'teacher' });
+    await sendVerificationEmail({ name, email, token: verificationToken, password, origin, role:'teacher' });
 
     res.status(StatusCodes.CREATED).json({
       success: true,

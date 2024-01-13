@@ -17,3 +17,18 @@ export const FetchLoggedInUserData = createAsyncThunk(
     }
   }
 );
+
+export const FetchAllDepartments = createAsyncThunk(
+  "data/fetchAllDepartments",
+  async (data, { rejectWithValue }) => {
+    try {
+      console.log("what about here");
+      const response = await axios.get(`${url}/departments/`, data);
+      console.log(response, "response from redux");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

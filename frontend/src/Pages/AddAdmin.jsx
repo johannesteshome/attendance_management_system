@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
 import ReCAPTCHA from "react-google-recaptcha";
 import { ToastContainer, toast } from "react-toastify";
@@ -42,19 +42,27 @@ const AddAdmin = () => {
   const [form] = Form.useForm();
   const captchaRef = useRef(null);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = (values) => {
+    setIsLoading(true);
     const token = captchaRef.current.getValue();
     captchaRef.current.reset();
     console.log("Received values of form: ", values, token);
     if (token) {
-      dispatch(AdminRegister({ ...values })).then((res) => {
-        if (res) {
-          notify(res.payload.message);
+      dispatch(AdminRegister({ ...values, token })).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setIsLoading(false);
+          return notify(res.payload.message);
+        }
+        if (res.meta.requestStatus === "rejected") {
+          setIsLoading(false);
+          return notify(res.payload.message);
         }
       });
+    } else {
+      notify("Please Verify Captcha");
     }
-    notify("Please Verify Captcha");
   };
   const prefixSelector = (
     <Form.Item
@@ -177,7 +185,7 @@ const AddAdmin = () => {
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
-          <Button htmlType='submit' className="bg-blue-500 text-white hover:bg-white hover:text-blue-500">Register</Button>
+          <Button htmlType='submit' className="bg-blue-500 text-white hover:bg-white hover:text-blue-500">{ isLoading ? "Registering..." : "Register"}</Button>
         </Form.Item>
       </Form>
     </div>

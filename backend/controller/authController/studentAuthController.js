@@ -38,13 +38,13 @@ const register = async (req, res) => {
       const studentEmailExists = await StudentModel.findOne( {email} );
       const studentIDExists = await StudentModel.findOne({ studentID });
     if (studentEmailExists) {
-      return res.send({
-        message: "Student already exists",
-      });
+      return res.status(StatusCodes.CONFLICT).send({
+        message: "Student email already exists",
+      })
     }
 
     if (studentIDExists) {
-      return res.send({
+      return res.status(StatusCodes.CONFLICT).send({
         message: "Student ID already exists",
       });
     }
@@ -52,7 +52,7 @@ const register = async (req, res) => {
       const inTeacher = await TeacherModel.findOne({ email });
       const inAdmin = await AdminModel.findOne({ email });
     if (inTeacher || inAdmin) {
-      return res.send({
+      return res.status(StatusCodes.CONFLICT).send({
         message: "Person already registerd as Teacher or Admin",
       });
     }
@@ -73,7 +73,7 @@ const register = async (req, res) => {
       year,
     });
 
-    await sendVerificationEmail({ name, email, verificationToken, origin, password, role: 'student' });
+    await sendVerificationEmail({ name, email, token: verificationToken, origin, password, role: 'student' });
 
     res.status(StatusCodes.CREATED).json({
       success: true,

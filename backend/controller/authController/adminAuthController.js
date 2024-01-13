@@ -52,7 +52,7 @@ const register = async (req, res) => {
       age,
     });
 
-    await sendVerificationEmail({ name, email, verificationToken, origin, password, role: 'admin' });
+    await sendVerificationEmail({ name, email, token: verificationToken, origin, password, role: 'admin' });
 
     res.status(StatusCodes.CREATED).json({
       success: true,

@@ -27,7 +27,7 @@ const VerifyEmailScreen = () => {
     const role = query.get("role")
 
     if (role === "admin") {
-      dispatch(AdminVerifyEmail({ email: query.get("email"), token: query.get("token") })).then((res) => {
+      dispatch(AdminVerifyEmail({ email: query.get("email"), verificationToken: query.get("token") })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           notify("Email Verified");
           return navigate("/dashboard");
@@ -41,7 +41,7 @@ const VerifyEmailScreen = () => {
       dispatch(
         TeacherVerifyEmail({
           email: query.get("email"),
-          token: query.get("token"),
+          verificationToken: query.get("token"),
         })
       ).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
@@ -57,7 +57,7 @@ const VerifyEmailScreen = () => {
       dispatch(
         StudentVerifyEmail({
           email: query.get("email"),
-          token: query.get("token"),
+          verificationToken: query.get("token"),
         })
       ).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
