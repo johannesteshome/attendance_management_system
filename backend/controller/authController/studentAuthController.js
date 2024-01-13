@@ -13,6 +13,8 @@ const {
 } = require("../../utils/");
 const { OTPModel } = require("../../models/OTP.model");
 
+const origin = "http://localhost:3000";
+
 const register = async (req, res) => {
   const { email, password, name, department, studentID } = req.body;
     try {
@@ -231,6 +233,8 @@ const forgotPassword = async (req, res) => {
       name: student.name,
       email: student.email,
       token: passwordToken,
+      role: 'student',
+      origin
     });
 
     const tenMinutes = 1000 * 60 * 10;

@@ -7,7 +7,7 @@ const sendOTPEmail = async ({ email, OTP }) => {
   return sendEmail({
     email,
     subject: "Please Confirm your OTP(One Time Password)",
-    text: `<h4>Here is your OTP code: ${OTP}, </h4>`,
+    html: `<h4>Here is your OTP code: ${OTP}, </h4>`,
   });
 };
 

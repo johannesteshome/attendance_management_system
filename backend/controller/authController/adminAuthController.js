@@ -11,6 +11,8 @@ const {
   sendResetPasswordEmail,
 } = require("../../utils/");
 
+const origin = "http://localhost:3000";
+
 const register = async (req, res) => {
   const { email, password, name } = req.body;
   try {
@@ -209,6 +211,8 @@ const forgotPassword = async (req, res) => {
       name: admin.name,
       email: admin.email,
       token: passwordToken,
+      role: 'admin',
+      origin
     });
 
     const tenMinutes = 1000 * 60 * 10;

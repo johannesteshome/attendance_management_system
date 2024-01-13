@@ -64,7 +64,7 @@ const ResetPasswordScreen = () => {
         if (role === "admin") {
           console.log("here in the role");
           dispatch(AdminResetPassword(formvalue)).then((res) => {
-            console.log(res.meta.requestStatus);
+            // console.log(res.meta.requestStatus);
             if (res.meta.requestStatus === "fulfilled") {
               notify("Reset Successful");
               setLoading(false);
@@ -114,13 +114,13 @@ const ResetPasswordScreen = () => {
           />
           <h1 className="font-bold text-2xl">Reset your Password</h1>
         <Form
-          className='flex flex-col items-center justify-center w-full'
+          className="w-[60%]"
           layout='vertical'
           name="dependencies"
           form={form}
           onFinish={HandleSubmit}>
           <Form.Item
-            className='w-full flex flex-col gap-2 items-center justify-center'
+            className='w-full'
             name='password'
             label='Enter your new password:'
             rules={[
@@ -139,7 +139,7 @@ const ResetPasswordScreen = () => {
           </Form.Item>
 
           <Form.Item
-            className='w-full flex flex-col gap-2 items-center justify-center'
+            className='w-full'
             name='confirmPassword'
             dependencies={['password']}
             hasFeedback
@@ -163,6 +163,7 @@ const ResetPasswordScreen = () => {
 
           <Form.Item
             label=' '
+            className="flex flex-col items-center justify-center"
             colon={false}>
             <Button
               type='default'
