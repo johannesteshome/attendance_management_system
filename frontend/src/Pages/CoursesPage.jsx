@@ -151,7 +151,11 @@ const CoursesPage = () => {
         <h1 className='text-3xl font-bold'>Courses List</h1>
       </div>
       <div className='flex items-center justify-end gap-4'>
-        <Button onClick={() => setOpen(true)}>Assign Teacher</Button>
+        <Button
+          onClick={() => setOpen(true)}
+          className='bg-blue-500 text-white hover:bg-white hover:text-blue-500'>
+          Assign Teacher
+        </Button>
         <CollectionCreateForm
           open={open}
           onCreate={onCreate}
@@ -159,12 +163,14 @@ const CoursesPage = () => {
             setOpen(false);
           }}
         />
-        <Button className='flex items-center text-black gap-2'>
-          <Icon
-            className='w-8 h-8'
-            icon='material-symbols-light:add'
-          />
-          Add Teacher
+        <Button className='flex items-center gap-2 bg-blue-500 text-white hover:bg-white hover:text-blue-500'>
+          <Link to={'/dashboard/add-course'} className="flex items-center">
+            <Icon
+              className='w-8 h-8'
+              icon='material-symbols-light:add'
+            />
+            Add Course
+          </Link>
         </Button>
       </div>
       <Table

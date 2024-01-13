@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
+import ReCAPTCHA from "react-google-recaptcha";
+import { ToastContainer, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { StudentRegister } from "../Redux/features/authActions";
 const { Option } = Select;
+const notify = (text) => toast(text);
 
 const formItemLayout = {
   labelCol: {
@@ -35,8 +40,20 @@ const tailFormItemLayout = {
 
 const AddStudent = () => {
   const [form] = Form.useForm();
+  const captchaRef = useRef(null);
+  const dispatch = useDispatch();
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    const token = captchaRef.current.getValue();
+    captchaRef.current.reset();
+    console.log("Received values of form: ", values, token);
+    if (token) {
+      dispatch(StudentRegister({ ...values })).then((res) => {
+        if (res) {
+          notify(res.payload.message);
+        }
+      });
+    }
+    notify("Please Verify Captcha");
   };
   const prefixSelector = (
     <Form.Item
@@ -53,6 +70,7 @@ const AddStudent = () => {
 
   return (
     <div className='flex flex-col gap-4 my-4'>
+      <ToastContainer />
       <div className='flex items-center'>
         <h1 className='text-3xl font-bold'>Register Student</h1>
       </div>
@@ -138,7 +156,7 @@ const AddStudent = () => {
         </Form.Item>
 
         <Form.Item
-          name='phone'
+          name='mobile'
           label='Phone Number'
           rules={[
             {
@@ -151,6 +169,8 @@ const AddStudent = () => {
             style={{
               width: "100%",
             }}
+            maxLength={9}
+            minLength={9}
           />
         </Form.Item>
 
@@ -163,7 +183,7 @@ const AddStudent = () => {
               message: "Please select gender!",
             },
           ]}>
-          <Select placeholder='select your gender'>
+          <Select placeholder='Select your Gender'>
             <Option value='male'>Male</Option>
             <Option value='female'>Female</Option>
           </Select>
@@ -203,28 +223,18 @@ const AddStudent = () => {
         <Form.Item
           label='Captcha'
           extra='We must make sure that your are a human.'>
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item
-                name='captcha'
-                noStyle
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input the captcha you got!",
-                  },
-                ]}>
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Button>Get captcha</Button>
-            </Col>
-          </Row>
+          <ReCAPTCHA
+            sitekey='6LcWdU8pAAAAAP2zleYMT6sLGPyzhIoOrFY3l21Y'
+            ref={captchaRef}
+          />
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
-          <Button htmlType='submit'>Register</Button>
+          <Button
+            htmlType='submit'
+            className='bg-blue-500 text-white hover:bg-white hover:text-blue-500'>
+            Register
+          </Button>
         </Form.Item>
       </Form>
     </div>

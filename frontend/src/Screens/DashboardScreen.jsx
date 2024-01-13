@@ -54,13 +54,18 @@ const DashboardScreen = () => {
       <Icon icon='tdesign:course' />
     ),
     getItem(
-      <Link to='logs-page'>Log</Link>,
+      <Link to='departments-page'>Departments</Link>,
       "6",
+      <Icon icon='cil:school' />
+    ),
+    getItem(
+      <Link to='logs-page'>Log</Link>,
+      "7",
       <Icon icon='icon-park-outline:log' />
     ),
     getItem(
       <span onClick={() => dispatch(authLogout())}>Logout</span>,
-      "7",
+      "8",
       <Icon icon='humbleicons:logout' />,
       null,
       true

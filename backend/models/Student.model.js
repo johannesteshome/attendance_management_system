@@ -43,7 +43,7 @@ const studentSchema = mongoose.Schema({
 
   mobile: {
     type: Number,
-    minlength: 10,
+    length: 9,
   },
   year: {
     type: Number,

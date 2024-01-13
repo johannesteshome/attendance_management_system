@@ -35,7 +35,7 @@ const teacherSchema = new mongoose.Schema({
 
   mobile: {
     type: Number,
-    minlength: 10,
+    length: 9,
   },
   verificationToken: String,
   isVerified: {

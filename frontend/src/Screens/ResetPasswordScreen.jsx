@@ -6,11 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {
   AdminResetPassword,
-    AdminSendOTP,
     StudentResetPassword,
-    StudentSendOTP,
-    TeacherResetPassword,
-    TeacherSendOTP
+    TeacherResetPassword
 } from "../Redux/features/authActions"
 import { useNavigate } from "react-router-dom";
 

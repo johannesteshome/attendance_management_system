@@ -4,6 +4,7 @@ const { OTPModel } = require("../../models/OTP.model");
 const { StatusCodes } = require("http-status-codes");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const axios = require("axios")
 const {
   attachCookiesToResponse,
   createTokenUser,
@@ -13,11 +14,26 @@ const {
 const { TeacherModel } = require("../../models/Teacher.model");
 const { StudentModel } = require("../../models/Student.model");
 
+const generator = require("generate-password");
+
 const origin = 'http://localhost:3000'
 
 const register = async (req, res) => {
-  const { email, password, name } = req.body;
+  const password = generator.generate({
+    length: 10,
+    numbers: true
+  })
+  const { token, email, name, mobile, gender, age } = req.body;
   try {
+
+    const response = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=6LcWdU8pAAAAAACjGfKHyYwhbXbXVITsjEdTnXNP&response=${token}`
+    );
+
+    if (!response.data.success) {
+      return res.status(500).send({ message: "Error Verifying Captcha." });
+    }
+
     const teacherExists = await TeacherModel.findOne({ email });
     const inStudent = await StudentModel.findOne({ email });
     const inAdmin = await AdminModel.findOne({ email });
@@ -40,9 +56,12 @@ const register = async (req, res) => {
       password,
       name,
       verificationToken,
+      mobile,
+      gender,
+      age,
     });
 
-    await sendVerificationEmail({ name, email, verificationToken });
+    await sendVerificationEmail({ name, email, verificationToken, password, origin, role:'teacher' });
 
     res.status(StatusCodes.CREATED).json({
       success: true,

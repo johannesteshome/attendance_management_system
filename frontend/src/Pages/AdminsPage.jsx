@@ -90,8 +90,8 @@ const AdminsPage = () => {
       <div className='flex items-center'>
         <h1 className='text-3xl font-bold'>Admins List</h1>
       </div>
-      <div className='flex items-center justify-end gap-4'>
-        <Button className='flex items-center'>
+      <div className='flex items-center justify-end gap-4 '>
+        <Button className='flex items-center bg-blue-500 text-white hover:bg-white hover:text-blue-500'>
           <Link
             to='/dashboard/add-admin'
             className='flex items-center text-black gap-2'>

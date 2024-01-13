@@ -91,7 +91,7 @@ const StudentsPage = () => {
         <h1 className='text-3xl font-bold'>Students List</h1>
       </div>
       <div className='flex items-center justify-end gap-4'>
-        <Button className="flex items-center">
+        <Button className="flex items-center bg-blue-500 text-white hover:bg-white hover:text-blue-500">
           <Link
             to='/dashboard/add-student'
             className='flex items-center text-black gap-2'>

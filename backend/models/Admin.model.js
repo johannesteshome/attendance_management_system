@@ -27,7 +27,7 @@ const adminSchema = mongoose.Schema({
 
   mobile: {
     type: Number,
-    minlength: 10,
+    length: 9,
   },
   role: {
     type: String,

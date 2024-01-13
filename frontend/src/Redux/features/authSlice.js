@@ -20,7 +20,10 @@ import {
   StudentForgetPassword,
   AdminResetPassword,
   StudentResetPassword,
-  TeacherResetPassword
+  TeacherResetPassword,
+  AdminVerifyEmail,
+  StudentVerifyEmail,
+  TeacherVerifyEmail
 } from "./authActions";
 
 const initialState = {
@@ -165,6 +168,60 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(TeacherResetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(AdminVerifyEmail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(AdminVerifyEmail.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(AdminVerifyEmail.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(StudentVerifyEmail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(StudentVerifyEmail.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(StudentVerifyEmail.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(TeacherVerifyEmail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(TeacherVerifyEmail.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(TeacherVerifyEmail.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(AdminRegister.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(AdminRegister.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(AdminRegister.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(StudentRegister.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(StudentRegister.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(StudentRegister.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(TeacherRegister.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(TeacherRegister.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(TeacherRegister.rejected, (state) => {
         state.loading = false;
       });
   },

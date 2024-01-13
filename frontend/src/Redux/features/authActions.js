@@ -158,13 +158,58 @@ export const AdminResetPassword = createAsyncThunk(
   }
 );
 
+export const StudentVerifyEmail = createAsyncThunk(
+  "student/verify-email",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${url}/student/auth/verify-email`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const TeacherVerifyEmail = createAsyncThunk(
+  "teacher/verify-email",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${url}/teacher/auth/verify-email`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const AdminVerifyEmail = createAsyncThunk(
+  "admin/verify-email",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${url}/admin/auth/verify-email`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const authLogout = createAction("user/logout");
 
 export const TeacherRegister = createAsyncThunk(
-  "teachers/register",
+  "teacher/register",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${url}/teacher/register`, data);
+      const response = await axios.post(`${url}/teacher/auth/register`, data);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -177,9 +222,9 @@ export const TeacherRegister = createAsyncThunk(
 );
 
 export const StudentRegister = createAsyncThunk(
-    'students/login', async (data, { rejectWithValue }) => {
+    'student/register', async (data, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${url}/student/register`, data);
+            const response = await axios.post(`${url}/student/auth/register`, data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -190,7 +235,7 @@ export const StudentRegister = createAsyncThunk(
 export const AdminRegister = createAsyncThunk(
     'admin/register', async (data, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${url}/admin/register`, data);
+            const response = await axios.post(`${url}/admin/auth/register`, data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);

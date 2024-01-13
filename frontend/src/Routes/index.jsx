@@ -23,6 +23,9 @@ import AttendanceDetailsPage from "../Pages/AttendanceDetailsPage";
 import ProfileDetails from "../Pages/ProfileDetails";
 import OTPScreen from "../Screens/OTPScreen";
 import ResetPasswordScreen from "../Screens/ResetPasswordScreen";
+import VerifyEmailScreen from "../Screens/VerifyEmailScreen";
+import DepartmentsPage from "../Pages/DepartmentsPage";
+import AddCourse from "../Pages/AddCourse";
 
 const AllRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -43,7 +46,11 @@ const AllRoutes = () => {
         />
         <Route
           path='reset-password/*'
-          element={<ResetPasswordScreen/>}
+          element={<ResetPasswordScreen />}
+        />
+        <Route
+          path='verify-email/*'
+          element={<VerifyEmailScreen />}
         />
         <Route
           path='/dashboard'
@@ -73,6 +80,10 @@ const AllRoutes = () => {
             element={<CoursesPage />}
           />
           <Route
+            path='departments-page'
+            element={<DepartmentsPage />}
+          />
+          <Route
             path='logs-page'
             element={<LogsPage />}
           />
@@ -87,6 +98,10 @@ const AllRoutes = () => {
           <Route
             path='add-admin'
             element={<AddAdmin />}
+          />
+          <Route
+            path='add-course'
+            element={<AddCourse />}
           />
           <Route
             path='my-courses'
