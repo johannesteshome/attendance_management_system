@@ -48,11 +48,28 @@ const ProfileDetails = () => {
         }
       );
     }
-    if (role === "teacher") {
-      dispatch(FetchTeacher(_id));
+    else if (role === "teacher") {
+      dispatch(FetchTeacher(_id)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          // console.log(res.payload, "payload");
+          // setInitialValues({...initialValues, name: res.payload.name});
+        } else if (res.meta.requestStatus === "rejected") {
+          return notify(res.payload);
+        }
+      });
     }
-    if (role === "student") {
-      dispatch(FetchStudent(_id));
+    else if (role === "student") {
+      dispatch(FetchStudent(_id)).then(
+        (res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            // console.log(res.payload, "payload");
+            // setInitialValues({...initialValues, name: res.payload.name});
+          }
+          else if(res.meta.requestStatus === "rejected"){
+            return notify(res.payload);
+          }
+        }
+      );
     }
   }, [role, _id]);
 
@@ -72,11 +89,15 @@ const ProfileDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [form] = Form.useForm();
+  const [form1] = Form.useForm()
+  const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,}$/;
   // console.log(user, "user");
     const onClick = (e) => {
       // console.log("click ", e);
       setCurrent(e.key);
   };
+
+  // TODO Test the profile update for student and teacher
 
   const onFinishProfile = async (values) => {
     setIsLoading(true);
@@ -94,6 +115,7 @@ const ProfileDetails = () => {
         }
       });
     } else if (role === "teacher") {
+      // console.log(values, _id);
       dispatch(UpdateTeacher({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
@@ -128,6 +150,7 @@ const ProfileDetails = () => {
       dispatch(AdminChangePassword({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
+          form1.resetFields()
           return notify(res.payload.message);
         }
         if (res.meta.requestStatus === "rejected") {
@@ -141,6 +164,7 @@ const ProfileDetails = () => {
       dispatch(TeacherChangePassword({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
+          form1.resetFields()
           return notify(res.payload.message);
         }
         if (res.meta.requestStatus === "rejected") {
@@ -154,6 +178,7 @@ const ProfileDetails = () => {
       dispatch(StudentChangePassword({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
+          form1.resetFields();
           return notify(res.payload.message);
         }
         if (res.meta.requestStatus === "rejected") {
@@ -178,7 +203,7 @@ const ProfileDetails = () => {
   );
 
   const handleConfirmPassword = (rule, value, callback) => {
-    const password = form.getFieldValue("newPassword");
+    const password = form1.getFieldValue("newPassword");
     if (value && password !== value) {
       setIsDisabled(true);
       callback("The two passwords that you entered do not match!");
@@ -187,6 +212,16 @@ const ProfileDetails = () => {
       callback();
     }
   };
+
+  const handleStrongPassword = (rule, value, callback) => {
+    if (value != '' && !regEx.test(value)) {
+      setIsDisabled(true);
+      callback("Password must be 8+ long & contain at least a special character, a number, uppercase and & lowercase character!");
+    } else {
+      setIsDisabled(false);
+      callback();
+    }
+  }
   
   
   return (
@@ -310,8 +345,8 @@ const ProfileDetails = () => {
                   <Select placeholder='Select your department'>
                     {departments.map((department) => (
                       <Option
-                        value={department.id}
-                        key={department.id}>
+                        value={department._id}
+                        key={department._id}>
                         {department.name}
                       </Option>
                     ))}
@@ -334,10 +369,9 @@ const ProfileDetails = () => {
       {current === "security" && (
         <div className='flex flex-col gap-4 bg-white p-4 rounded-br-md rounded-bl-md'>
           <Form
-            name='wrap'
-            labelCol={{
-              flex: "200px",
-            }}
+            name='passwordChange'
+            form={form1}
+            layout="vertical"
             labelAlign='left'
             labelWrap
             wrapperCol={{
@@ -345,9 +379,8 @@ const ProfileDetails = () => {
             }}
             colon={false}
             style={{
-              maxWidth: 600,
+              maxWidth: 900,
             }}
-            form={form}
           onFinish={onFinishPassword}>
             <Form.Item
               label='Current Password'
@@ -358,19 +391,21 @@ const ProfileDetails = () => {
                   message: "Please input your current password!",
                 },
               ]}>
-              <Input />
+              <Input.Password />
             </Form.Item>
 
             <Form.Item
               label='New Password'
               name='newPassword'
+              hasFeedback
               rules={[
                 {
                   required: true,
                   message: "Please input your New Password!",
                 },
+                { validator: handleStrongPassword },
               ]}>
-              <Input />
+              <Input.Password />
             </Form.Item>
             <Form.Item
               label='Confirm New Password'
@@ -384,7 +419,7 @@ const ProfileDetails = () => {
                 },
                 {validator: handleConfirmPassword}
               ]}>
-              <Input />
+              <Input.Password />
             </Form.Item>
 
             <Form.Item label=' '>

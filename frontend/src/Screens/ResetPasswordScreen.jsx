@@ -19,7 +19,7 @@ function useQuery() {
 
 const notify = (text) => toast(text);
 
-
+// TODO test the reset password functionality
 
 const ResetPasswordScreen = () => {
     const dispatch = useDispatch();

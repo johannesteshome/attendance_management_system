@@ -34,9 +34,9 @@ const updateStudent = async (req, res) => {
   try {
     const student = await StudentModel.findByIdAndUpdate({ _id: id }, payload);
     if (!student) {
-      res.status(StatusCodes.NOT_FOUND).send({ message: `student not found` });
+      res.status(StatusCodes.NOT_FOUND).send({ message: `Student Not Found!` });
     }
-    res.status(StatusCodes.OK).send({message: `student with id ${id} updated`});
+    res.status(StatusCodes.OK).send({message: `Student Updated!`});
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).send({ message: "Something went wrong, unable to Update." });

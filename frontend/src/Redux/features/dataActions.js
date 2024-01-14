@@ -18,10 +18,10 @@ export const FetchAllDepartments = createAsyncThunk(
 
 export const FetchTeacher = createAsyncThunk(
   "data/fetchTeacher",
-  async (data, id, { rejectWithValue }) => {
+  async (_id, { rejectWithValue }) => {
     try {
-      console.log("what about here");
-      const response = await axios.get(`${url}/teachers/${id}`, data);
+      // console.log("what about here");
+      const response = await axios.get(`${url}/teachers/${_id}`);
       console.log(response, "response from redux");
       return response.data;
     } catch (error) {
@@ -33,10 +33,10 @@ export const FetchTeacher = createAsyncThunk(
 
 export const FetchStudent = createAsyncThunk(
   "data/fetchStudent",
-  async (data, id, { rejectWithValue }) => {
+  async (_id, { rejectWithValue }) => {
     try {
-      console.log(id, "what about here");
-      const response = await axios.get(`${url}/students/${id}`, data);
+      // console.log(id, "what about here");
+      const response = await axios.get(`${url}/students/${_id}`);
       console.log(response, "response from redux");
       return response.data;
     } catch (error) {
