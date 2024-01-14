@@ -28,24 +28,20 @@ const ResetPasswordScreen = () => {
     const [formvalue, setFormvalue] = useState({
       email: query.get("email"),
       token: query.get("token"),
-      password: ""
     });
   const role = query.get("role")
   const [form] = Form.useForm();
   
   const [isDisabled, setIsDisabled] = useState(true)
-
-    const Handlechange = (e) => {
-        setFormvalue({ ...formvalue, [e.target.name]: e.target.value });
-    };
     
-    const [Loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,}$/;
 
-    const HandleSubmit = (e) => {
+    const HandleSubmit = (values) => {
       setLoading(true);
       const role = query.get("role")
-        if (role === "teacher") {
-            dispatch(TeacherResetPassword(formvalue)).then((res) => {
+      if (role === "teacher") {
+            dispatch(TeacherResetPassword({...formvalue, ...values})).then((res) => {
                 if (res.meta.requestStatus === "fulfilled") {
                     notify("Reset Successful");
                     setLoading(false);
@@ -58,9 +54,8 @@ const ResetPasswordScreen = () => {
                 }
             })
         }
-        if (role === "admin") {
-          console.log("here in the role");
-          dispatch(AdminResetPassword(formvalue)).then((res) => {
+        else if (role === "admin") {
+          dispatch(AdminResetPassword({...formvalue, ...values})).then((res) => {
             // console.log(res.meta.requestStatus);
             if (res.meta.requestStatus === "fulfilled") {
               notify("Reset Successful");
@@ -73,8 +68,8 @@ const ResetPasswordScreen = () => {
             }
           });
         }
-        if (role === "student") {
-          dispatch(StudentResetPassword(formvalue)).then((res) => {
+        else if (role === "student") {
+          dispatch(StudentResetPassword({...formvalue, ...values})).then((res) => {
             if (res.meta.requestStatus === "fulfilled") {
               notify("Reset Successful");
               setLoading(false);
@@ -96,6 +91,18 @@ const ResetPasswordScreen = () => {
       callback("The two passwords that you entered do not match!");
     } else {
       setIsDisabled(false)
+      callback();
+    }
+  };
+
+  const handleStrongPassword = (rule, value, callback) => {
+    if (value != "" && !regEx.test(value)) {
+      setIsDisabled(true);
+      callback(
+        "Password must be 8+ long & contain at least a special character, a number, uppercase and & lowercase character!"
+      );
+    } else {
+      setIsDisabled(false);
       callback();
     }
   };
@@ -125,12 +132,10 @@ const ResetPasswordScreen = () => {
                 required: true,
                 message: "Please input your password!",
               },
+              {validator: handleStrongPassword},
             ]}>
-            <Input
-              name='password'
+            <Input.Password
               className='w-full'
-              value={formvalue.password}
-              onChange={Handlechange}
               required
             />
           </Form.Item>
@@ -149,11 +154,9 @@ const ResetPasswordScreen = () => {
               {validator: handleConfirmPassword},
             ]}
           >
-            <Input
+            <Input.Password
               name='confirmPassword'
               className='w-full'
-              value={formvalue.otp}
-              onChange={Handlechange}
               required
             />
           </Form.Item>

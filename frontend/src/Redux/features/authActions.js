@@ -91,6 +91,7 @@ export const StudentForgetPassword = createAsyncThunk(
 export const TeacherForgetPassword = createAsyncThunk(
   "teacher/forget-password",
   async (data, { rejectWithValue }) => {
+    console.log(data, "from redux");
     try {
       const response = await axios.post(`${url}/teacher/auth/forgot-password`, data);
       return response.data;

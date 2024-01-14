@@ -148,7 +148,7 @@ const LoginScreen = () => {
     setforgetLoading(true);
     if (ForgetPassword.type === "teacher") {
       dispatch(TeacherForgetPassword({email: ForgetPassword.email})).then((res) => {
-        console.log(res.meta);
+        console.log(ForgetPassword.email, "email");
         if (res.meta.requestStatus === "rejected") {
           setforgetLoading(false);
           return notify("User Not Found");
@@ -162,7 +162,7 @@ const LoginScreen = () => {
         return notify("Please check your email for reset password link!");
       });
     }
-    if (ForgetPassword.type === "student") {
+    else if (ForgetPassword.type === "student") {
       dispatch(StudentForgetPassword({email:ForgetPassword.email})).then((res) => {
         if (res.meta.requestStatus === "rejected") {
           setforgetLoading(false);
@@ -177,7 +177,7 @@ const LoginScreen = () => {
         return notify("Please check your email for reset password link!");
       });
     }
-    if (ForgetPassword.type === "admin") {
+    else if (ForgetPassword.type === "admin") {
       dispatch(AdminForgetPassword({email: ForgetPassword.email})).then((res) => {
         if (res.meta.requestStatus === "rejected") {
           setforgetLoading(false);
@@ -313,11 +313,10 @@ const LoginScreen = () => {
                   <Form.Item
                     label='User Type: '
                     name={"type"}
-                    initialValue={"teacher"}
+                    initialValue={""}
                     rules={[{ required: true }]}>
                     <Select
                       placeholder='User Type'
-                      defaultValue=''
                       value={ForgetPassword.type}
                       onChange={HandleForgetPasswordType}>
                       <Option value=''>Choose User Type</Option>
