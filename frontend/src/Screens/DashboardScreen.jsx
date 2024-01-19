@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { Avatar, Layout, Menu, theme } from "antd";
 import { Outlet, Link } from "react-router-dom";
@@ -7,14 +7,52 @@ import ticktime from '../img/ticktime-banner.png'
 import {
   authLogout
 } from "../Redux/features/authActions";
+import { FetchAdmin, FetchStudent, FetchTeacher } from "../Redux/features/dataActions";
+import { ToastContainer, toast } from "react-toastify";
 const { Header, Content, Footer, Sider } = Layout;
+
+const notify = (text) => toast(text);
 
 
 const DashboardScreen = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { loggedInUser } = useSelector((state) => state.data);
   
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
+  const { role, _id } = useSelector((state) => state.auth.user);
+
+
+  useEffect(() => {
+    if (role === "admin") {
+      // console.log("here", role, _id);F
+      dispatch(FetchAdmin(_id)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          // console.log(res.payload, "payload");
+          // setInitialValues({...initialValues, name: res.payload.name});
+        } else if (res.meta.requestStatus === "rejected") {
+          return notify(res.payload);
+        }
+      });
+    } else if (role === "teacher") {
+      dispatch(FetchTeacher(_id)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          // console.log(res.payload, "payload");
+          // setInitialValues({...initialValues, name: res.payload.name});
+        } else if (res.meta.requestStatus === "rejected") {
+          return notify(res.payload);
+        }
+      });
+    } else if (role === "student") {
+      dispatch(FetchStudent(_id)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          // console.log(res.payload, "payload");
+          // setInitialValues({...initialValues, name: res.payload.name});
+        } else if (res.meta.requestStatus === "rejected") {
+          return notify(res.payload);
+        }
+      });
+    }
+  });
 
 
   function getItem(label, key, icon, children, danger, disabled) {
@@ -140,9 +178,9 @@ const DashboardScreen = () => {
           defaultSelectedKeys={["1"]}
           mode='inline'
           items={ 
-            user?.role === "admin"
+            loggedInUser?.role === "admin"
               ? adminItems
-              : user?.role === "teacher"
+              : loggedInUser?.role === "teacher"
               ? teacherItems
               : studentItems
           }
@@ -155,7 +193,7 @@ const DashboardScreen = () => {
             padding: 16,
             background: colorBgContainer,
           }}>
-          <h1 className='text-2xl'>Hello there, {user?.name}</h1>
+          <h1 className='text-2xl'>Hello there, {loggedInUser?.name}</h1>
           <Link to="profile">
             <Avatar
               className='cursor-pointer flex items-center justify-center'
@@ -168,6 +206,7 @@ const DashboardScreen = () => {
           style={{
             margin: "0 16px",
           }}>
+          <ToastContainer/>
           <Outlet />
         </Content>
         <Footer

@@ -31,47 +31,47 @@ const ProfileDetails = () => {
   //useEffect to fetch all departments
   useEffect(() => {
     dispatch(FetchAllDepartments());
-  }, []);
+  });
 
-  useEffect(() => {
-    if (role === "admin") {
-      // console.log("here", role, _id);F
-      dispatch(FetchAdmin(_id)).then(
-        (res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            // console.log(res.payload, "payload");
-            // setInitialValues({...initialValues, name: res.payload.name});
-          }
-          else if(res.meta.requestStatus === "rejected"){
-            return notify(res.payload);
-          }
-        }
-      );
-    }
-    else if (role === "teacher") {
-      dispatch(FetchTeacher(_id)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          // console.log(res.payload, "payload");
-          // setInitialValues({...initialValues, name: res.payload.name});
-        } else if (res.meta.requestStatus === "rejected") {
-          return notify(res.payload);
-        }
-      });
-    }
-    else if (role === "student") {
-      dispatch(FetchStudent(_id)).then(
-        (res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            // console.log(res.payload, "payload");
-            // setInitialValues({...initialValues, name: res.payload.name});
-          }
-          else if(res.meta.requestStatus === "rejected"){
-            return notify(res.payload);
-          }
-        }
-      );
-    }
-  }, [role, _id]);
+  // useEffect(() => {
+  //   if (role === "admin") {
+  //     // console.log("here", role, _id);F
+  //     dispatch(FetchAdmin(_id)).then(
+  //       (res) => {
+  //         if (res.meta.requestStatus === "fulfilled") {
+  //           // console.log(res.payload, "payload");
+  //           // setInitialValues({...initialValues, name: res.payload.name});
+  //         }
+  //         else if(res.meta.requestStatus === "rejected"){
+  //           return notify(res.payload);
+  //         }
+  //       }
+  //     );
+  //   }
+  //   else if (role === "teacher") {
+  //     dispatch(FetchTeacher(_id)).then((res) => {
+  //       if (res.meta.requestStatus === "fulfilled") {
+  //         // console.log(res.payload, "payload");
+  //         // setInitialValues({...initialValues, name: res.payload.name});
+  //       } else if (res.meta.requestStatus === "rejected") {
+  //         return notify(res.payload);
+  //       }
+  //     });
+  //   }
+  //   else if (role === "student") {
+  //     dispatch(FetchStudent(_id)).then(
+  //       (res) => {
+  //         if (res.meta.requestStatus === "fulfilled") {
+  //           // console.log(res.payload, "payload");
+  //           // setInitialValues({...initialValues, name: res.payload.name});
+  //         }
+  //         else if(res.meta.requestStatus === "rejected"){
+  //           return notify(res.payload);
+  //         }
+  //       }
+  //     );
+  //   }
+  // });
 
   const departments = useSelector((state) => state.data.departments);
   const user = useSelector((state) => state.data.loggedInUser);
@@ -88,6 +88,7 @@ const ProfileDetails = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isInputDisabled, setIsInputDisabled] = useState(true)
   const [form] = Form.useForm();
   const [form1] = Form.useForm()
   const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,}$/;
@@ -97,16 +98,16 @@ const ProfileDetails = () => {
       setCurrent(e.key);
   };
 
-  // TODO Test the profile update for student and teacher
+ 
 
   const onFinishProfile = async (values) => {
     setIsLoading(true);
-    console.log("here on finish profile", role === "admin");
     if (role === "admin") {
       console.log("here");
       dispatch(UpdateAdmin({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
+          setIsInputDisabled(true)
           return notify(res.payload.message);
         }
         if (res.meta.requestStatus === "rejected") {
@@ -119,6 +120,7 @@ const ProfileDetails = () => {
       dispatch(UpdateTeacher({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
+          setIsInputDisabled(true)
           return notify(res.payload.message);
         }
         if (res.meta.requestStatus === "rejected") {
@@ -130,6 +132,7 @@ const ProfileDetails = () => {
       dispatch(UpdateStudent({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
+          setIsInputDisabled(true)
           return notify(res.payload.message);
         }
         if (res.meta.requestStatus === "rejected") {
@@ -214,7 +217,7 @@ const ProfileDetails = () => {
   };
 
   const handleStrongPassword = (rule, value, callback) => {
-    if (value != '' && !regEx.test(value)) {
+    if (value !== '' && !regEx.test(value)) {
       setIsDisabled(true);
       callback("Password must be 8+ long & contain at least a special character, a number, uppercase and & lowercase character!");
     } else {
@@ -253,20 +256,20 @@ const ProfileDetails = () => {
             style={{
               maxWidth: 600,
             }}
-            initialValues={{...initialValues, prefix: "251"}}
+            initialValues={{ ...initialValues, prefix: "251" }}
             onFinish={onFinishProfile}>
             <Form.Item
               label='Name'
               name='name'
               rules={[{ required: true, message: "Please input your name!" }]}>
-              <Input />
+              <Input disabled={isInputDisabled} />
             </Form.Item>
 
             <Form.Item
               label='Email'
               name='email'
               rules={[{ required: true, message: "Please input your email!" }]}>
-              <Input />
+              <Input disabled={isInputDisabled} />
             </Form.Item>
 
             <Form.Item
@@ -278,6 +281,7 @@ const ProfileDetails = () => {
               minLength={9}
               maxLength={9}>
               <Input
+                disabled={isInputDisabled}
                 addonBefore={prefixSelector}
                 style={{
                   width: "100%",
@@ -293,7 +297,9 @@ const ProfileDetails = () => {
               rules={[
                 { required: true, message: "Please select your gender!" },
               ]}>
-              <Select placeholder='Select your gender'>
+              <Select
+                disabled={isInputDisabled}
+                placeholder='Select your gender'>
                 <Option value='male'>Male</Option>
                 <Option value='female'>Female</Option>
               </Select>
@@ -304,6 +310,7 @@ const ProfileDetails = () => {
               name='age'
               rules={[{ required: true, message: "Please input your age!" }]}>
               <InputNumber
+                disabled={isInputDisabled}
                 style={{
                   width: "100%",
                 }}
@@ -321,7 +328,7 @@ const ProfileDetails = () => {
                       message: "Please input your student ID!",
                     },
                   ]}>
-                  <Input />
+                  <Input disabled={isInputDisabled} />
                 </Form.Item>
 
                 <Form.Item
@@ -330,7 +337,7 @@ const ProfileDetails = () => {
                   rules={[
                     { required: true, message: "Please input your section!" },
                   ]}>
-                  <Input />
+                  <Input disabled={isInputDisabled} />
                 </Form.Item>
 
                 <Form.Item
@@ -342,7 +349,9 @@ const ProfileDetails = () => {
                       message: "Please select your department!",
                     },
                   ]}>
-                  <Select placeholder='Select your department'>
+                  <Select
+                    disabled={isInputDisabled}
+                    placeholder='Select your department'>
                     {departments.map((department) => (
                       <Option
                         value={department._id}
@@ -355,12 +364,20 @@ const ProfileDetails = () => {
               </>
             )}
 
-            <Form.Item label=' '>
+            <Form.Item label=' ' className="flex gap-4">
+              <Button
+                type='default'
+                disabled={!isInputDisabled}
+                onClick={() => {setIsInputDisabled(false)}}
+                className='bg-blue-500 text-white hover:text-blue-500 hover:bg-white mr-4'>
+                Edit Profile
+              </Button>
               <Button
                 type='default'
                 htmlType='submit'
+                disabled={isInputDisabled}
                 className='bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
-                { isLoading ? "Loading..." : "Edit Profile"}
+                {isLoading ? "Loading..." : "Save"}
               </Button>
             </Form.Item>
           </Form>
@@ -371,7 +388,7 @@ const ProfileDetails = () => {
           <Form
             name='passwordChange'
             form={form1}
-            layout="vertical"
+            layout='vertical'
             labelAlign='left'
             labelWrap
             wrapperCol={{
@@ -381,7 +398,7 @@ const ProfileDetails = () => {
             style={{
               maxWidth: 900,
             }}
-          onFinish={onFinishPassword}>
+            onFinish={onFinishPassword}>
             <Form.Item
               label='Current Password'
               name='oldPassword'
@@ -417,7 +434,7 @@ const ProfileDetails = () => {
                   required: true,
                   message: "Please confirm your password!",
                 },
-                {validator: handleConfirmPassword}
+                { validator: handleConfirmPassword },
               ]}>
               <Input.Password />
             </Form.Item>

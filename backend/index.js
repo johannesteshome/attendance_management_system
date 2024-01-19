@@ -4,6 +4,9 @@ require("dotenv").config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+//TODO Error Messages
+
+
 const adminAuthRouter = require("./routes/authRoutes/AdminsAuth.Route");
 const teacherAuthRouter = require("./routes/authRoutes/TeacherAuthRoute");
 const studentAuthRouter = require("./routes/authRoutes/StudentAuthRoute");
