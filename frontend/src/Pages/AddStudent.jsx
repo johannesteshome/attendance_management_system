@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
 import ReCAPTCHA from "react-google-recaptcha";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { StudentRegister } from "../Redux/features/authActions";
+import { UserRegister } from "../Redux/features/authActions";
 import { FetchAllDepartments } from "../Redux/features/dataActions";
 const { Option } = Select;
 const notify = (text) => toast(text);
@@ -58,7 +58,7 @@ const AddStudent = () => {
     captchaRef.current.reset();
     // console.log("Received values of form: ", values, token);
     if (token) {
-      dispatch(StudentRegister({ ...values, token })).then((res) => {
+      dispatch(UserRegister({ ...values, token })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
           return notify(res.payload.message);

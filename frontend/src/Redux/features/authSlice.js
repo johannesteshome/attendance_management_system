@@ -1,27 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  TeacherLogin,
-  AdminLogin,
-  StudentLogin,
-  TeacherRegister,
-  AdminRegister,
-  StudentRegister,
+  UserLogin,
+  UserRegister,
+  UserSendOTP,
+  UserChangePassword,
+  UserForgetPassword,
+  UserResetPassword,
+  UserVerifyEmail,
   authLogout,
-  TeacherSendOTP,
-  StudentSendOTP,
-  AdminSendOTP,
-  AdminForgetPassword,
-  TeacherForgetPassword,
-  StudentForgetPassword,
-  AdminResetPassword,
-  StudentResetPassword,
-  TeacherResetPassword,
-  AdminVerifyEmail,
-  StudentVerifyEmail,
-  TeacherVerifyEmail,
-  AdminChangePassword,
-  StudentChangePassword,
-  TeacherChangePassword
 } from "./authActions";
 
 const initialState = {
@@ -39,15 +25,15 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(TeacherLogin.pending, (state) => {
+      .addCase(UserLogin.pending, (state) => {
         state.loading = true;
       })
-      .addCase(TeacherLogin.fulfilled, (state, action) => {
+      .addCase(UserLogin.fulfilled, (state, action) => {
         console.log(action, "slice");
         state.loading = false;
         state.loggedInSession = true;
       })
-      .addCase(TeacherLogin.rejected, (state) => {
+      .addCase(UserLogin.rejected, (state) => {
         state.loading = false;
       })
       .addCase(authLogout, (state) => {
@@ -55,200 +41,64 @@ const authSlice = createSlice({
         state.user = null;
         // localStorage.removeItem("userInfo");
       })
-      .addCase(AdminLogin.pending, (state) => {
+      .addCase(UserSendOTP.pending, (state) => {
         state.loading = true;
       })
-      .addCase(AdminLogin.fulfilled, (state, action) => {
-        state.loading = false;
-        state.loggedInSession = true;
-      })
-      .addCase(AdminLogin.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(StudentLogin.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(StudentLogin.fulfilled, (state, action) => {
-        state.loading = false;
-        state.loggedInSession = true;
-      })
-      .addCase(StudentLogin.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(TeacherSendOTP.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(TeacherSendOTP.fulfilled, (state, action) => {
+      .addCase(UserSendOTP.fulfilled, (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.loggedInSession = false;
         // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       })
-      .addCase(TeacherSendOTP.rejected, (state) => {
+      .addCase(UserSendOTP.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(StudentSendOTP.pending, (state) => {
+      .addCase(UserForgetPassword.pending, (state) => {
         state.loading = true;
       })
-      .addCase(StudentSendOTP.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.loggedInSession = false;
-        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
-      })
-      .addCase(StudentSendOTP.rejected, (state) => {
+      .addCase(UserForgetPassword.fulfilled, (state, action) => {
         state.loading = false;
       })
-      .addCase(AdminSendOTP.pending, (state) => {
+      .addCase(UserForgetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(UserResetPassword.pending, (state) => {
         state.loading = true;
       })
-      .addCase(AdminSendOTP.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.loggedInSession = false;
-        // localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
-      })
-      .addCase(AdminSendOTP.rejected, (state) => {
+      .addCase(UserResetPassword.fulfilled, (state, action) => {
         state.loading = false;
       })
-      .addCase(AdminForgetPassword.pending, (state) => {
+      .addCase(UserResetPassword.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(UserVerifyEmail.pending, (state) => {
         state.loading = true;
       })
-      .addCase(AdminForgetPassword.fulfilled, (state, action) => {
+      .addCase(UserVerifyEmail.fulfilled, (state, action) => {
         state.loading = false;
       })
-      .addCase(AdminForgetPassword.rejected, (state) => {
+      .addCase(UserVerifyEmail.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(StudentForgetPassword.pending, (state) => {
+      .addCase(UserRegister.pending, (state) => {
         state.loading = true;
       })
-      .addCase(StudentForgetPassword.fulfilled, (state, action) => {
+      .addCase(UserRegister.fulfilled, (state, action) => {
         state.loading = false;
       })
-      .addCase(StudentForgetPassword.rejected, (state) => {
+      .addCase(UserRegister.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(TeacherForgetPassword.pending, (state) => {
+      .addCase(UserChangePassword.pending, (state) => {
         state.loading = true;
       })
-      .addCase(TeacherForgetPassword.fulfilled, (state, action) => {
+      .addCase(UserChangePassword.fulfilled, (state, action) => {
         state.loading = false;
       })
-      .addCase(TeacherForgetPassword.rejected, (state) => {
+      .addCase(UserChangePassword.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(AdminResetPassword.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(AdminResetPassword.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(AdminResetPassword.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(StudentResetPassword.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(StudentResetPassword.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(StudentResetPassword.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(TeacherResetPassword.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(TeacherResetPassword.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(TeacherResetPassword.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(AdminVerifyEmail.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(AdminVerifyEmail.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(AdminVerifyEmail.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(StudentVerifyEmail.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(StudentVerifyEmail.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(StudentVerifyEmail.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(TeacherVerifyEmail.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(TeacherVerifyEmail.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(TeacherVerifyEmail.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(AdminRegister.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(AdminRegister.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(AdminRegister.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(StudentRegister.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(StudentRegister.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(StudentRegister.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(TeacherRegister.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(TeacherRegister.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(TeacherRegister.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(AdminChangePassword.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(AdminChangePassword.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(AdminChangePassword.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(StudentChangePassword.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(StudentChangePassword.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(StudentChangePassword.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(TeacherChangePassword.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(TeacherChangePassword.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(TeacherChangePassword.rejected, (state) => {
-        state.loading = false;
-      });
   },
 });
 

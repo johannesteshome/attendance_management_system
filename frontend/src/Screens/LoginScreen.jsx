@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Radio, Drawer, Form, Input, Button, Select } from "antd";
+import { Drawer, Form, Input, Button } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import banner from "../img/banner.png";
@@ -7,15 +7,10 @@ import ticktime from "../img/ticktime-banner.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-  AdminLogin,
-  StudentLogin,
-  StudentForgetPassword,
-  AdminForgetPassword,
-  TeacherLogin,
-  TeacherForgetPassword,
+  UserLogin,
+  UserForgetPassword,
 } from "../Redux/features/authActions";
 import FormItem from "antd/es/form/FormItem";
-const { Option } = Select;
 
 const notify = (text) => toast(text);
 
@@ -39,7 +34,6 @@ const LoginScreen = () => {
   };
 
   const [Loading, setLoading] = useState(false);
-  const [placement, setPlacement] = useState("Teacher");
   const [formvalue, setFormvalue] = useState({
     email: "",
     password: "",
@@ -54,12 +48,11 @@ const LoginScreen = () => {
     // e.preventDefault();
     setLoading(true);
     if (formvalue.email !== "" && formvalue.password !== "") {
-      if (placement === "Teacher") {
         let data = {
           ...formvalue,
           email: formvalue.email,
         };
-        dispatch(TeacherLogin(data)).then((res) => {
+        dispatch(UserLogin(data)).then((res) => {
           if (res.meta.requestStatus === "fulfilled") {
             notify("Login Successful");
             setLoading(false);
@@ -75,58 +68,11 @@ const LoginScreen = () => {
             notify("Something went Wrong, Please Try Again");
           }
         });
-      } else if (placement === "Student") {
-        let data = {
-          ...formvalue,
-          email: formvalue.email,
-        };
-        dispatch(StudentLogin(data)).then((res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            notify("Login Successful");
-            setLoading(false);
-            return navigate("/verify-otp?email=" + formvalue.email + "&role=Student");
-          }
-          if (res.meta.requestStatus === "rejected") {
-            setLoading(false);
-            notify("Wrong credentials");
-          }
-          if (res.payload.message === "Error") {
-            setLoading(false);
-            notify("Something went Wrong, Please Try Again");
-          }
-        });
-      } else if (placement === "Admin") {
-        let data = {
-          ...formvalue,
-          email: formvalue.email,
-        };
-        dispatch(AdminLogin(data)).then((res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            notify("Login Successful");
-            setLoading(false);
-            return navigate("/verify-otp?email=" + formvalue.email + "&role=Admin");
-          }
-          if (res.meta.requestStatus === "rejected") {
-            setLoading(false);
-
-            notify("Wrong credentials");
-          }
-          if (res.payload.message === "Error") {
-            setLoading(false);
-
-            notify("Something went Wrong, Please Try Again");
-          }
-        });
       }
     }
-  };
 
-  const placementChange = (e) => {
-    setPlacement(e.target.value);
-  };
 
   const [ForgetPassword, setForgetPassword] = useState({
-    type: "",
     email: "",
   });
 
@@ -134,66 +80,28 @@ const LoginScreen = () => {
     setForgetPassword({ ...ForgetPassword, [e.target.name]: e.target.value });
   };
 
-  const HandleForgetPasswordType = (e) => {
-    setForgetPassword({...ForgetPassword, type: e});
-  }
-
   const [forgetLoading, setforgetLoading] = useState(false);
 
   const HandleChangePassword = () => {
-    console.log(ForgetPassword.type, ForgetPassword.email);
-    if (ForgetPassword.type === "") {
+    console.log( ForgetPassword.email);
+    if (ForgetPassword.email === "") {
       return notify("Please Fill all Details");
     }
     setforgetLoading(true);
-    if (ForgetPassword.type === "teacher") {
-      dispatch(TeacherForgetPassword({email: ForgetPassword.email})).then((res) => {
+      dispatch(UserForgetPassword({email: ForgetPassword.email})).then((res) => {
         console.log(ForgetPassword.email, "email");
         if (res.meta.requestStatus === "rejected") {
           setforgetLoading(false);
           return notify("User Not Found");
         }
         setForgetPassword({
-          type: "",
           email: "",
         });
         onClose();
         setforgetLoading(false);
         return notify("Please check your email for reset password link!");
       });
-    }
-    else if (ForgetPassword.type === "student") {
-      dispatch(StudentForgetPassword({email:ForgetPassword.email})).then((res) => {
-        if (res.meta.requestStatus === "rejected") {
-          setforgetLoading(false);
-          return notify("User Not Found");
-        }
-        setForgetPassword({
-          type: "",
-          email: "",
-        });
-        onClose();
-        setforgetLoading(false);
-        return notify("Please check your email for reset password link!");
-      });
-    }
-    else if (ForgetPassword.type === "admin") {
-      dispatch(AdminForgetPassword({email: ForgetPassword.email})).then((res) => {
-        if (res.meta.requestStatus === "rejected") {
-          setforgetLoading(false);
-          return notify("User Not Found");
-        }
-        setForgetPassword({
-          type: "",
-          email: "",
-        });
-        onClose();
-        setforgetLoading(false);
-        return notify("Please check your email for reset password link!");
-      });
-    }
-      
-        
+  
       }
 
   return (
@@ -216,28 +124,6 @@ const LoginScreen = () => {
               className='w-1/2'
             />
             <h1 className='text-3xl font-bold'>Login</h1>
-            <div className='my-4 w-full flex items-center justify-center'>
-              <Radio.Group
-                value={placement}
-                onChange={placementChange}
-                className={"radiogroup"}>
-                <Radio.Button
-                  value='Teacher'
-                  className={"radiobutton"}>
-                  Teacher
-                </Radio.Button>
-                <Radio.Button
-                  value='Student'
-                  className={"radiobutton"}>
-                  Student
-                </Radio.Button>
-                <Radio.Button
-                  value='Admin'
-                  className={"radiobutton"}>
-                  Admin
-                </Radio.Button>
-              </Radio.Group>
-            </div>
             <div className='w-full flex flex-col items-center justify-center'>
               <Form
                 className='flex flex-col items-center justify-center w-full'
@@ -246,7 +132,7 @@ const LoginScreen = () => {
                 <Form.Item
                   className='w-1/2'
                   name='email'
-                  label={placement + " Email"}
+                  label={"Email"}
                   rules={[
                     {
                       type: "email",
@@ -310,22 +196,6 @@ const LoginScreen = () => {
                   onFinish={HandleChangePassword}
                   className='flex flex-col gap-4'
                   layout='vertical'>
-                  <Form.Item
-                    label='User Type: '
-                    name={"type"}
-                    initialValue={""}
-                    rules={[{ required: true }]}>
-                    <Select
-                      placeholder='User Type'
-                      value={ForgetPassword.type}
-                      onChange={HandleForgetPasswordType}>
-                      <Option value=''>Choose User Type</Option>
-                      <Option value='teacher'>Teacher</Option>
-                      <Option value='student'>Student</Option>
-                      <Option value='admin'>Admin</Option>
-                    </Select>
-                  </Form.Item>
-
                   <Form.Item
                     name='email'
                     label='Email'

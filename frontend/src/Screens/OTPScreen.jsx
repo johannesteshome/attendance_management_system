@@ -5,9 +5,7 @@ import ticktime from '../img/ticktime-banner.png'
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {
-    AdminSendOTP,
-    StudentSendOTP,
-    TeacherSendOTP
+    UserSendOTP
 } from "../Redux/features/authActions"
 import { useNavigate } from "react-router-dom";
 
@@ -38,9 +36,7 @@ const OTPScreen = () => {
 
     const HandleSubmit = (e) => {
         setLoading(true);
-        const role = query.get("role")
-        if (role === "Teacher") {
-            dispatch(TeacherSendOTP(formvalue)).then((res) => {
+            dispatch(UserSendOTP(formvalue)).then((res) => {
                 if (res.meta.requestStatus === "fulfilled") {
                     notify("Login Successful");
                     setLoading(false);
@@ -52,35 +48,6 @@ const OTPScreen = () => {
                     notify("Please Input Correct OTP value!");
                 }
             })
-        }
-        if (role === "Admin") {
-          console.log("here in the role");
-          dispatch(AdminSendOTP(formvalue)).then((res) => {
-            console.log(res.meta.requestStatus);
-            if (res.meta.requestStatus === "fulfilled") {
-              notify("Login Successful");
-              setLoading(false);
-              return navigate("/dashboard");
-            }
-            if (res.meta.requestStatus === "rejected") {
-              setLoading(false);
-              notify("Please Input Correct OTP value!");
-            }
-          });
-        }
-        if (role === "Student") {
-          dispatch(StudentSendOTP(formvalue)).then((res) => {
-            if (res.meta.requestStatus === "fulfilled") {
-              notify("Login Successful");
-              setLoading(false);
-              return navigate("/dashboard");
-            }
-            if (res.meta.requestStatus === "rejected") {
-              setLoading(false);
-              notify("Please Input Correct OTP value!");
-            }
-          });
-        }
         
     }
 

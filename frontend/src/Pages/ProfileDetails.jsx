@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FetchAdmin, FetchAllDepartments, FetchStudent, FetchTeacher, UpdateAdmin, UpdateStudent, UpdateTeacher } from "../Redux/features/dataActions";
 import { ToastContainer, toast } from "react-toastify";
-import { AdminChangePassword, StudentChangePassword, TeacherChangePassword } from "../Redux/features/authActions";
+import { UserChangePassword } from "../Redux/features/authActions";
 const { Option } = Select;
 const notify = (text) => toast(text);
 
@@ -148,9 +148,8 @@ const ProfileDetails = () => {
     console.log(values);
     setIsLoading(true);
     console.log("here on finish profile", role === "admin");
-    if (role === "admin") {
       console.log("here");
-      dispatch(AdminChangePassword({ ...values, _id })).then((res) => {
+      dispatch(UserChangePassword({ ...values, _id })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setIsLoading(false);
           form1.resetFields()
@@ -161,35 +160,6 @@ const ProfileDetails = () => {
           return notify(res.payload.message);
         }
       });
-    }
-    else if (role === "teacher") {
-      console.log("here");
-      dispatch(TeacherChangePassword({ ...values, _id })).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          setIsLoading(false);
-          form1.resetFields()
-          return notify(res.payload.message);
-        }
-        if (res.meta.requestStatus === "rejected") {
-          setIsLoading(false);
-          return notify(res.payload.message);
-        }
-      });
-    }
-    else if (role === "student") {
-      console.log("here");
-      dispatch(StudentChangePassword({ ...values, _id })).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          setIsLoading(false);
-          form1.resetFields();
-          return notify(res.payload.message);
-        }
-        if (res.meta.requestStatus === "rejected") {
-          setIsLoading(false);
-          return notify(res.payload.message);
-        }
-      });
-    }
   }
 
   const prefixSelector = (

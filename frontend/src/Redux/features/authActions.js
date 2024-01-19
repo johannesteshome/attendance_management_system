@@ -3,11 +3,11 @@ import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
 const url = "http://localhost:5000";
 
-export const TeacherLogin = createAsyncThunk(
-    'teacher/auth/login', async (data, { rejectWithValue }) => {
+export const UserLogin = createAsyncThunk(
+    'user/login', async (data, { rejectWithValue }) => {
         try {
             console.log("what about here");
-            const response = await axios.post(`${url}/teacher/auth/login`, data);
+            const response = await axios.post(`${url}/user/auth/login`, data);
             console.log(response, "response from redux");
             return response.data;
         } catch (error) {
@@ -17,10 +17,10 @@ export const TeacherLogin = createAsyncThunk(
     }
 )
 
-export const StudentLogin = createAsyncThunk(
-    'students/login', async (data, { rejectWithValue }) => {
+export const UserSendOTP = createAsyncThunk(
+    'user/sendOTP', async (data, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${url}/student/auth/login`, data);
+            const response = await axios.post(`${url}/user/auth/login-otp`, data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -28,84 +28,11 @@ export const StudentLogin = createAsyncThunk(
     }
 )
 
-export const AdminLogin = createAsyncThunk(
-    'admin/login', async (data, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(`${url}/admin/auth/login`, data);
-            return response;
-        } catch (error) {
-            console.log(error, "error");
-            return rejectWithValue(error.message);
-        }
-    }
-)
-
-export const AdminSendOTP = createAsyncThunk(
-    'admin/sendOTP', async (data, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(`${url}/admin/auth/login-otp`, data);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
-    }
-)
-
-export const TeacherSendOTP = createAsyncThunk(
-  "teacher/sendOTP",
+export const UserForgetPassword = createAsyncThunk(
+  "user/forget-password",
   async (data, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${url}/teacher/auth/login-otp`, data);
-        console.log(response.data, 'response from redux in otp');
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const StudentSendOTP = createAsyncThunk(
-  "student/sendOTP",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${url}/student/auth/login-otp`, data);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const StudentForgetPassword = createAsyncThunk(
-  "student/forget-password",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${url}/student/auth/forgot-password`, data);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const TeacherForgetPassword = createAsyncThunk(
-  "teacher/forget-password",
-  async (data, { rejectWithValue }) => {
-    console.log(data, "from redux");
-    try {
-      const response = await axios.post(`${url}/teacher/auth/forgot-password`, data);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const AdminForgetPassword = createAsyncThunk(
-  "admin/forget-password",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${url}/admin/auth/forgot-password`, data);
+      const response = await axios.post(`${url}/user/auth/forgot-password`, data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -114,12 +41,12 @@ export const AdminForgetPassword = createAsyncThunk(
 );
 
 
-export const StudentResetPassword = createAsyncThunk(
-  "student/reset-password",
+export const UserResetPassword = createAsyncThunk(
+  "user/reset-password",
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${url}/student/auth/reset-password`,
+        `${url}/user/auth/reset-password`,
         data
       );
       return response.data;
@@ -129,72 +56,12 @@ export const StudentResetPassword = createAsyncThunk(
   }
 );
 
-export const TeacherResetPassword = createAsyncThunk(
-  "teacher/reset-password",
+export const UserVerifyEmail = createAsyncThunk(
+  "user/verify-email",
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${url}/teacher/auth/reset-password`,
-        data
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const AdminResetPassword = createAsyncThunk(
-  "admin/reset-password",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${url}/admin/auth/reset-password`,
-        data
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const StudentVerifyEmail = createAsyncThunk(
-  "student/verify-email",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${url}/student/auth/verify-email`,
-        data
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const TeacherVerifyEmail = createAsyncThunk(
-  "teacher/verify-email",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${url}/teacher/auth/verify-email`,
-        data
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const AdminVerifyEmail = createAsyncThunk(
-  "admin/verify-email",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${url}/admin/auth/verify-email`,
+        `${url}/user/auth/verify-email`,
         data
       );
       return response.data;
@@ -206,11 +73,11 @@ export const AdminVerifyEmail = createAsyncThunk(
 
 export const authLogout = createAction("user/logout");
 
-export const TeacherRegister = createAsyncThunk(
-  "teacher/register",
+export const UserRegister = createAsyncThunk(
+  "user/register",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${url}/teacher/auth/register`, data);
+      const response = await axios.post(`${url}/user/auth/register`, data);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -222,69 +89,15 @@ export const TeacherRegister = createAsyncThunk(
   }
 );
 
-export const StudentRegister = createAsyncThunk(
-    'student/register', async (data, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(`${url}/student/auth/register`, data);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
-    }
-)
-
-export const AdminRegister = createAsyncThunk(
-    'admin/register', async (data, { rejectWithValue }) => {
-        try {
-            const response = await axios.post(`${url}/admin/auth/register`, data);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
-    }
-)
-
-export const AdminChangePassword = createAsyncThunk(
-  'admin/change-password', async (data, { rejectWithValue }) => {
+export const UserChangePassword = createAsyncThunk(
+  'user/change-password', async (data, { rejectWithValue }) => {
     const {_id} = data
         try {
-          const response = await axios.post(`${url}/admin/auth/change-password/${_id}`, data);
+          const response = await axios.post(`${url}/user/auth/change-password/${_id}`, data);
           return response.data;
         } catch (error) {
           return rejectWithValue(error.response.data);
         }
     }
 )
-
-export const StudentChangePassword = createAsyncThunk(
-  "student/change-password",
-  async (data, { rejectWithValue }) => {
-    const { _id } = data;
-    try {
-      const response = await axios.post(
-        `${url}/student/auth/change-password/${_id}`,
-        data
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const TeacherChangePassword = createAsyncThunk(
-  "teacher/change-password",
-  async (data, { rejectWithValue }) => {
-    const { _id } = data;
-    try {
-      const response = await axios.post(
-        `${url}/teacher/auth/change-password/${_id}`,
-        data
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
 

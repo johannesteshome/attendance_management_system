@@ -4,9 +4,7 @@ import ticktime from '../img/ticktime-banner.png'
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {
-    AdminVerifyEmail,
-    StudentVerifyEmail,
-    TeacherVerifyEmail,
+    UserVerifyEmail
 } from "../Redux/features/authActions"
 import { useNavigate } from "react-router-dom";
 
@@ -24,10 +22,7 @@ const VerifyEmailScreen = () => {
   const query = useQuery();
   
   const verifyEmail = () => {
-    const role = query.get("role")
-
-    if (role === "admin") {
-      dispatch(AdminVerifyEmail({ email: query.get("email"), verificationToken: query.get("token") })).then((res) => {
+      dispatch(UserVerifyEmail({ email: query.get("email"), verificationToken: query.get("token") })).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           notify("Email Verified");
           return navigate("/dashboard");
@@ -36,39 +31,7 @@ const VerifyEmailScreen = () => {
           notify(res.payload.message);
         }
       });
-    }
-    if (role === "teacher") {
-      dispatch(
-        TeacherVerifyEmail({
-          email: query.get("email"),
-          verificationToken: query.get("token"),
-        })
-      ).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          notify("Email Verified");
-          return navigate("/dashboard");
-        }
-        if (res.meta.requestStatus === "rejected") {
-          notify(res.payload.message);
-        }
-      });
-    }
-    if (role === "student") {
-      dispatch(
-        StudentVerifyEmail({
-          email: query.get("email"),
-          verificationToken: query.get("token"),
-        })
-      ).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          notify("Email Verified");
-          return navigate("/dashboard");
-        }
-        if (res.meta.requestStatus === "rejected") {
-          notify(res.payload.message);
-        }
-      });
-    }
+    
   }
     
     return (
