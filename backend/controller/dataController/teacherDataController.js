@@ -1,11 +1,27 @@
 const { StatusCodes } = require("http-status-codes");
-const {TeacherModel} = require("../../models/Teacher.model");
+const { UserModel } = require("../../models/Teacher.model");
+const { TeacherDataModel } = require("../../models/TeacherData.model");
 
 
 const allTeachers = async (req, res) => {
   try {
-    const teachers = await TeacherModel.find();
-    res.status(StatusCodes.OK).send(teachers);
+    const teachers = await UserModel.find({ role: 'teacher' });
+    if (!teachers) {
+      res.status(StatusCodes.NOT_FOUND).send({ msg: "Students not found" });
+    }
+    const teachersList = []
+
+    for (teacher of teachers) {
+      const teacherData = await TeacherDataModel.findOne({ userId: teacher._id })
+      teachersList.push({
+        ...teacher._doc,
+        ...teacherData._doc,
+        _id: teacher._id,
+        teacherDataId: teacherData._id,
+      })
+    }
+
+    res.status(StatusCodes.OK).send(teachersList);
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).send({ error: "Something went wrong" });
@@ -16,13 +32,23 @@ const getTeacher = async (req, res) => {
     const id = req.params.teacherId;
 
   try {
-    const teacher = await TeacherModel.findById(id);
+    const teacher = await UserModel.findOne({_id:id, role: 'teacher'});
 
     if (!teacher) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: "User not found" });
     }
 
-    res.status(StatusCodes.OK).send(teacher);
+    const teacherData = await TeacherDataModel.findOne({ userId: id });
+
+    const teachData = {
+      ...teacher._doc,
+      ...teacherData._doc,
+      _id: teacher._id,
+      teacherDataId: teacherData._id,
+    }
+
+
+    res.status(StatusCodes.OK).send(teachData);
   } catch (error) {
     console.error("Error:", error.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message: "Server Error"});
@@ -32,11 +58,14 @@ const getTeacher = async (req, res) => {
 const updateTeacher = async (req, res) => {
   const id = req.params.teacherId;
   const payload = req.body;
+  const {courses, isAdmin} = req.body
   try {
-    const teacher = await TeacherModel.findByIdAndUpdate({ _id: id }, payload);
+    const teacher = await UserModel.findByIdAndUpdate({ _id: id }, payload);
+
     if (!teacher) {
       res.status(StatusCodes.NOT_FOUND).send({ message: `teacher not found` });
     }
+    const teacherData = await TeacherDataModel.findOneAndUpdate({ userId: id }, {courses, isAdmin});
     res.status(StatusCodes.OK).send({ message:  `teacher updated`});
   } catch (error) {
     console.log(error);
@@ -46,7 +75,8 @@ const updateTeacher = async (req, res) => {
 
 const deleteAllTeachers = async (req, res) => {
   try {
-    await TeacherModel.deleteMany();
+    await UserModel.deleteMany({ role: 'teacher' });
+    await TeacherDataModel.deleteMany();
     res.status(StatusCodes.OK).send("All teachers deleted");
   } catch (error) {
     console.error("Error:", error.message);
@@ -57,7 +87,7 @@ const deleteAllTeachers = async (req, res) => {
 const deleteTeacher = async (req, res) => {
   const id = req.params.teacherId;
   try {
-    const teacher = await TeacherModel.findByIdAndDelete({ _id: id });
+    const teacher = await UserModel.findByIdAndDelete({ _id: id });
     if (!teacher) {
       res.status(StatusCodes.NOT_FOUND).send({ msg: `teacher with id ${id} not found` });
     }

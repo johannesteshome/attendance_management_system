@@ -1,9 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
-const { AdminModel } = require("../../models/Admin.model");
+const { UserModel } = require("../../models/Admin.model");
 
 const allAdmins = async (req, res) => {
   try {
-    const admins = await AdminModel.find();
+    const admins = await UserModel.find({role: 'admin'});
     res.status(StatusCodes.OK).send(admins);
   } catch (error) {
     console.log(error);
@@ -15,7 +15,7 @@ const getAdmin = async (req, res) => {
   const id = req.params.adminId;
 
   try {
-    const admin = await AdminModel.findById(id);
+    const admin = await UserModel.findOne({_id:id, role:"admin"});
 
     if (!admin) {
       return res
@@ -34,7 +34,7 @@ const updateAdmin = async (req, res) => {
   const id = req.params.adminId;
   const payload = req.body;
   try {
-    const admin = await AdminModel.findByIdAndUpdate({ _id: id }, payload);
+    const admin = await UserModel.findByIdAndUpdate({ _id: id }, payload);
     if (!admin) {
       res
         .status(StatusCodes.NOT_FOUND)
@@ -51,7 +51,7 @@ const updateAdmin = async (req, res) => {
 
 const deleteAllAdmins = async (req, res) => {
   try {
-    await AdminModel.deleteMany();
+    await UserModel.deleteMany({role: 'admin'});
     res.status(StatusCodes.OK).send("All admins deleted");
   } catch (error) {
     console.error("Error:", error.message);
@@ -59,10 +59,11 @@ const deleteAllAdmins = async (req, res) => {
   }
 };
 
+//TODO  deleting users may have some issues because we are not deleteing based on user role but with ID
 const deleteAdmin = async (req, res) => {
   const id = req.params.adminId;
   try {
-    const admin = await AdminModel.findByIdAndDelete({ _id: id });
+    const admin = await UserModel.findByIdAndDelete({ _id: id });
     if (!admin) {
       res
         .status(StatusCodes.NOT_FOUND)

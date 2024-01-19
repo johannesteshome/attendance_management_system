@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const adminAuthRouter = require("./routes/authRoutes/AdminsAuth.Route");
 const teacherAuthRouter = require("./routes/authRoutes/TeacherAuthRoute");
 const studentAuthRouter = require("./routes/authRoutes/StudentAuthRoute");
+const userAuthRouter = require("./routes/authRoutes/UsersAuthRoute");
 
 const adminRouter = require("./routes/dataRoutes/Admins.Route");
 const studentRouter = require("./routes/dataRoutes/Students.Route");
@@ -35,6 +36,7 @@ app.use(
 app.use("/admin/auth", adminAuthRouter);
 app.use("/teacher/auth", teacherAuthRouter);
 app.use("/student/auth", studentAuthRouter);
+app.use("/user/auth", userAuthRouter);
 app.use("/admins", adminRouter)
 app.use("/students", studentRouter)
 app.use("/teachers", teacherRouter)
