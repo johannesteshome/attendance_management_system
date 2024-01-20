@@ -7,25 +7,35 @@ const { Meta } = Card;
 const teacherAttendanceData = require("../sampleData/teacherAttendanceData.json");
 const studentAttendanceData = require("../sampleData/studentAttendanceData.json");
 
-const adminCardItems = [
-  ["20", "Teachers"],
-  ["120", "Students"],
-  ["40", "Courses"],
-  ["3", "Admins"],
-];
 
-const teacherCardItems = [
-  ["5", "Courses"],
-  ["12", "Sections"]
-]
 
-const studentCardItems = [
-  ["5", "Courses"],
-  ["2", "Attendances"]
-]
+
 
 const DashboardPage = () => {
   const { user } = useSelector((state) => state.auth);
+  const students = useSelector((state) => state.data.students);
+  const teachers = useSelector((state) => state.data.teachers);
+  const admins = useSelector((state) => state.data.admins);
+  const courses = useSelector((state) => state.data.courses);
+  const userData = useSelector((state) => state.data.loggedInUser);
+
+  const adminCardItems = [
+    [teachers.length, "Teachers"],
+    [students.length, "Students"],
+    [courses.length, "Courses"],
+    [admins.length, "Admins"],
+  ];
+
+  const teacherCardItems = [
+    [userData.courses.length, "Courses"],
+    ["12", "Sections"],
+  ];
+
+  const studentCardItems = [
+    [userData.courses.length, "Courses"],
+    ["2", "Attendances"],
+  ];
+
   console.log(user.role, "user role");
   const membersPercentages = [
       {

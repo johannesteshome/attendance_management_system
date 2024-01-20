@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
+import { Button, Form, Input, InputNumber, Select } from "antd";
 import ReCAPTCHA from "react-google-recaptcha";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,16 +58,21 @@ const AddStudent = () => {
     captchaRef.current.reset();
     // console.log("Received values of form: ", values, token);
     if (token) {
-      dispatch(UserRegister({ ...values, token })).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+      dispatch(UserRegister({ ...values, token, role: 'student' })).then((res) => {
+        if (res.payload.success) {
+          setIsLoading(false);
+          form.resetFields();
+          return notify(res.payload.message);
+        }
+        else {
           setIsLoading(false);
           return notify(res.payload.message);
         }
-        if (res.meta.requestStatus === "rejected") {
-          setIsLoading(false);
-          return notify(res.payload.message);
-        }
+      }, (error) => {
+        setIsLoading(false);
+        return notify(error.message);
       });
+      
     }
     else {
       notify("Please Verify Captcha");

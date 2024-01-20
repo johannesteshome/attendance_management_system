@@ -1,146 +1,93 @@
-import { Table } from "antd";
-import { Button, Form, Input, Modal, Radio } from "antd";
+import { Table, Tag } from "antd";
+import { Button } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import AssignCourseModal from "./AssignCourseModal";
+import { useSelector } from "react-redux";
 
 const columns = [
   {
     title: "Full Name",
     width: 100,
     dataIndex: "name",
-    key: "name",
+    fixed: "left",
+  },
+  {
+    title: "Email",
+    width: 100,
+    dataIndex: "email",
+    key: "_id",
     fixed: "left",
   },
   {
     title: "Age",
-    width: 100,
     dataIndex: "age",
-    key: "age",
-    fixed: "left",
+    width: 80,
   },
   {
-    title: "Column 1",
-    dataIndex: "address",
-    key: "1",
+    title: "Gender",
+    dataIndex: "gender",
+    width: 100,
+    render: (text) => <span className='capitalize'>{text}</span>,
+  },
+  {
+    title: "Phone Number",
+    dataIndex: "mobile",
     width: 150,
+    render: (text) => <span>{"(+251) " + text}</span>,
   },
   {
-    title: "Column 2",
-    dataIndex: "address",
-    key: "2",
-    width: 150,
+    title: "Is Verified",
+    dataIndex: "isVerified",
+    width: 80,
+    render: (text) => (
+      <Tag
+        className={text ? "text-green-500" : "text-red-500"}
+        color={text ? "green" : "red"}>
+        {text ? "Yes" : "No"}
+      </Tag>
+    ),
   },
   {
-    title: "Column 3",
-    dataIndex: "address",
-    key: "3",
-    width: 150,
+    title: "Is Admin",
+    dataIndex: "isAdmin",
+    width: 80,
+    render: (text) => (
+      <Tag
+        className={text ? "text-green-500" : "text-red-500"}
+        color={text ? "green" : "red"}>
+        {text ? "Yes" : "No"}
+      </Tag>
+    ),
   },
   {
-    title: "Column 4",
-    dataIndex: "address",
-    key: "4",
-    width: 150,
-  },
-  {
-    title: "Column 5",
-    dataIndex: "address",
-    key: "5",
-    width: 150,
-  },
-  {
-    title: "Column 6",
-    dataIndex: "address",
-    key: "6",
-    width: 150,
-  },
-  {
-    title: "Column 7",
-    dataIndex: "address",
-    key: "7",
-    width: 150,
-  },
-  {
-    title: "Column 8",
-    dataIndex: "address",
-    key: "8",
-  },
-  {
-    title: "Action",
-    key: "operation",
+    title: "Actions",
+    key: "_id",
     fixed: "right",
     width: 100,
     render: () => <a>action</a>,
   },
 ];
 
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
-
-const CollectionCreateForm = ({ open, onCreate, onCancel }) => {
-  const [form] = Form.useForm();
-
-  return (
-    <Modal
-      open={open}
-      title='Create a new collection'
-          okText='Assign Course'
-          okType="default"
-      cancelText='Cancel'
-      onCancel={onCancel}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            onCreate(values);
-          })
-          .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
-      }}>
-      <Form
-        form={form}
-        layout='vertical'
-        name='form_in_modal'
-        initialValues={{}}>
-        <Form.Item
-          name='teacher'
-          label='Teacher Name'
-          rules={[
-            {
-              required: true,
-              message: "Please input the teacher name!",
-            },
-          ]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name='course'
-          label='Course'
-          rules={[
-            {
-              required: true,
-              message: "Please input the course name!",
-            },
-          ]}>
-          <Input type='textarea' />
-        </Form.Item>
-      </Form>
-    </Modal>
-  );
-};
-
 const TeachersPage = () => {
   const [open, setOpen] = useState(false);
+  const teachers = useSelector((state) => state.data.teachers);
+  const teachersData = []
+
+  teachers.map((teacher) => {
+    teachersData.push({
+      key: teacher._id,
+      name: teacher.name,
+      email: teacher.email,
+      age: teacher.age,
+      gender: teacher.gender,
+      mobile: teacher.mobile,
+      isVerified: teacher.isVerified,
+      isAdmin: teacher.isAdmin
+    });
+  });
+
   const onCreate = (values) => {
     console.log("Received values of form: ", values);
     setOpen(false);
@@ -156,7 +103,7 @@ const TeachersPage = () => {
           className='bg-blue-500 text-white hover:bg-white hover:text-blue-500'>
           Assign Course
         </Button>
-        <CollectionCreateForm
+        <AssignCourseModal
           open={open}
           onCreate={onCreate}
           onCancel={() => {
@@ -178,14 +125,7 @@ const TeachersPage = () => {
       {
         // TODO change the table with filters and editable rows - you can find it on the snippets extension
       }
-      <Table
-        columns={columns}
-        dataSource={data}
-        scroll={{
-          x: 1500,
-          y: 500,
-        }}
-      />
+      <Table columns={columns} dataSource={teachersData} scroll={{ x: 1500, y: 500 }} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const { UserModel } = require("../../models/Admin.model");
+const { UserModel } = require("../../models/User.model");
 
 const allAdmins = async (req, res) => {
   try {
@@ -25,7 +25,7 @@ const getAdmin = async (req, res) => {
 
     res.status(StatusCodes.OK).send(admin);
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error("Error2:", error.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message: "Server Error"});
   }
 };
@@ -38,14 +38,14 @@ const updateAdmin = async (req, res) => {
     if (!admin) {
       res
         .status(StatusCodes.NOT_FOUND)
-        .send({ message: `Admin not found` });
+        .send({ message: `Admin not found`, success: false });
     }
-    res.status(StatusCodes.OK).send({message: `Admin updated`});
+    res.status(StatusCodes.OK).send({message: `Admin updated`, success: true});
   } catch (error) {
     console.log(error);
     res
       .status(StatusCodes.BAD_REQUEST)
-      .send({ message: "Something went wrong, unable to Update." });
+      .send({ message: "Something went wrong, unable to Update.", success: false });
   }
 };
 

@@ -1,90 +1,78 @@
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { Button } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const columns = [
   {
     title: "Full Name",
     width: 100,
     dataIndex: "name",
-    key: "name",
+    fixed: "left",
+  },
+  {
+    title: "Email",
+    width: 100,
+    dataIndex: "email",
+    key: "_id",
     fixed: "left",
   },
   {
     title: "Age",
-    width: 100,
     dataIndex: "age",
-    key: "age",
-    fixed: "left",
+    width: 80,
   },
   {
-    title: "Column 1",
-    dataIndex: "address",
-    key: "1",
+    title: "Gender",
+    dataIndex: "gender",
+    width: 100,
+    render: (text) => <span className='capitalize'>{text}</span>,
+  },
+  {
+    title: "Phone Number",
+    dataIndex: "mobile",
     width: 150,
+    render: (text) => <span>{"(+251) " + text}</span>,
   },
   {
-    title: "Column 2",
-    dataIndex: "address",
-    key: "2",
-    width: 150,
+    title: "Is Verified",
+    dataIndex: "isVerified",
+    width: 80,
+    render: (text) => (
+      <Tag
+        className={text ? "text-green-500" : "text-red-500"}
+        color={text ? "green" : "red"}>
+        {text ? "Yes" : "No"}
+      </Tag>
+    ),
   },
   {
-    title: "Column 3",
-    dataIndex: "address",
-    key: "3",
-    width: 150,
-  },
-  {
-    title: "Column 4",
-    dataIndex: "address",
-    key: "4",
-    width: 150,
-  },
-  {
-    title: "Column 5",
-    dataIndex: "address",
-    key: "5",
-    width: 150,
-  },
-  {
-    title: "Column 6",
-    dataIndex: "address",
-    key: "6",
-    width: 150,
-  },
-  {
-    title: "Column 7",
-    dataIndex: "address",
-    key: "7",
-    width: 150,
-  },
-  {
-    title: "Column 8",
-    dataIndex: "address",
-    key: "8",
-  },
-  {
-    title: "Action",
-    key: "operation",
+    title: "Actions",
+    key: "_id",
     fixed: "right",
     width: 100,
     render: () => <a>action</a>,
   },
 ];
 
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
-
 const AdminsPage = () => {
+  const admins = useSelector((state) => state.data.admins);
+  const adminsData = []
+
+  admins.map((admin) => {
+    adminsData.push({
+      key: admin._id,
+      name: admin.name,
+      email: admin.email,
+      age: admin.age,
+      gender: admin.gender,
+      mobile: admin.mobile,
+      isVerified: admin.isVerified
+    })
+  })
+
+
   return (
     <div className='flex flex-col gap-4 my-4'>
       <div className='flex items-center'>
@@ -105,7 +93,7 @@ const AdminsPage = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={adminsData}
         scroll={{
           x: 1500,
           y: 500,

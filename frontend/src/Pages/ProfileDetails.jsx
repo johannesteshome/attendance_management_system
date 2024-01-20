@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import { Menu, Button, Form, Input, Select, InputNumber } from "antd";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FetchAdmin, FetchAllDepartments, FetchStudent, FetchTeacher, UpdateAdmin, UpdateStudent, UpdateTeacher } from "../Redux/features/dataActions";
+import { FetchAllDepartments,  UpdateAdmin, UpdateStudent, UpdateTeacher } from "../Redux/features/dataActions";
 import { ToastContainer, toast } from "react-toastify";
 import { UserChangePassword } from "../Redux/features/authActions";
 const { Option } = Select;
@@ -31,47 +31,8 @@ const ProfileDetails = () => {
   //useEffect to fetch all departments
   useEffect(() => {
     dispatch(FetchAllDepartments());
-  });
+  }, []);
 
-  // useEffect(() => {
-  //   if (role === "admin") {
-  //     // console.log("here", role, _id);F
-  //     dispatch(FetchAdmin(_id)).then(
-  //       (res) => {
-  //         if (res.meta.requestStatus === "fulfilled") {
-  //           // console.log(res.payload, "payload");
-  //           // setInitialValues({...initialValues, name: res.payload.name});
-  //         }
-  //         else if(res.meta.requestStatus === "rejected"){
-  //           return notify(res.payload);
-  //         }
-  //       }
-  //     );
-  //   }
-  //   else if (role === "teacher") {
-  //     dispatch(FetchTeacher(_id)).then((res) => {
-  //       if (res.meta.requestStatus === "fulfilled") {
-  //         // console.log(res.payload, "payload");
-  //         // setInitialValues({...initialValues, name: res.payload.name});
-  //       } else if (res.meta.requestStatus === "rejected") {
-  //         return notify(res.payload);
-  //       }
-  //     });
-  //   }
-  //   else if (role === "student") {
-  //     dispatch(FetchStudent(_id)).then(
-  //       (res) => {
-  //         if (res.meta.requestStatus === "fulfilled") {
-  //           // console.log(res.payload, "payload");
-  //           // setInitialValues({...initialValues, name: res.payload.name});
-  //         }
-  //         else if(res.meta.requestStatus === "rejected"){
-  //           return notify(res.payload);
-  //         }
-  //       }
-  //     );
-  //   }
-  // });
 
   const departments = useSelector((state) => state.data.departments);
   const user = useSelector((state) => state.data.loggedInUser);
@@ -105,12 +66,11 @@ const ProfileDetails = () => {
     if (role === "admin") {
       console.log("here");
       dispatch(UpdateAdmin({ ...values, _id })).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+        if (res.payload.success) {
           setIsLoading(false);
-          setIsInputDisabled(true)
+          setIsInputDisabled(true);
           return notify(res.payload.message);
-        }
-        if (res.meta.requestStatus === "rejected") {
+        } else {
           setIsLoading(false);
           return notify(res.payload.message);
         }
@@ -118,24 +78,23 @@ const ProfileDetails = () => {
     } else if (role === "teacher") {
       // console.log(values, _id);
       dispatch(UpdateTeacher({ ...values, _id })).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+        if (res.payload.success) {
           setIsLoading(false);
           setIsInputDisabled(true)
           return notify(res.payload.message);
         }
-        if (res.meta.requestStatus === "rejected") {
+        else {
           setIsLoading(false);
           return notify(res.payload.message);
         }
       });
     } else if (role === "student") {
       dispatch(UpdateStudent({ ...values, _id })).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+        if (res.payload.success) {
           setIsLoading(false);
-          setIsInputDisabled(true)
+          setIsInputDisabled(true);
           return notify(res.payload.message);
-        }
-        if (res.meta.requestStatus === "rejected") {
+        } else {
           setIsLoading(false);
           return notify(res.payload.message);
         }
@@ -150,12 +109,12 @@ const ProfileDetails = () => {
     console.log("here on finish profile", role === "admin");
       console.log("here");
       dispatch(UserChangePassword({ ...values, _id })).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+        if (res.payload.success) {
           setIsLoading(false);
           form1.resetFields()
           return notify(res.payload.message);
         }
-        if (res.meta.requestStatus === "rejected") {
+        else {
           setIsLoading(false);
           return notify(res.payload.message);
         }

@@ -99,3 +99,65 @@ export const UpdateStudent = createAsyncThunk(
     }
   }
 );
+
+export const FetchAllTeachers = createAsyncThunk(
+  "data/fetchAllTeachers",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${url}/teachers/`);
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+)
+
+export const FetchAllStudents = createAsyncThunk(
+  "data/fetchAllStudents",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${url}/students/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const FetchAllAdmins = createAsyncThunk(
+  "data/fetchAllAdmins",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${url}/admins/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const FetchAllCourses = createAsyncThunk(
+  "data/fetchAllCourses",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${url}/courses/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const FetchCourse = createAsyncThunk(
+  "data/fetchCourse", 
+  async (data, { rejectWithValue }) => {
+    const {_id} = data
+    try {
+      const response = await axios.get(`${url}/courses/${_id}`);
+      console.log(response);
+      return response.data.course
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+)

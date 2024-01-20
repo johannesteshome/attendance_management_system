@@ -56,7 +56,7 @@ const LoginScreen = () => {
           if (res.meta.requestStatus === "fulfilled") {
             notify("Login Successful");
             setLoading(false);
-            return navigate("/verify-otp?email=" + formvalue.email + "&role=Teacher");
+            return navigate("/verify-otp?email=" + formvalue.email);
           }
           if (res.meta.requestStatus === "rejected") {
             // console.log(res.payload.message);

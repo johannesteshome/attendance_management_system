@@ -14,6 +14,7 @@ const {
 
 let generator = require("generate-password");
 const { StudentDataModel } = require("../../models/StudentData.model");
+const { TeacherDataModel } = require("../../models/TeacherData.model");
 
 const origin = "http://localhost:3000";
 
@@ -25,17 +26,18 @@ const register = async (req, res) => {
 
   const { token, email, name, mobile, gender, age, role } = req.body;
   try {
-    // const response = await axios.post(
-    //   `https://www.google.com/recaptcha/api/siteverify?secret=6LcWdU8pAAAAAACjGfKHyYwhbXbXVITsjEdTnXNP&response=${token}`
-    // );
+    const response = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=6LcWdU8pAAAAAACjGfKHyYwhbXbXVITsjEdTnXNP&response=${token}`
+    );
 
-    // if (!response.data.success) {
-    //   return res.status(500).send({ message: "Error Verifying Captcha." });
-    // }
+    if (!response.data.success) {
+      return res.status(500).send({ message: "Error Verifying Captcha.", success: false });
+    }
 
     const userExists = await UserModel.findOne({ email });
     if (userExists) {
       return res.send({
+        success: false,
         message: "User already exists",
       });
     }
@@ -62,7 +64,14 @@ const register = async (req, res) => {
         year,
         userId: user._id,
       });
-    }
+      }
+      if (role === "teacher") {
+        const teacherData = await TeacherDataModel.create({
+            userId: user._id,
+            course: [],
+            isAdmin: false
+        })
+      }
 
     await sendVerificationEmail({
       name,
@@ -80,7 +89,7 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.send({ message: error });
+    res.send({ message: error, success: false });
   }
 };
 
@@ -240,7 +249,7 @@ const changePassword = async (req, res) => {
   if (!oldPassword || !newPassword) {
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ message: "Please provide new and old passwords" });
+      .json({ message: "Please provide new and old passwords", success:false });
   }
 
   const user = await UserModel.findOne({ _id: id });
@@ -248,7 +257,7 @@ const changePassword = async (req, res) => {
   if (!user) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "No Such User" });
+      .json({ message: "No Such User", success:false });
   }
 
   const isMatch = await bcrypt.compare(oldPassword, user.password);

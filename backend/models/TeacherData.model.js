@@ -1,15 +1,29 @@
 const mongoose = require("mongoose");
 
 const teacherDataSchema = new mongoose.Schema({
-    courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "courses" }],
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
+  courses: [
+    {
+      course: { type: mongoose.Schema.Types.ObjectId, ref: "courses" },
+      students: [
+        {
+          department: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "departments",
+          },
+          section: [{ type: String }],
+          year: { type: Number },
+        },
+      ],
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    }
+  ],
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const TeacherDataModel = mongoose.model("teachersData", teacherDataSchema);

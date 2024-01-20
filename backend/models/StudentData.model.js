@@ -20,7 +20,9 @@ const studentDataSchema = mongoose.Schema({
   year: {
     type: Number,
   },
-  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "courses" }],
+    courses: [{
+        course: { type: mongoose.Schema.Types.ObjectId, ref: "courses" },
+teacher: {type: mongoose.Schema.Types.ObjectId, ref: "users"}    }],
 });
 
 const StudentDataModel = mongoose.model("studentsData", studentDataSchema);

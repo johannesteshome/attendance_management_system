@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FetchAllDepartments, FetchStudent, FetchTeacher, FetchAdmin, UpdateAdmin, UpdateStudent, UpdateTeacher } from "./dataActions";
+import { FetchAllDepartments, FetchStudent, FetchTeacher, FetchAdmin, UpdateAdmin, UpdateStudent, UpdateTeacher, FetchCourse, FetchAllAdmins, FetchAllStudents, FetchAllTeachers, FetchAllCourses } from "./dataActions";
 
 const initialState = {
   departments: null,
   loading: false,
-  loggedInUser: null
+  loggedInUser: null,
+  students: null,
+  teachers: null,
+  admins: null,
+  courses: null,
+  attendances: null
 };
 
 const dataSlice = createSlice({
@@ -85,6 +90,60 @@ const dataSlice = createSlice({
         state.loading = false;
       })
       .addCase(UpdateTeacher.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(FetchCourse.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(FetchCourse.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+      })
+      .addCase(FetchCourse.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(FetchAllAdmins.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(FetchAllAdmins.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+        state.admins = action.payload;
+      })
+      .addCase(FetchAllAdmins.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(FetchAllStudents.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(FetchAllStudents.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+        state.students = action.payload;
+      })
+      .addCase(FetchAllStudents.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(FetchAllTeachers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(FetchAllTeachers.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+        state.teachers = action.payload;
+      })
+      .addCase(FetchAllTeachers.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(FetchAllCourses.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(FetchAllCourses.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+        state.courses = action.payload.courses;
+      })
+      .addCase(FetchAllCourses.rejected, (state) => {
         state.loading = false;
       });
   }

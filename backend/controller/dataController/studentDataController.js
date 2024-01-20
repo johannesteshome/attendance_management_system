@@ -12,7 +12,12 @@ const allStudents = async (req, res) => {
     const studentsList = []
     
     for (student of students) {
-      const studentData = await StudentDataModel.findOne({ userId: student._id })
+      const studentData = await StudentDataModel.findOne({
+        userId: student._id,
+      })
+        .populate("courses.course", "courseTitle courseCode creditHour")
+        .populate("courses.teacher", "name")
+        .populate("department", "name");
       studentsList.push({
         ...student._doc,
         ...studentData._doc,
@@ -39,7 +44,12 @@ const getStudent = async (req, res) => {
       return res.status(StatusCodes.NOT_FOUND).send({ message: "User not found" });
     }
 
-    const studentData = await StudentDataModel.findOne({ userId: id });
+    const studentData = await StudentDataModel.findOne({
+      userId: student._id,
+    })
+      .populate("courses.course", "courseTitle courseCode creditHour")
+      .populate("courses.teacher", "name")
+      .populate("department", "name");
     console.log(student, studentData);
 
     const studData = { ...student._doc, ...studentData._doc, _id: student._id, studentDataId: studentData._id };
@@ -59,13 +69,13 @@ const updateStudent = async (req, res) => {
   try {
     const student = await UserModel.findByIdAndUpdate({ _id: id }, payload);
     if (!student) {
-      res.status(StatusCodes.NOT_FOUND).send({ message: `Student Not Found!` });
+      res.status(StatusCodes.NOT_FOUND).send({ message: `Student Not Found!`, success: false });
     }
     const studentData = await StudentDataModel.findOneAndUpdate({ userId: id }, {section, studentID, department, year, courses});
-    res.status(StatusCodes.OK).send({message: `Student Updated!`});
+    res.status(StatusCodes.OK).send({message: `Student Updated!`, success: true});
   } catch (error) {
     console.log(error);
-    res.status(StatusCodes.BAD_REQUEST).send({ message: "Something went wrong, unable to Update." });
+    res.status(StatusCodes.BAD_REQUEST).send({ message: "Something went wrong, unable to Update.", success: false });
   }
 };
 

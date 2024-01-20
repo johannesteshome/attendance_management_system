@@ -7,7 +7,7 @@ import ticktime from '../img/ticktime-banner.png'
 import {
   authLogout
 } from "../Redux/features/authActions";
-import { FetchAdmin, FetchStudent, FetchTeacher } from "../Redux/features/dataActions";
+import { FetchAdmin, FetchAllAdmins, FetchAllCourses, FetchAllStudents, FetchAllTeachers, FetchStudent, FetchTeacher } from "../Redux/features/dataActions";
 import { ToastContainer, toast } from "react-toastify";
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -20,6 +20,7 @@ const DashboardScreen = () => {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const { role, _id } = useSelector((state) => state.auth.user);
+  console.log(role, _id);
 
 
   useEffect(() => {
@@ -33,6 +34,10 @@ const DashboardScreen = () => {
           return notify(res.payload);
         }
       });
+      dispatch(FetchAllTeachers())
+      dispatch(FetchAllAdmins())
+      dispatch(FetchAllStudents())
+      dispatch(FetchAllCourses())
     } else if (role === "teacher") {
       dispatch(FetchTeacher(_id)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
@@ -52,7 +57,7 @@ const DashboardScreen = () => {
         }
       });
     }
-  });
+  }, []);
 
 
   function getItem(label, key, icon, children, danger, disabled) {

@@ -6,11 +6,12 @@ const courseSchema = new mongoose.Schema({
   creditHour: { type: Number, required: true },
   assignment: [
     {
-      teacher: { type: mongoose.Schema.Types.ObjectId, ref: "teachers" },
+      teacher: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
       students: [
         {
           department: { type: mongoose.Schema.Types.ObjectId, ref: "departments" },
           section: [{ type: String }],
+          year: { type: Number },
         },
       ],
     },

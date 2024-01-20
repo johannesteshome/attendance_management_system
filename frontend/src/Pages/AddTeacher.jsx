@@ -53,14 +53,16 @@ const AddTeacher = () => {
     setIsLoading(true);
     const token = captchaRef.current.getValue();
     captchaRef.current.reset();
-    console.log("Received values of form: ", values, token);
+    // console.log("Received values of form: ", values, token);
     if (token) {
-      dispatch(UserRegister({...values, token})).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+      dispatch(UserRegister({ ...values, token, role: 'teacher' })).then((res) => {
+        console.log(res);
+        if (res.payload.success) {
           setIsLoading(false);
+          form.resetFields()
           return notify(res.payload.message);
         }
-        if (res.meta.requestStatus === "rejected") {
+        else {
           setIsLoading(false);
           return notify(res.payload.message);
         }
