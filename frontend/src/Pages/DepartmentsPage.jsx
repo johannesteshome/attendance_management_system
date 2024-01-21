@@ -3,6 +3,7 @@ import { Button, Form, Input, Modal, Radio } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const columns = [
   {
@@ -72,7 +73,16 @@ const CollectionCreateForm = ({ open, onCreate, onCancel }) => {
 };
 
 const DepartmentsPage = () => {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const departments = useSelector((state) => state.data.departments);
+  let departmentsData = [];
+
+  for (let department of departments) {
+    departmentsData.push({
+      key: department._id,
+      name: department.name,
+    });
+  }
     const onCreate = (values) => {
       console.log("Received values of form: ", values);
       setOpen(false);
@@ -102,7 +112,7 @@ const DepartmentsPage = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={departmentsData}
         scroll={{
           x: 1500,
           y: 500,

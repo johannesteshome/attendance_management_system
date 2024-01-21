@@ -55,14 +55,14 @@ const CoursesPage = () => {
   const coursesData = [];
 
 
-  courses.map((course) => {
+  for (let course of courses) {
     coursesData.push({
       key: course._id,
       courseTitle: course.courseTitle,
       courseCode: course.courseCode,
       creditHour: course.creditHour,
     });
-  });
+  }
 
   const onCreate = (values) => {
     console.log("Received values of form: ", values);

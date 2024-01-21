@@ -75,7 +75,8 @@ const TeachersPage = () => {
   const teachers = useSelector((state) => state.data.teachers);
   const teachersData = []
 
-  teachers.map((teacher) => {
+
+  for (let teacher of teachers) {
     teachersData.push({
       key: teacher._id,
       name: teacher.name,
@@ -84,9 +85,9 @@ const TeachersPage = () => {
       gender: teacher.gender,
       mobile: teacher.mobile,
       isVerified: teacher.isVerified,
-      isAdmin: teacher.isAdmin
+      isAdmin: teacher.isAdmin,
     });
-  });
+  }
 
   const onCreate = (values) => {
     console.log("Received values of form: ", values);

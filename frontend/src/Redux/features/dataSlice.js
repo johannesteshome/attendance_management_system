@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FetchAllDepartments, FetchStudent, FetchTeacher, FetchAdmin, UpdateAdmin, UpdateStudent, UpdateTeacher, FetchCourse, FetchAllAdmins, FetchAllStudents, FetchAllTeachers, FetchAllCourses } from "./dataActions";
+import { FetchAllDepartments, FetchStudent, FetchTeacher, FetchAdmin, UpdateAdmin, UpdateStudent, UpdateTeacher, FetchCourse, FetchAllAdmins, FetchAllStudents, FetchAllTeachers, FetchAllCourses, FetchLogs, ExportDataLocal } from "./dataActions";
 
 const initialState = {
   departments: null,
@@ -9,7 +9,8 @@ const initialState = {
   teachers: null,
   admins: null,
   courses: null,
-  attendances: null
+  attendances: null,
+  logs: null
 };
 
 const dataSlice = createSlice({
@@ -144,6 +145,27 @@ const dataSlice = createSlice({
         state.courses = action.payload.courses;
       })
       .addCase(FetchAllCourses.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(FetchLogs.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(FetchLogs.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+        state.logs = action.payload.logs;
+      })
+      .addCase(FetchLogs.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(ExportDataLocal.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(ExportDataLocal.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+      })
+      .addCase(ExportDataLocal.rejected, (state) => {
         state.loading = false;
       });
   }

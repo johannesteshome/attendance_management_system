@@ -18,6 +18,8 @@ const teacherRouter = require("./routes/dataRoutes/Teachers.Route");
 const attendanceRouter = require("./routes/dataRoutes/Attendances.Route");
 const courseRouter = require("./routes/dataRoutes/Courses.Routes");
 const departmentRouter = require("./routes/dataRoutes/Departments.Route");
+const Logs = require("./routes/dataRoutes/Logs.Route");
+const DataBackup = require("./routes/dataRoutes/DataBackup.Route");
 
 
 const app = express();
@@ -32,6 +34,7 @@ app.use(
     optionSuccessStatus: 200,
   })
 );
+// app.set("trust proxy", 1);
 
 app.use("/admin/auth", adminAuthRouter);
 app.use("/teacher/auth", teacherAuthRouter);
@@ -43,6 +46,8 @@ app.use("/teachers", teacherRouter)
 app.use("/attendances", attendanceRouter);
 app.use("/courses", courseRouter);
 app.use("/departments", departmentRouter);
+app.use("/logs", Logs);
+app.use("/data-backup", DataBackup);
 
 app.listen(process.env.port, async () => {
   try {

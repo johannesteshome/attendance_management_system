@@ -41,7 +41,7 @@ const ProfileDetails = () => {
     email: user.email,
     mobile: user?.mobile || "",
     gender: user?.gender || "",
-    department: user?.department || "",
+    department: user?.department.name || "",
     age: user?.age || "",
     year: user?.year || "",
     section: user?.section || "",
@@ -89,6 +89,7 @@ const ProfileDetails = () => {
         }
       });
     } else if (role === "student") {
+      console.log(values, _id);
       dispatch(UpdateStudent({ ...values, _id })).then((res) => {
         if (res.payload.success) {
           setIsLoading(false);

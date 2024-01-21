@@ -161,3 +161,27 @@ export const FetchCourse = createAsyncThunk(
     }
   }
 )
+
+export const FetchLogs = createAsyncThunk(
+  "data/fetchLogs",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${url}/logs/`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+)
+
+export const ExportDataLocal = createAsyncThunk(
+  "data/exportDataLocal",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${url}/data-backup/export-data`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+)

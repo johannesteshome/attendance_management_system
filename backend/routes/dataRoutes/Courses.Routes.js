@@ -9,14 +9,48 @@ const {
   courseAssignment,
   deleteCourse,
 } = require("../../controller/dataController/courseDataController");
-const { authenticateUser, authorizePermissions } = require("../../middlewares/authentication");
+const {
+  authenticateUser,
+  authorizePermissions,
+} = require("../../middlewares/authentication");
+const { logActivity } = require("../../middlewares/log");
 
 router.get("/", authenticateUser, allCourses);
 router.get("/:id", authenticateUser, getCourse);
-router.post("/add", authenticateUser, addCourse);
-router.patch("/:courseId", authenticateUser, updateCourse);
-router.patch("/:courseId/assign", authenticateUser, authorizePermissions("admin"), courseAssignment);
-router.delete("/all", authenticateUser, authorizePermissions("admin"), deleteAllCourses);
-router.delete("/:courseId", authenticateUser, authorizePermissions("admin"), deleteCourse);
+router.post(
+  "/add",
+  authenticateUser,
+  authorizePermissions("admin"),
+  logActivity("Added New Course"),
+  addCourse
+);
+router.patch(
+  "/:courseId",
+  authenticateUser,
+  authorizePermissions("admin"),
+  logActivity("Updated Course"),
+  updateCourse
+);
+router.patch(
+  "/:courseId/assign",
+  authenticateUser,
+  authorizePermissions("admin"),
+  logActivity("Assigned Course"),
+  courseAssignment
+);
+router.delete(
+  "/all",
+  authenticateUser,
+  authorizePermissions("admin"),
+  logActivity("Deleted All Courses"),
+  deleteAllCourses
+);
+router.delete(
+  "/:courseId",
+  authenticateUser,
+  authorizePermissions("admin"),
+  logActivity("Deleted Course"),
+  deleteCourse
+);
 
 module.exports = router;

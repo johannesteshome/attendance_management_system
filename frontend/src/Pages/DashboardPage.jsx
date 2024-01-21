@@ -20,19 +20,19 @@ const DashboardPage = () => {
   const userData = useSelector((state) => state.data.loggedInUser);
 
   const adminCardItems = [
-    [teachers.length, "Teachers"],
-    [students.length, "Students"],
-    [courses.length, "Courses"],
-    [admins.length, "Admins"],
+    [teachers?.length || 0, "Teachers"],
+    [students?.length || 0, "Students"],
+    [courses?.length || 0, "Courses"],
+    [admins?.length || 0, "Admins"],
   ];
 
   const teacherCardItems = [
-    [userData.courses.length, "Courses"],
+    [userData?.courses?.length || 0, "Courses"],
     ["12", "Sections"],
   ];
 
   const studentCardItems = [
-    [userData.courses.length, "Courses"],
+    [userData?.courses?.length || 0, "Courses"],
     ["2", "Attendances"],
   ];
 

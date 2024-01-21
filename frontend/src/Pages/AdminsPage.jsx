@@ -60,7 +60,8 @@ const AdminsPage = () => {
   const admins = useSelector((state) => state.data.admins);
   const adminsData = []
 
-  admins.map((admin) => {
+
+  for (let admin of admins) {
     adminsData.push({
       key: admin._id,
       name: admin.name,
@@ -68,9 +69,9 @@ const AdminsPage = () => {
       age: admin.age,
       gender: admin.gender,
       mobile: admin.mobile,
-      isVerified: admin.isVerified
-    })
-  })
+      isVerified: admin.isVerified,
+    });
+  }
 
 
   return (

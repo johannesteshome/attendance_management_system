@@ -1,108 +1,103 @@
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { Button } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { ExportDataLocal, FetchLogs } from "../Redux/features/dataActions";
+import { useEffect } from "react";
 
 const columns = [
   {
-    title: "Full Name",
+    title: "User Name",
     width: 100,
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "username",
+    key: "username",
     fixed: "left",
   },
   {
-    title: "Age",
+    title: "Email",
     width: 100,
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "email",
+    key: "email",
     fixed: "left",
   },
   {
-    title: "Column 1",
-    dataIndex: "address",
+    title: "Role",
+    dataIndex: "role",
+    key: "2",
+    width: 150,
+    render: (text) => {
+      if (text === "admin") {
+        return <Tag color='red'>Admin</Tag>;
+      } else if (text === "teacher") {
+        return <Tag color='green'>Teacher</Tag>;
+      } else if (text === "student") {
+        return <Tag color='geekblue'>Student</Tag>;
+      }
+    },
+  },
+  {
+    title: "IP Address",
+    dataIndex: "ipAddress",
     key: "1",
     width: 150,
   },
+
   {
-    title: "Column 2",
-    dataIndex: "address",
-    key: "2",
-    width: 150,
-  },
-  {
-    title: "Column 3",
-    dataIndex: "address",
+    title: "Action",
+    dataIndex: "action",
     key: "3",
     width: 150,
   },
   {
-    title: "Column 4",
-    dataIndex: "address",
+    title: "Time",
+    dataIndex: "time",
     key: "4",
     width: 150,
   },
-  {
-    title: "Column 5",
-    dataIndex: "address",
-    key: "5",
-    width: 150,
-  },
-  {
-    title: "Column 6",
-    dataIndex: "address",
-    key: "6",
-    width: 150,
-  },
-  {
-    title: "Column 7",
-    dataIndex: "address",
-    key: "7",
-    width: 150,
-  },
-  {
-    title: "Column 8",
-    dataIndex: "address",
-    key: "8",
-  },
-  {
-    title: "Action",
-    key: "operation",
-    fixed: "right",
-    width: 100,
-    render: () => <a>action</a>,
-  },
 ];
 
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
-
 const LogsPage = () => {
+  const dispatch = useDispatch();
+  // useEffect to fetch the logs
+  useEffect(() => {
+    dispatch(FetchLogs());
+  }, []);
+  const logs = useSelector((state) => state.data.logs);
+  const logsData = [];
+
+  for (let log of logs) {
+    logsData.push({
+      key: log._id,
+      username: log.username,
+      email: log.email,
+      role: log.role,
+      ipAddress: log.ipAddress,
+      action: log.action,
+      time: log.time,
+    });
+  }
   return (
     <div className='flex flex-col gap-4 my-4'>
       <div className='flex items-center'>
         <h1 className='text-3xl font-bold'>System Activity</h1>
       </div>
       <div className='flex items-center justify-end gap-4'>
-        <Button className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
+        <Button
+          download={true}
+          onClick={() => dispatch(ExportDataLocal())}
+          className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
           <Icon icon='clarity:backup-line' />
-          Take Backup
+          Export Data Locally
         </Button>
-        <Button className='flex items-center text-black gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
-          <Icon icon='clarity:export-line' />
-          Export CSV
+        <Button className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
+          <Icon icon='material-symbols:cloud-outline' />
+          Export Data to Cloud
         </Button>
       </div>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={logsData}
         scroll={{
           x: 1500,
           y: 500,

@@ -76,7 +76,7 @@ const StudentsPage = () => {
   const studentsData = []
 
 
-  students.map((student) => {
+  for (let student of students) {
     studentsData.push({
       key: student._id,
       name: student.name,
@@ -86,9 +86,9 @@ const StudentsPage = () => {
       gender: student.gender,
       mobile: student.mobile,
       department: student.department.name,
-      isVerified: student.isVerified
-    })
-  })
+      isVerified: student.isVerified,
+    });
+  }
 
   return (
     <div className='flex flex-col gap-4 my-4'>
