@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ExportDataLocal, FetchLogs } from "../Redux/features/dataActions";
 import { useEffect } from "react";
+import download from "downloadjs";
 
 const columns = [
   {
@@ -63,6 +64,14 @@ const LogsPage = () => {
   useEffect(() => {
     dispatch(FetchLogs());
   }, []);
+
+  // const exportData = () => {
+  //   dispatch(ExportDataLocal()).then((res) => {
+  //     console.log(res);
+  //     return download(res.payload.jsonData, "logs.json", "application/json");
+  //   });
+  // }
+
   const logs = useSelector((state) => state.data.logs);
   const logsData = [];
 
@@ -85,9 +94,18 @@ const LogsPage = () => {
       <div className='flex items-center justify-end gap-4'>
         <Button
           download={true}
-          onClick={() => dispatch(ExportDataLocal())}
+          onClick={() => {
+            dispatch(ExportDataLocal()).then((res) => {
+              console.log(res);
+              return download(
+                res.payload.jsonData,
+                "logs.json",
+                "application/json"
+              );
+            });
+          }}
           className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
-          <Icon icon='clarity:backup-line' />
+          <Icon icon='clarity:export-line' />
           Export Data Locally
         </Button>
         <Button className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
