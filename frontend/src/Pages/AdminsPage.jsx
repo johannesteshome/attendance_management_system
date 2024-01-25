@@ -1,5 +1,5 @@
 import { Table, Tag } from "antd";
-import { Button } from "antd";
+import { Button, Popconfirm } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -52,7 +52,17 @@ const columns = [
     key: "_id",
     fixed: "right",
     width: 100,
-    render: () => <a>action</a>,
+    render: () => (
+      <Popconfirm
+        title='Sure to deactivate?'
+        onConfirm={() => console.log("Deactivate")}>
+        <Button
+          type='default'
+          className='bg-red-500 text-white hover:text-red-500 hover:bg-white'>
+          Deactivate
+        </Button>
+      </Popconfirm>
+    ),
   },
 ];
 

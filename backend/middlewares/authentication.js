@@ -38,6 +38,31 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
+const checkIfUserExists = async (req, res, next) => {
+  const { refreshToken, accessToken } = req.signedCookies;
+  try {
+
+    if (refreshToken) {
+      const payload = isTokenValid(refreshToken);
+      const userId = new ObjectId(payload.user._id);
+      const existingToken = await TokenModel.findOne({
+        user: userId,
+        refreshToken: payload.refreshToken,
+      });
+      if (existingToken ) {
+        return res
+          .status(StatusCodes.FORBIDDEN)
+          .json({ message: "There is already a logged in session!" });
+      }
+    }
+    next();
+  } catch (error) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Authentication Invalid! No logged in session" });
+  }
+};
+
 const authorizePermissions = (...roles) => {
   // roles param can be a single role, or an array of roles
   return (req, res, next) => {
@@ -53,4 +78,5 @@ const authorizePermissions = (...roles) => {
 module.exports = {
   authenticateUser,
   authorizePermissions,
+  checkIfUserExists
 };

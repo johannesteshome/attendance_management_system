@@ -11,7 +11,7 @@ const { TokenModel } = require("../../models/Token.model");
 const { OTPModel } = require("../../models/OTP.model");
 const { google } = require("googleapis");
 const clientCredentials = require("./clientCredentials.json");
-const credentials = require("./credentials.json");
+// const credentials = require("./credentials.json");
 const { StatusCodes } = require("http-status-codes");
 const { GoogleAuth } = require("google-auth-library");
 const mongoToCsv = require("mongo-to-csv");
@@ -112,54 +112,54 @@ const exportData = async (req, res) => {
   }
 };
 
-const exportDataCloud = async (req, res) => {
-  try {
-    let filePath = null;
-    let jsonData = null;
-    let fileName = null;
+// const exportDataCloud = async (req, res) => {
+//   try {
+//     let filePath = null;
+//     let jsonData = null;
+//     let fileName = null;
 
-    await createJSONFile().then(
-      (json) => (
-        (filePath = json.combinedJSONDataFilePath),
-        (jsonData = json.combinedJSONData),
-        (fileName = json.fileName)
-      )
-    );
+//     await createJSONFile().then(
+//       (json) => (
+//         (filePath = json.combinedJSONDataFilePath),
+//         (jsonData = json.combinedJSONData),
+//         (fileName = json.fileName)
+//       )
+//     );
 
-    fs.writeFileSync(filePath, jsonData);
+//     fs.writeFileSync(filePath, jsonData);
 
-    // Upload the file to Google Drive
-    const auth = new GoogleAuth({
-      keyFile: credentials,
-      scopes: ["https://www.googleapis.com/auth/drive", 'profile'],
-    });
-    // console.log(auth, "auth");
+//     // Upload the file to Google Drive
+//     const auth = new GoogleAuth({
+//       keyFile: credentials,
+//       scopes: ["https://www.googleapis.com/auth/drive", 'profile'],
+//     });
+//     // console.log(auth, "auth");
 
-    const drive = google.drive({ version: "v3", auth });
-    const fileMetadata = {
-      name: filePath,
-      parents: ["1udq6lR6NHx8CEpj8xWJcgO-f7bEBOv__"],
-    };
-    // console.log(filePath, "fileMetadata");
-    const media = {
-      mimeType: "application/json",
-      body: fs.createReadStream(filePath),
-    };
-    // console.log(media, "media");
-    const uploadedFile = await drive.files.create({
-      requestBody: fileMetadata,
-      media: media,
-      fields: "id",
-    });
-    // console.log("here");
-    console.log(uploadedFile, "uploadedFile");
+//     const drive = google.drive({ version: "v3", auth });
+//     const fileMetadata = {
+//       name: filePath,
+//       parents: ["1udq6lR6NHx8CEpj8xWJcgO-f7bEBOv__"],
+//     };
+//     // console.log(filePath, "fileMetadata");
+//     const media = {
+//       mimeType: "application/json",
+//       body: fs.createReadStream(filePath),
+//     };
+//     // console.log(media, "media");
+//     const uploadedFile = await drive.files.create({
+//       requestBody: fileMetadata,
+//       media: media,
+//       fields: "id",
+//     });
+//     // console.log("here");
+//     console.log(uploadedFile, "uploadedFile");
 
-    // Send the Google Drive file ID as a response
-    res.json({ fileId: uploadedFile.data.id });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+//     // Send the Google Drive file ID as a response
+//     res.json({ fileId: uploadedFile.data.id });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 const importData = async (req, res) => {
   try {

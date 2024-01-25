@@ -1,4 +1,4 @@
-import { Button, Table, Tag } from "antd";
+import { Button, Table, Tag, Popconfirm } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -66,7 +66,17 @@ const columns = [
     key: "operation",
     fixed: "right",
     width: 100,
-    render: () => <a>action</a>,
+    render: () => (
+      <Popconfirm
+        title='Sure to deactivate?'
+        onConfirm={() => console.log("Deactivate")}>
+        <Button
+          type='default'
+          className='bg-red-500 text-white hover:text-red-500 hover:bg-white'>
+          Deactivate
+        </Button>
+      </Popconfirm>
+    ),
   },
 ];
 

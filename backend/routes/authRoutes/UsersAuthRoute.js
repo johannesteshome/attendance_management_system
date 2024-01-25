@@ -11,7 +11,7 @@ const {
   sendOTP,
   changePassword,
 } = require("../../controller/authController/userAuthController");
-const { authenticateUser } = require("../../middlewares/authentication");
+const { authenticateUser, checkIfUserExists } = require("../../middlewares/authentication");
 const { logActivity } = require("../../middlewares/log");
 
 router.post("/register", logActivity("Registered New User"), register);

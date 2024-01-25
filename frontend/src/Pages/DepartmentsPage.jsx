@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import { Button, Form, Input, Modal, Radio } from "antd";
+import { Button, Form, Input, Modal, Radio, Popconfirm } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -16,7 +16,17 @@ const columns = [
     title: "Action",
     key: "operation",
     width: 100,
-    render: () => <a>action</a>,
+    render: () => (
+      <Popconfirm
+        title='Sure to delete?'
+        onConfirm={() => console.log("Delete")}>
+        <Button
+          type='default'
+          className='bg-red-500 text-white hover:text-red-500 hover:bg-white'>
+          Delete
+        </Button>
+      </Popconfirm>
+    ),
   },
 ];
 

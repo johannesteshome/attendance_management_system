@@ -34,18 +34,18 @@ const columns = [
     key: "operation",
     fixed: "right",
     width: 100,
-    render: (_, record) => {
+    render: (_, record) => (
 
         <Popconfirm
           title='Sure to delete?'
           onConfirm={() => handleDelete(record.key)}>
           <Button
             type='default'
-            className='bg-red-500 text-white '>
+            className='bg-red-500 text-white hover:text-red-500 hover:bg-white'>
             Delete
           </Button>
         </Popconfirm>
-    },
+    ),
   },
 ];
 

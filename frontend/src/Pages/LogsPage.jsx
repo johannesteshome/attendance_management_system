@@ -26,7 +26,7 @@ const columns = [
     title: "Role",
     dataIndex: "role",
     key: "2",
-    width: 150,
+    width: 50,
     render: (text) => {
       if (text === "admin") {
         return <Tag color='red'>Admin</Tag>;
@@ -41,7 +41,7 @@ const columns = [
     title: "IP Address",
     dataIndex: "ipAddress",
     key: "1",
-    width: 150,
+    width: 80,
   },
 
   {
@@ -54,7 +54,7 @@ const columns = [
     title: "Time",
     dataIndex: "time",
     key: "4",
-    width: 150,
+    width: 200,
   },
 ];
 

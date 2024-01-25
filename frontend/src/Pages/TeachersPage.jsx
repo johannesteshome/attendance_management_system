@@ -1,5 +1,5 @@
 import { Table, Tag } from "antd";
-import { Button } from "antd";
+import { Button, Popconfirm } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -65,8 +65,29 @@ const columns = [
     title: "Actions",
     key: "_id",
     fixed: "right",
-    width: 100,
-    render: () => <a>action</a>,
+    width: 150,
+    render: () => (
+      <div className="flex flex-wrap gap-2">
+        <Popconfirm
+          title='Sure to deactivate?'
+          onConfirm={() => console.log("Deactivate")}>
+          <Button
+            type='default'
+            className='bg-red-500 text-white hover:text-red-500 hover:bg-white'>
+            Deactivate
+          </Button>
+        </Popconfirm>
+        <Popconfirm
+          title='Sure to promote the user to admin?'
+          onConfirm={() => console.log("Promote")}>
+          <Button
+            type='default'
+            className='bg-green-500 text-white hover:text-green-500 hover:bg-white'>
+            Promote
+          </Button>
+        </Popconfirm>
+      </div>
+    ),
   },
 ];
 

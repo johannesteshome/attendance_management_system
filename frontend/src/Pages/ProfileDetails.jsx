@@ -2,7 +2,12 @@ import { Icon } from "@iconify/react";
 import { Menu, Button, Form, Input, Select, InputNumber } from "antd";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FetchAllDepartments,  UpdateAdmin, UpdateStudent, UpdateTeacher } from "../Redux/features/dataActions";
+import {
+  FetchAllDepartments,
+  UpdateAdmin,
+  UpdateStudent,
+  UpdateTeacher,
+} from "../Redux/features/dataActions";
 import { ToastContainer, toast } from "react-toastify";
 import { UserChangePassword } from "../Redux/features/authActions";
 const { Option } = Select;
@@ -21,27 +26,26 @@ const items = [
   },
 ];
 
-
 const ProfileDetails = () => {
   const [current, setCurrent] = useState("personal");
   const { role, _id } = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   // console.log(role, "role");
-  
+
   //useEffect to fetch all departments
   useEffect(() => {
     dispatch(FetchAllDepartments());
   }, []);
 
-
   const departments = useSelector((state) => state.data.departments);
   const user = useSelector((state) => state.data.loggedInUser);
+  console.log(user);
   const [initialValues, setInitialValues] = useState({
-    name: user.name,
-    email: user.email,
+    name: user?.name,
+    email: user?.email,
     mobile: user?.mobile || "",
     gender: user?.gender || "",
-    department: user?.department.name || "",
+    department: user?.department?.name || "",
     age: user?.age || "",
     year: user?.year || "",
     section: user?.section || "",
@@ -49,17 +53,15 @@ const ProfileDetails = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isInputDisabled, setIsInputDisabled] = useState(true)
+  const [isInputDisabled, setIsInputDisabled] = useState(true);
   const [form] = Form.useForm();
-  const [form1] = Form.useForm()
+  const [form1] = Form.useForm();
   const regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,}$/;
   // console.log(user, "user");
-    const onClick = (e) => {
-      // console.log("click ", e);
-      setCurrent(e.key);
+  const onClick = (e) => {
+    // console.log("click ", e);
+    setCurrent(e.key);
   };
-
- 
 
   const onFinishProfile = async (values) => {
     setIsLoading(true);
@@ -80,10 +82,9 @@ const ProfileDetails = () => {
       dispatch(UpdateTeacher({ ...values, _id })).then((res) => {
         if (res.payload.success) {
           setIsLoading(false);
-          setIsInputDisabled(true)
+          setIsInputDisabled(true);
           return notify(res.payload.message);
-        }
-        else {
+        } else {
           setIsLoading(false);
           return notify(res.payload.message);
         }
@@ -101,26 +102,24 @@ const ProfileDetails = () => {
         }
       });
     }
-    
-  }
+  };
 
   const onFinishPassword = (values) => {
     console.log(values);
     setIsLoading(true);
     console.log("here on finish profile", role === "admin");
-      console.log("here");
-      dispatch(UserChangePassword({ ...values, _id })).then((res) => {
-        if (res.payload.success) {
-          setIsLoading(false);
-          form1.resetFields()
-          return notify(res.payload.message);
-        }
-        else {
-          setIsLoading(false);
-          return notify(res.payload.message);
-        }
-      });
-  }
+    console.log("here");
+    dispatch(UserChangePassword({ ...values, _id })).then((res) => {
+      if (res.payload.success) {
+        setIsLoading(false);
+        form1.resetFields();
+        return notify(res.payload.message);
+      } else {
+        setIsLoading(false);
+        return notify(res.payload.message);
+      }
+    });
+  };
 
   const prefixSelector = (
     <Form.Item
@@ -147,16 +146,17 @@ const ProfileDetails = () => {
   };
 
   const handleStrongPassword = (rule, value, callback) => {
-    if (value !== '' && !regEx.test(value)) {
+    if (value !== "" && !regEx.test(value)) {
       setIsDisabled(true);
-      callback("Password must be 8+ long & contain at least a special character, a number, uppercase and & lowercase character!");
+      callback(
+        "Password must be 8+ long & contain at least a special character, a number, uppercase and & lowercase character!"
+      );
     } else {
       setIsDisabled(false);
       callback();
     }
-  }
-  
-  
+  };
+
   return (
     <div>
       <div className='flex items-center my-4'>
@@ -294,11 +294,15 @@ const ProfileDetails = () => {
               </>
             )}
 
-            <Form.Item label=' ' className="flex gap-4">
+            <Form.Item
+              label=' '
+              className='flex gap-4'>
               <Button
                 type='default'
                 disabled={!isInputDisabled}
-                onClick={() => {setIsInputDisabled(false)}}
+                onClick={() => {
+                  setIsInputDisabled(false);
+                }}
                 className='bg-blue-500 text-white hover:text-blue-500 hover:bg-white mr-4'>
                 Edit Profile
               </Button>
@@ -383,5 +387,5 @@ const ProfileDetails = () => {
       )}
     </div>
   );
-}
-export default ProfileDetails
+};
+export default ProfileDetails;
