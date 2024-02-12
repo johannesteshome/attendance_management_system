@@ -34,7 +34,8 @@ const OTPScreen = () => {
     
     const [Loading, setLoading] = useState(false);
 
-    const HandleSubmit = (e) => {
+  //TODO Modify this dispatch into try-catch  
+  const HandleSubmit = (e) => {
         setLoading(true);
             dispatch(UserSendOTP(formvalue)).then((res) => {
                 if (res.meta.requestStatus === "fulfilled") {

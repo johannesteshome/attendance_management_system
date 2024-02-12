@@ -57,10 +57,10 @@ const CoursesPage = () => {
 
   for (let course of courses) {
     coursesData.push({
-      key: course._id,
-      courseTitle: course.courseTitle,
-      courseCode: course.courseCode,
-      creditHour: course.creditHour,
+      key: course._id || '-',
+      courseTitle: course.courseTitle || '-',
+      courseCode: course.courseCode || '-',
+      creditHour: course.creditHour || '-',
     });
   }
 

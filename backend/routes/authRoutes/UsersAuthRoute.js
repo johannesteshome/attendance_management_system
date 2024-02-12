@@ -10,8 +10,10 @@ const {
   resetPassword,
   sendOTP,
   changePassword,
+  toggleActivation,
+  adminPromotion
 } = require("../../controller/authController/userAuthController");
-const { authenticateUser, checkIfUserExists } = require("../../middlewares/authentication");
+const { authenticateUser, checkIfUserExists, authorizePermissions } = require("../../middlewares/authentication");
 const { logActivity } = require("../../middlewares/log");
 
 router.post("/register", logActivity("Registered New User"), register);
@@ -26,6 +28,7 @@ router.post(
   logActivity("Changed Password"),
   changePassword
 );
+router.post('admin-promotion/:userId', authenticateUser, authorizePermissions("admin"), adminPromotion)
 router.delete("/logout", authenticateUser, logActivity("Logged Out"), logout);
 
 module.exports = router;

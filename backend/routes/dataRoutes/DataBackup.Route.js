@@ -6,7 +6,7 @@ const {
 } = require("../../controller/dataController/dataBackupController");
 
 router.get("/export-data", exportData);
-router.get("/export-data-cloud", exportDataCloud);
+// router.get("/export-data-cloud", exportDataCloud);
 
 
 module.exports = router;

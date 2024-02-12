@@ -1,7 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
+
 import LoginScreen from "../Screens/LoginScreen";
 import DashboardScreen from "../Screens/DashboardScreen";
+import VerifyEmailScreen from "../Screens/VerifyEmailScreen";
+import OTPScreen from "../Screens/OTPScreen";
+import ResetPasswordScreen from "../Screens/ResetPasswordScreen";
+import NotFoundPage from "../Pages/NotFoundPage";
+import ProtectedRoutes from "../Screens/ProtectedRoutes";
 
 import DashboardPage from "../Pages/DashboardPage";
 import TeachersPage from "../Pages/TeachersPage";
@@ -12,20 +19,15 @@ import LogsPage from "../Pages/LogsPage";
 import AddTeacher from "../Pages/AddTeacher";
 import AddStudent from "../Pages/AddStudent";
 import AddAdmin from "../Pages/AddAdmin";
-import NotFoundPage from "../Pages/NotFoundPage";
-import ProtectedRoutes from "../Screens/ProtectedRoutes";
+import AddCourse from "../Pages/AddCourse";
 import SharedLayout from "../Screens/SharedLayout";
-import { useSelector } from "react-redux";
 import MyCoursesPage from "../Pages/MyCoursesPage";
 import TakeAttendancePage from "../Pages/TakeAttendancePage";
 import CourseDetailsPage from "../Pages/CourseDetailsPage";
 import AttendanceDetailsPage from "../Pages/AttendanceDetailsPage";
 import ProfileDetails from "../Pages/ProfileDetails";
-import OTPScreen from "../Screens/OTPScreen";
-import ResetPasswordScreen from "../Screens/ResetPasswordScreen";
-import VerifyEmailScreen from "../Screens/VerifyEmailScreen";
 import DepartmentsPage from "../Pages/DepartmentsPage";
-import AddCourse from "../Pages/AddCourse";
+import DeactivatedScreen from "../Screens/DeactivatedScreen";
 
 const AllRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -51,6 +53,10 @@ const AllRoutes = () => {
         <Route
           path='verify-email/*'
           element={<VerifyEmailScreen />}
+        />
+        <Route
+          path='deactivated-account'
+          element={<DeactivatedScreen/>}
         />
         <Route
           path='/dashboard'

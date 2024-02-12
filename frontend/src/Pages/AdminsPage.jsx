@@ -73,13 +73,14 @@ const AdminsPage = () => {
 
   for (let admin of admins) {
     adminsData.push({
-      key: admin._id,
-      name: admin.name,
-      email: admin.email,
-      age: admin.age,
-      gender: admin.gender,
-      mobile: admin.mobile,
-      isVerified: admin.isVerified,
+      key: admin._id || '-',
+      name: admin.name || '-',
+      email: admin.email || '-',
+      age: admin.age || '-',
+      gender: admin.gender || '-',
+      mobile: admin.mobile || '-',
+      isVerified: admin.isVerified || '-',
+      isActive: admin.isActive || '-'
     });
   }
 

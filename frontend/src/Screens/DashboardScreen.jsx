@@ -3,25 +3,33 @@ import { Icon } from "@iconify/react";
 import { Avatar, Layout, Menu, theme } from "antd";
 import { Outlet, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import ticktime from '../img/ticktime-banner.png'
+import ticktime from "../img/ticktime-banner.png";
+import { authLogout } from "../Redux/features/authActions";
 import {
-  authLogout
-} from "../Redux/features/authActions";
-import { FetchAdmin, FetchAllAdmins, FetchAllCourses, FetchAllStudents, FetchAllTeachers, FetchStudent, FetchTeacher } from "../Redux/features/dataActions";
+  FetchAdmin,
+  FetchAllAdmins,
+  FetchAllCourses,
+  FetchAllStudents,
+  FetchAllTeachers,
+  FetchStudent,
+  FetchTeacher,
+  FetchAllDepartments,
+  FetchLogs
+} from "../Redux/features/dataActions";
 import { ToastContainer, toast } from "react-toastify";
 const { Header, Content, Footer, Sider } = Layout;
 
 const notify = (text) => toast(text);
 
-
 const DashboardScreen = () => {
   const { loggedInUser } = useSelector((state) => state.data);
-  
+
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const { role, _id } = useSelector((state) => state.auth.user);
-  console.log(role, _id);
 
+
+  //TODO change the dispatch into try-catch
 
   useEffect(() => {
     if (role === "admin") {
@@ -34,15 +42,23 @@ const DashboardScreen = () => {
           return notify(res.payload);
         }
       });
-      dispatch(FetchAllTeachers())
-      dispatch(FetchAllAdmins())
-      dispatch(FetchAllStudents())
-      dispatch(FetchAllCourses())
+      dispatch(FetchAllTeachers());
+      dispatch(FetchAllAdmins());
+      dispatch(FetchAllStudents());
+      dispatch(FetchAllCourses());
+      dispatch(FetchAllDepartments());
+      dispatch(FetchLogs());
     } else if (role === "teacher") {
       dispatch(FetchTeacher(_id)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           // console.log(res.payload, "payload");
           // setInitialValues({...initialValues, name: res.payload.name});
+          if (loggedInUser.isAdmin) {
+            dispatch(FetchAllTeachers());
+            dispatch(FetchAllAdmins());
+            dispatch(FetchAllStudents());
+            dispatch(FetchAllCourses());
+          }
         } else if (res.meta.requestStatus === "rejected") {
           return notify(res.payload);
         }
@@ -59,7 +75,6 @@ const DashboardScreen = () => {
     }
   }, []);
 
-
   function getItem(label, key, icon, children, danger, disabled) {
     return {
       key,
@@ -67,7 +82,7 @@ const DashboardScreen = () => {
       children,
       label,
       danger,
-      disabled
+      disabled,
     };
   }
   const adminItems = [
@@ -139,6 +154,62 @@ const DashboardScreen = () => {
       true
     ),
   ];
+
+  const teacherAdminItems = [
+    getItem(
+      <Link to=''>Dashboard</Link>,
+      "1",
+      <Icon icon='akar-icons:dashboard' />
+    ),
+    getItem(
+      <Link to='teachers-page'>Teachers</Link>,
+      "2",
+      <Icon icon='ph:chalkboard-teacher-light' />
+    ),
+    getItem(
+      <Link to='students-page'>Students</Link>,
+      "3",
+      <Icon icon='ph:student-light' />
+    ),
+    getItem(
+      <Link to='admins-page'>Admins</Link>,
+      "4",
+      <Icon icon='eos-icons:admin-outlined' />
+    ),
+    getItem(
+      <Link to='courses-page'>Courses</Link>,
+      "5",
+      <Icon icon='tdesign:course' />
+    ),
+    getItem(
+      <Link to='departments-page'>Departments</Link>,
+      "6",
+      <Icon icon='cil:school' />
+    ),
+    getItem(
+      <Link to='logs-page'>Log</Link>,
+      "7",
+      <Icon icon='icon-park-outline:log' />
+    ),
+    getItem(
+      <Link to='take-attendance'>Take Attendance</Link>,
+      "8",
+      <Icon icon='mdi:tick-all' />
+    ),
+    getItem(
+      <Link to='my-courses'>My Courses</Link>,
+      "9",
+      <Icon icon='tdesign:course' />
+    ),
+    getItem(
+      <span onClick={() => dispatch(authLogout())}>Logout</span>,
+      "10",
+      <Icon icon='humbleicons:logout' />,
+      null,
+      true
+    ),
+  ];
+
   const studentItems = [
     getItem(
       <Link to=''>Dashboard</Link>,
@@ -171,22 +242,26 @@ const DashboardScreen = () => {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
         theme='light'>
-        <div className='demo-logo-vertical p-4' >
+        <div className='demo-logo-vertical p-4'>
           <img
-          src={ticktime}
-          alt='Ticktime'
-          className=''
+            src={ticktime}
+            alt='Ticktime'
+            className=''
           />
         </div>
         <Menu
           theme='light'
           defaultSelectedKeys={["1"]}
           mode='inline'
-          items={ 
+          items={
             loggedInUser?.role === "admin"
               ? adminItems
-              : loggedInUser?.role === "teacher"
+              : loggedInUser?.role === "teacher" &&
+                loggedInUser?.isAdmin === false
               ? teacherItems
+              : loggedInUser?.role === "teacher" &&
+                loggedInUser?.isAdmin === true
+              ? teacherAdminItems
               : studentItems
           }
         />
@@ -199,7 +274,7 @@ const DashboardScreen = () => {
             background: colorBgContainer,
           }}>
           <h1 className='text-2xl'>Hello there, {loggedInUser?.name}</h1>
-          <Link to="profile">
+          <Link to='profile'>
             <Avatar
               className='cursor-pointer flex items-center justify-center'
               size='large'
@@ -211,7 +286,7 @@ const DashboardScreen = () => {
           style={{
             margin: "0 16px",
           }}>
-          <ToastContainer/>
+          <ToastContainer />
           <Outlet />
         </Content>
         <Footer

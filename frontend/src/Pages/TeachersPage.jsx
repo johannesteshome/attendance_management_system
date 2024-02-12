@@ -99,14 +99,15 @@ const TeachersPage = () => {
 
   for (let teacher of teachers) {
     teachersData.push({
-      key: teacher._id,
-      name: teacher.name,
-      email: teacher.email,
-      age: teacher.age,
-      gender: teacher.gender,
-      mobile: teacher.mobile,
-      isVerified: teacher.isVerified,
-      isAdmin: teacher.isAdmin,
+      key: teacher._id || '-',
+      name: teacher.name || '-',
+      email: teacher.email || '-',
+      age: teacher.age || '-',
+      gender: teacher.gender || '-',
+      mobile: teacher.mobile || '-',
+      isVerified: teacher.isVerified || '-',
+      isAdmin: teacher.isAdmin || '-',
+      isActive: teacher.isActive || '-'
     });
   }
 

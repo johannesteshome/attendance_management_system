@@ -16,7 +16,7 @@ let generator = require("generate-password");
 const { StudentDataModel } = require("../../models/StudentData.model");
 const { TeacherDataModel } = require("../../models/TeacherData.model");
 
-const origin = "http://localhost:3000";
+const origin = "https://localhost:3000";
 
 const register = async (req, res) => {
   const password = generator.generate({
@@ -31,7 +31,9 @@ const register = async (req, res) => {
     );
 
     if (!response.data.success) {
-      return res.status(500).send({ message: "Error Verifying Captcha.", success: false });
+      return res
+        .status(500)
+        .send({ message: "Error Verifying Captcha.", success: false });
     }
 
     const userExists = await UserModel.findOne({ email });
@@ -64,14 +66,14 @@ const register = async (req, res) => {
         year,
         userId: user._id,
       });
-      }
-      if (role === "teacher") {
-        const teacherData = await TeacherDataModel.create({
-            userId: user._id,
-            course: [],
-            isAdmin: false
-        })
-      }
+    }
+    if (role === "teacher") {
+      const teacherData = await TeacherDataModel.create({
+        userId: user._id,
+        course: [],
+        isAdmin: false,
+      });
+    }
 
     await sendVerificationEmail({
       name,
@@ -172,10 +174,12 @@ const login = async (req, res) => {
   }
 
   const tokenUser = createTokenUser(user);
+  console.log(tokenUser, "tokenUser");
 
   let refreshToken = "";
 
   const existingToken = await TokenModel.findOne({ user: user._id });
+  console.log(existingToken, "existingToken");
 
   if (existingToken) {
     const { isValid } = existingToken;
@@ -198,6 +202,7 @@ const login = async (req, res) => {
   const userToken = { refreshToken, ip, userAgent, user: user._id };
 
   await TokenModel.create(userToken);
+  console.log(userToken, "userToken created");
   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
 
   res.status(StatusCodes.OK).json({ user: tokenUser });
@@ -247,9 +252,10 @@ const changePassword = async (req, res) => {
   const id = req.params.userId;
 
   if (!oldPassword || !newPassword) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: "Please provide new and old passwords", success:false });
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Please provide new and old passwords",
+      success: false,
+    });
   }
 
   const user = await UserModel.findOne({ _id: id });
@@ -257,7 +263,7 @@ const changePassword = async (req, res) => {
   if (!user) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "No Such User", success:false });
+      .json({ message: "No Such User", success: false });
   }
 
   const isMatch = await bcrypt.compare(oldPassword, user.password);
@@ -342,6 +348,62 @@ const resetPassword = async (req, res) => {
   res.send({ message: "Reset Password successful" });
 };
 
+const toggleActivation = async (req, res) => {
+  const { id } = req.params;
+  const user = await UserModel.findOne({ _id: id });
+  if (!user) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .send({ message: `User Not Found!` });
+  }
+  const activated = !user.isActive;
+  try {
+    const user = await UserModel.findByIdAndUpdate(
+      { _id: id },
+      { isActive: activated }
+    );
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND).send({ message: `Student Not Found!` });
+    }
+
+    res.status(StatusCodes.OK).send({ message: `User Updated!` });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .send({ message: "Something went wrong, unable to Update." });
+  }
+};
+
+const adminPromotion = async (req, res) => {
+  const { id } = req.params;
+  const user = await UserModel.findOne({ _id: id });
+  if (!user) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .send({ message: `User Not Found!` });
+  }
+  if (user.role != "teacher") {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .send({ message: `User can not be promoted!` });
+  }
+  const isAdmin = !user.isAdmin;
+  try {
+    const user = await UserModel.findByIdAndUpdate({ _id: id }, { isAdmin });
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND).send({ message: `Student Not Found!` });
+    }
+
+    res.status(StatusCodes.OK).send({ message: `User Updated!` });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .send({ message: "Something went wrong, unable to Update." });
+  }
+};
+
 module.exports = {
   register,
   sendOTP,
@@ -351,4 +413,6 @@ module.exports = {
   resetPassword,
   verifyEmail,
   logout,
+  toggleActivation,
+  adminPromotion,
 };

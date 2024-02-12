@@ -3,9 +3,10 @@ import { Button } from "antd";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { ExportDataLocal, FetchLogs } from "../Redux/features/dataActions";
+import { ExportDataCloud, ExportDataLocal, FetchLogs } from "../Redux/features/dataActions";
 import { useEffect } from "react";
 import download from "downloadjs";
+import { ToastContainer, toast } from "react-toastify";
 
 const columns = [
   {
@@ -60,6 +61,7 @@ const columns = [
 
 const LogsPage = () => {
   const dispatch = useDispatch();
+  const notify = (text) => toast(text);
   // useEffect to fetch the logs
   useEffect(() => {
     dispatch(FetchLogs());
@@ -77,17 +79,21 @@ const LogsPage = () => {
 
   for (let log of logs) {
     logsData.push({
-      key: log._id,
-      username: log.username,
-      email: log.email,
-      role: log.role,
-      ipAddress: log.ipAddress,
-      action: log.action,
-      time: log.time,
+      key: log._id || '-',
+      username: log.username || '-',
+      email: log.email || '-',
+      role: log.role || '-',
+      ipAddress: log.ipAddress || '-',
+      action: log.action || '-',
+      time: log.time || '-',
     });
   }
+
+  logsData.reverse()
+
   return (
     <div className='flex flex-col gap-4 my-4'>
+      <ToastContainer/>
       <div className='flex items-center'>
         <h1 className='text-3xl font-bold'>System Activity</h1>
       </div>
@@ -108,7 +114,19 @@ const LogsPage = () => {
           <Icon icon='clarity:export-line' />
           Export Data Locally
         </Button>
-        <Button className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
+        <Button
+          onClick={() => {
+            dispatch(ExportDataCloud()).then((res) => {
+              console.log(res, "export data cloud res");
+              if (res.payload.success) {
+                return notify(res.payload.message);
+              }
+              else {
+                return notify(res.payload.message);
+              }
+            });
+          }}
+          className='flex items-center gap-2 bg-blue-500 text-white hover:text-blue-500 hover:bg-white'>
           <Icon icon='material-symbols:cloud-outline' />
           Export Data to Cloud
         </Button>

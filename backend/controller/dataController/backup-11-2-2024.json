@@ -1,0 +1,779 @@
+{
+  "userData": [
+    {
+      "_id": "65aa59bc7176d934ef2edbc8",
+      "name": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "password": "$2a$10$uh7l6s0fSyqXPuj3ReA4aupUFsztgywTwhhPq3pdK45fgic3A7KVm",
+      "isAdmin": false,
+      "role": "admin",
+      "verificationToken": "",
+      "isVerified": true,
+      "image": "https://res.cloudinary.com/diverse/image/upload/v1674562453/diverse/oipm1ecb1yudf9eln7az.jpg",
+      "__v": 0,
+      "verified": "2024-01-19T11:15:56.896Z",
+      "passwordToken": "05002c9550adfb4d05c240a6bd830f62a385cdb99ff9e52b270534dc9a5924857bfa76c730df5620f620330fdccc18fb62c38521dc11b18180c20882422d3051251f0d349f82",
+      "passwordTokenExpirationDate": "2024-01-24T12:09:36.627Z",
+      "isActive": true,
+      "age": 23,
+      "gender": "male",
+      "mobile": 912345678
+    },
+    {
+      "_id": "65ab84a7aaf4b0f19dc99039",
+      "name": "Piams",
+      "email": "piam@gmail.com",
+      "password": "$2a$10$xSwA5imxrhdKXrox0JLFa.dzCN3AHPf1u442pq2M05UMaIgMdwHYK",
+      "gender": "male",
+      "age": 23,
+      "mobile": 941929438,
+      "role": "student",
+      "verificationToken": "",
+      "isVerified": true,
+      "image": "https://res.cloudinary.com/diverse/image/upload/v1674562453/diverse/oipm1ecb1yudf9eln7az.jpg",
+      "__v": 0,
+      "verified": "2024-01-20T08:33:36.752Z",
+      "isActive": true,
+      "passwordToken": null,
+      "passwordTokenExpirationDate": null
+    },
+    {
+      "_id": "65ab8b2332fd6cdda31aca40",
+      "name": "Pantish",
+      "email": "pantish@gmail.com",
+      "password": "$2a$10$hqhIaNNWkm73lUufhVw30uA0KgLBpD1ckST5GI.mHKouZxA0/JTnK",
+      "gender": "male",
+      "age": 32,
+      "mobile": 941929438,
+      "role": "teacher",
+      "verificationToken": "",
+      "isVerified": true,
+      "image": "https://res.cloudinary.com/diverse/image/upload/v1674562453/diverse/oipm1ecb1yudf9eln7az.jpg",
+      "__v": 0,
+      "verified": "2024-01-20T09:05:14.183Z",
+      "isActive": true
+    },
+    {
+      "_id": "65c8cc7a43e46c6d6e32c8ea",
+      "name": "Getnet",
+      "email": "getnet@gmail.com",
+      "password": "$2a$10$TKdAK7aB0VYj8aNXwXWZT.SjBPmGVd7IR3EEySOGymH6sTLUfRnCy",
+      "gender": "male",
+      "age": 30,
+      "mobile": 912345678,
+      "role": "teacher",
+      "verificationToken": "",
+      "isVerified": true,
+      "isActive": true,
+      "image": "https://res.cloudinary.com/diverse/image/upload/v1674562453/diverse/oipm1ecb1yudf9eln7az.jpg",
+      "__v": 0,
+      "verified": "2024-02-11T13:33:08.870Z"
+    },
+    {
+      "_id": "65c904bb43e46c6d6e32c91a",
+      "name": "Assefa",
+      "email": "assefa@gmail.com",
+      "password": "$2a$10$JTSbBCbDgBpwcbEXwqyTpuNgYqVa7RloBUhIqkxic9nei92B3ko.O",
+      "gender": "male",
+      "age": 23,
+      "mobile": 941929438,
+      "role": "student",
+      "verificationToken": "",
+      "isVerified": true,
+      "isActive": true,
+      "image": "https://res.cloudinary.com/diverse/image/upload/v1674562453/diverse/oipm1ecb1yudf9eln7az.jpg",
+      "__v": 0,
+      "verified": "2024-02-11T17:33:47.977Z"
+    },
+    {
+      "_id": "65c9052943e46c6d6e32c93f",
+      "name": "Tibex",
+      "email": "tibex@gmail.com",
+      "password": "$2a$10$xdGpZqYFAYrWyqHFfHH7iudD/sLh85AuHXcWmDgVkInOj2A.B7gyi",
+      "gender": "male",
+      "age": 23,
+      "mobile": 912345678,
+      "role": "admin",
+      "verificationToken": "",
+      "isVerified": true,
+      "isActive": true,
+      "image": "https://res.cloudinary.com/diverse/image/upload/v1674562453/diverse/oipm1ecb1yudf9eln7az.jpg",
+      "__v": 0,
+      "verified": "2024-02-11T17:35:00.975Z"
+    }
+  ],
+  "courseData": [
+    {
+      "_id": "659aac74087d09488d518d26",
+      "courseTitle": "Calculus",
+      "courseCode": "EE301",
+      "creditHour": 3,
+      "assignment": []
+    },
+    {
+      "_id": "65ab93a21192843386716dd2",
+      "courseTitle": "Introduction to Computer Science",
+      "courseCode": "CS101",
+      "creditHour": 3,
+      "assignment": [
+        {
+          "teacher": "65ab8b2332fd6cdda31aca40",
+          "students": [
+            {
+              "department": "659d2648d72ce43e55652f30",
+              "section": [
+                "D"
+              ],
+              "year": 4,
+              "_id": "65aba7468463b6546850972c"
+            }
+          ],
+          "_id": "65aba7468463b6546850972b"
+        }
+      ],
+      "__v": 0
+    },
+    {
+      "_id": "65ab93b31192843386716dd6",
+      "courseTitle": "Introduction to Physics",
+      "courseCode": "PHY101",
+      "creditHour": 3,
+      "assignment": [],
+      "__v": 0
+    },
+    {
+      "_id": "65ab93c41192843386716dda",
+      "courseTitle": "Data Structures and Algorithms",
+      "courseCode": "CS202",
+      "creditHour": 4,
+      "assignment": [],
+      "__v": 0
+    }
+  ],
+  "logData": [
+    {
+      "_id": "65acdb576a470a646b320ed5",
+      "username": "Piam",
+      "email": "piam@gmail.com",
+      "time": "Sun Jan 21 2024 11:52:39 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "updateStudent",
+      "role": "student",
+      "userId": "65ab84a7aaf4b0f19dc99039",
+      "__v": 0
+    },
+    {
+      "_id": "65ace096ce24214e8901024c",
+      "username": "Piam",
+      "email": "piam@gmail.com",
+      "time": "Sun Jan 21 2024 12:15:02 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Viewed Profile of Student with id :studentId",
+      "role": "student",
+      "userId": "65ab84a7aaf4b0f19dc99039",
+      "__v": 0
+    },
+    {
+      "_id": "65ace829899eba44f5d8680a",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Jan 21 2024 12:47:21 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65ace82a899eba44f5d8680f",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Jan 21 2024 12:47:22 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Viewed Profile of Admin with id :adminId",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65b0fb407043ffb3b255137b",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Wed Jan 24 2024 14:57:52 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65b0fba47043ffb3b25513a4",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Wed Jan 24 2024 14:59:32 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Forgot Password",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65b2566c6842bf7a9d3a0937",
+      "username": "Pantish",
+      "email": "pantish@gmail.com",
+      "time": "Thu Jan 25 2024 15:39:08 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "teacher",
+      "userId": "65ab8b2332fd6cdda31aca40",
+      "__v": 0
+    },
+    {
+      "_id": "65b257106842bf7a9d3a094d",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Thu Jan 25 2024 15:41:52 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65b259f96842bf7a9d3a09a2",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Thu Jan 25 2024 15:54:17 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c79d78308612ec7e91826b",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sat Feb 10 2024 18:59:52 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c89527fc44aa0bce6d8dd7",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 12:36:39 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8989d9616fd6811acdfe0",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 12:51:25 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c899d28069176719b5d646",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 12:56:34 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c89a448069176719b5d651",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 12:58:28 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c89c9b4887528642faab26",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 13:08:27 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c89d154887528642faab31",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 13:10:29 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8a7d64887528642faab3d",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 13:56:22 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8abf4734540221ec36e40",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 14:13:56 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8ad8361391ad753bff919",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 14:20:35 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8adf861391ad753bff92a",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 14:22:32 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8b04a9895920dc7e89e12",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 14:32:26 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8cb8c6569e13135c16911",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 16:28:44 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Registered New User",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8cc7843e46c6d6e32c8e7",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 16:32:40 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Registered New User",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c8cc9443e46c6d6e32c8ef",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 16:33:08 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Verified Email",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c9030d43e46c6d6e32c90c",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 20:25:33 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Updated Profile",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c9039d43e46c6d6e32c910",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 20:27:57 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Changed Password",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c904b843e46c6d6e32c917",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 20:32:40 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Registered New User",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c904fb43e46c6d6e32c91f",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 20:33:47 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Verified Email",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c9052843e46c6d6e32c93c",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 20:34:32 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Registered New User",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c9054443e46c6d6e32c942",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 20:35:00 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Verified Email",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c905aa43e46c6d6e32c963",
+      "username": "Gragn Grang",
+      "email": "gragn@gmail.com",
+      "time": "Sun Feb 11 2024 20:36:42 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65aa59bc7176d934ef2edbc8",
+      "__v": 0
+    },
+    {
+      "_id": "65c905f143e46c6d6e32c984",
+      "username": "Tibex",
+      "email": "tibex@gmail.com",
+      "time": "Sun Feb 11 2024 20:37:53 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Changed Password",
+      "role": "admin",
+      "userId": "65c9052943e46c6d6e32c93f",
+      "__v": 0
+    },
+    {
+      "_id": "65c9061f43e46c6d6e32c98a",
+      "username": "Tibex",
+      "email": "tibex@gmail.com",
+      "time": "Sun Feb 11 2024 20:38:39 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Forgot Password",
+      "role": "admin",
+      "userId": "65c9052943e46c6d6e32c93f",
+      "__v": 0
+    },
+    {
+      "_id": "65c9065543e46c6d6e32c98f",
+      "username": "Tibex",
+      "email": "tibex@gmail.com",
+      "time": "Sun Feb 11 2024 20:39:33 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Reset Password",
+      "role": "admin",
+      "userId": "65c9052943e46c6d6e32c93f",
+      "__v": 0
+    },
+    {
+      "_id": "65c9067f43e46c6d6e32c998",
+      "username": "Tibex",
+      "email": "tibex@gmail.com",
+      "time": "Sun Feb 11 2024 20:40:15 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "admin",
+      "userId": "65c9052943e46c6d6e32c93f",
+      "__v": 0
+    },
+    {
+      "_id": "65c9069543e46c6d6e32c9a5",
+      "username": "Piams",
+      "email": "piam@gmail.com",
+      "time": "Sun Feb 11 2024 20:40:37 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Updated Profile",
+      "role": "student",
+      "userId": "65ab84a7aaf4b0f19dc99039",
+      "__v": 0
+    },
+    {
+      "_id": "65c9075643e46c6d6e32c9ad",
+      "username": "Piams",
+      "email": "piam@gmail.com",
+      "time": "Sun Feb 11 2024 20:43:50 GMT+0300 (East Africa Time)",
+      "ipAddress": "::1",
+      "action": "Logged In",
+      "role": "student",
+      "userId": "65ab84a7aaf4b0f19dc99039",
+      "__v": 0
+    }
+  ],
+  "departmentData": [
+    {
+      "_id": "659d2648d72ce43e55652f30",
+      "name": "Software Engineering",
+      "__v": 0
+    },
+    {
+      "_id": "65a23dcf6f961e7d57c1fceb",
+      "name": "Civil Engineering"
+    },
+    {
+      "_id": "65a23dea6f961e7d57c1fcec",
+      "name": "Electrical Engineering"
+    },
+    {
+      "_id": "65a23dfe6f961e7d57c1fced",
+      "name": "Mechanical Engineering"
+    }
+  ],
+  "attendanceData": [
+    {
+      "_id": "659d3c69f1e5b1ac24ac4612",
+      "students": [
+        {
+          "studentID": "659d2caff8f4e9f5b60792ac",
+          "isPresent": true,
+          "_id": "659d3c69f1e5b1ac24ac4613"
+        }
+      ],
+      "courseID": "659aac74087d09488d518d26",
+      "section": [
+        "D"
+      ],
+      "teacherID": "659aa7453c76db815ef1d027",
+      "date": "2024-01-09T12:30:33.963Z",
+      "__v": 0
+    }
+  ],
+  "studentData": [
+    {
+      "_id": "65ab84a7aaf4b0f19dc9903b",
+      "userId": "65ab84a7aaf4b0f19dc99039",
+      "studentID": "0701",
+      "section": "D",
+      "department": "65a23dcf6f961e7d57c1fceb",
+      "year": 4,
+      "__v": 0,
+      "courses": [
+        {
+          "_id": "65aba7468463b65468509729",
+          "course": "65ab93a21192843386716dd2",
+          "teacher": "65ab8b2332fd6cdda31aca40"
+        }
+      ]
+    },
+    {
+      "_id": "65c904bc43e46c6d6e32c91c",
+      "userId": "65c904bb43e46c6d6e32c91a",
+      "studentID": "0704",
+      "section": "D",
+      "department": "659d2648d72ce43e55652f30",
+      "year": 4,
+      "courses": [],
+      "__v": 0
+    }
+  ],
+  "teacherData": [
+    {
+      "_id": "65ab8b2332fd6cdda31aca42",
+      "userId": "65ab8b2332fd6cdda31aca40",
+      "isAdmin": false,
+      "__v": 0,
+      "courses": [
+        {
+          "students": [
+            {
+              "department": "659d2648d72ce43e55652f30",
+              "section": [
+                "D"
+              ],
+              "year": 4,
+              "_id": "65aba7468463b65468509727"
+            }
+          ],
+          "_id": "65aba7468463b65468509726",
+          "course": "65ab93a21192843386716dd2"
+        }
+      ]
+    },
+    {
+      "_id": "65c8cb8d6569e13135c16916",
+      "userId": "65c8cb8d6569e13135c16914",
+      "isAdmin": false,
+      "courses": [],
+      "__v": 0
+    },
+    {
+      "_id": "65c8cc7a43e46c6d6e32c8ec",
+      "userId": "65c8cc7a43e46c6d6e32c8ea",
+      "isAdmin": false,
+      "courses": [],
+      "__v": 0
+    }
+  ],
+  "tokenData": [
+    {
+      "_id": "6598e476f30598aa88079da7",
+      "refreshToken": "fb06abd23bb876594568fb90249ab716a79e15eb2bc1bc409102bc5ba0950aefa40228e457ec5f33",
+      "ip": "::1",
+      "userAgent": "PostmanRuntime/7.36.0",
+      "isValid": true,
+      "user": "6598e1a8ae8495716bdef969",
+      "createdAt": "2024-01-06T05:26:14.552Z",
+      "updatedAt": "2024-01-06T05:26:14.552Z",
+      "__v": 0
+    },
+    {
+      "_id": "6598f7f32b729f8bfa776e70",
+      "refreshToken": "32ab9d19b0a47d2f846909ab7d768031b080c28ea6247bdcac38cf28908fa258fe8bfa1848645957",
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "isValid": true,
+      "user": "6598e7745a4da50802f24e62",
+      "createdAt": "2024-01-06T06:49:23.830Z",
+      "updatedAt": "2024-01-06T06:49:23.830Z",
+      "__v": 0
+    },
+    {
+      "_id": "659ecd991813c89c2d03bf37",
+      "refreshToken": "f633e63d627684fd66456f25101e22e2be0cb9990b1236cade4a8972c481642dc1e232af41128d3f",
+      "ip": "::ffff:127.0.0.1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
+      "isValid": true,
+      "user": "659ecbb01813c89c2d03bf1f",
+      "createdAt": "2024-01-10T17:02:17.818Z",
+      "updatedAt": "2024-01-10T17:02:17.818Z",
+      "__v": 0
+    },
+    {
+      "_id": "659ed342aa35de2eed6a50a0",
+      "refreshToken": "9087ee0a4be21c3775c3b1741486388bae1cdfb87441e780664c5a91f6643f1c79fb90818d921c4a",
+      "ip": "::ffff:127.0.0.1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
+      "isValid": true,
+      "user": "659b996d8cf7d117fabc0a2d",
+      "createdAt": "2024-01-10T17:26:26.851Z",
+      "updatedAt": "2024-01-10T17:26:26.851Z",
+      "__v": 0
+    },
+    {
+      "_id": "65aa5fa686495c499df2c85c",
+      "refreshToken": "274d551b48cf5b4f45fc16a49cb0345f5c4293458acd7142183aa93fa042b8fc23a3a3c224aa9c1d",
+      "ip": "::1",
+      "userAgent": "PostmanRuntime/7.36.1",
+      "isValid": true,
+      "user": "65aa5eec86495c499df2c84f",
+      "createdAt": "2024-01-19T11:40:22.557Z",
+      "updatedAt": "2024-01-19T11:40:22.557Z",
+      "__v": 0
+    },
+    {
+      "_id": "65ab85daaaf4b0f19dc99055",
+      "refreshToken": "2ce5a6fe02ea9dedcbf7f2f9c944774df87f349cae8776106030a3cfe1eda99e4736924eeff9e634",
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "isValid": true,
+      "user": "65ab84a7aaf4b0f19dc99039",
+      "createdAt": "2024-01-20T08:35:38.009Z",
+      "updatedAt": "2024-01-20T08:35:38.009Z",
+      "__v": 0
+    },
+    {
+      "_id": "65ab869faaf4b0f19dc99063",
+      "refreshToken": "6e357e97dfc557c723cf487109b338db49661e7cf7048967e5a084b542bacdd8ed7f86de3cda1a69",
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "isValid": true,
+      "user": "65ab8535aaf4b0f19dc99046",
+      "createdAt": "2024-01-20T08:38:55.215Z",
+      "updatedAt": "2024-01-20T08:38:55.215Z",
+      "__v": 0
+    },
+    {
+      "_id": "65ab8d29224ed7f3051299f9",
+      "refreshToken": "ce9c8f745896fd7ffef32ef42d294580b4c9adc992f89789ed8669c53d9dafeec55d81b31304bc3d",
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "isValid": true,
+      "user": "65ab8b2332fd6cdda31aca40",
+      "createdAt": "2024-01-20T09:06:49.839Z",
+      "updatedAt": "2024-01-20T09:06:49.839Z",
+      "__v": 0
+    },
+    {
+      "_id": "65c89d164887528642faab36",
+      "refreshToken": "9f167d177bbba8f0da61d4f8ad9304ab1041735370e38b4cfde82349c4962c3b0bef066645cabe8d",
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+      "isValid": true,
+      "user": "65aa59bc7176d934ef2edbc8",
+      "createdAt": "2024-02-11T10:10:30.285Z",
+      "updatedAt": "2024-02-11T10:10:30.285Z",
+      "__v": 0
+    },
+    {
+      "_id": "65c905ab43e46c6d6e32c968",
+      "refreshToken": "e50aae4ebcf0d6a34c644b52eaf9c147b597f76cfffe990f696046e84e012419a71eb0f7e9c0a643",
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+      "isValid": true,
+      "user": "65c9052943e46c6d6e32c93f",
+      "createdAt": "2024-02-11T17:36:43.387Z",
+      "updatedAt": "2024-02-11T17:36:43.387Z",
+      "__v": 0
+    }
+  ],
+  "otpData": []
+}

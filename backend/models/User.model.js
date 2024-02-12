@@ -46,6 +46,10 @@ const userSchema = mongoose.Schema({
   passwordTokenExpirationDate: {
     type: Date,
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
   image: {
     type: String,
     default:

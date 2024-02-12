@@ -8,14 +8,14 @@ import { useSelector } from "react-redux";
 const columns = [
   {
     title: "Department Name",
-    width: 100,
+    width: 80,
     dataIndex: "name",
     key: "name",
   },
   {
     title: "Action",
     key: "operation",
-    width: 100,
+    width: 50,
     render: () => (
       <Popconfirm
         title='Sure to delete?'
@@ -29,14 +29,6 @@ const columns = [
     ),
   },
 ];
-
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Software Engineering ${i}`
-  });
-}
 
 const CollectionCreateForm = ({ open, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -89,8 +81,8 @@ const DepartmentsPage = () => {
 
   for (let department of departments) {
     departmentsData.push({
-      key: department._id,
-      name: department.name,
+      key: department._id || "-",
+      name: department.name || "-",
     });
   }
     const onCreate = (values) => {

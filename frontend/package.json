@@ -1,5 +1,5 @@
 {
-  "name": "hms-backend",
+  "name": "ticktime",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -39,7 +39,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "proxy": "http://localhost:3000"
+    "proxy": "https://localhost:3000"
   },
   "eslintConfig": {
     "extends": [

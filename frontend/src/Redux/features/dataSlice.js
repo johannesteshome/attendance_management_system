@@ -1,5 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FetchAllDepartments, FetchStudent, FetchTeacher, FetchAdmin, UpdateAdmin, UpdateStudent, UpdateTeacher, FetchCourse, FetchAllAdmins, FetchAllStudents, FetchAllTeachers, FetchAllCourses, FetchLogs, ExportDataLocal } from "./dataActions";
+import {
+  FetchAllDepartments,
+  FetchStudent,
+  FetchTeacher,
+  FetchAdmin,
+  UpdateAdmin,
+  UpdateStudent,
+  UpdateTeacher,
+  FetchCourse,
+  FetchAllAdmins,
+  FetchAllStudents,
+  FetchAllTeachers,
+  FetchAllCourses,
+  FetchLogs,
+  ExportDataLocal,
+  ExportDataCloud
+} from "./dataActions";
 
 const initialState = {
   departments: null,
@@ -10,7 +26,7 @@ const initialState = {
   admins: null,
   courses: null,
   attendances: null,
-  logs: null
+  logs: null,
 };
 
 const dataSlice = createSlice({
@@ -167,8 +183,18 @@ const dataSlice = createSlice({
       })
       .addCase(ExportDataLocal.rejected, (state) => {
         state.loading = false;
+      })
+      .addCase(ExportDataCloud.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(ExportDataCloud.fulfilled, (state, action) => {
+        console.log(action, "slice");
+        state.loading = false;
+      })
+      .addCase(ExportDataCloud.rejected, (state) => {
+        state.loading = false;
       });
-  }
+  },
 });
 
 export const {} = dataSlice.actions;

@@ -1,3 +1,5 @@
+const { Storage } = require('megajs')
+
 const fs = require("fs");
 const path = require("path");
 const { UserModel } = require("../../models/User.model");
@@ -10,16 +12,13 @@ const { TeacherDataModel } = require("../../models/TeacherData.model");
 const { TokenModel } = require("../../models/Token.model");
 const { OTPModel } = require("../../models/OTP.model");
 const { google } = require("googleapis");
-const clientCredentials = require("./clientCredentials.json");
-// const credentials = require("./credentials.json");
 const { StatusCodes } = require("http-status-codes");
 const { GoogleAuth } = require("google-auth-library");
 const mongoToCsv = require("mongo-to-csv");
-// const folderId = "your_folder_id"; // The ID of the Google Drive folder where you want to store the file
 
 const createJSONFile = async () => {
   try {
-    const userData = await UserModel.find({}); // Replace YourModel with your Mongoose model
+    const userData = await UserModel.find({});
     const courseData = await CourseModel.find({});
     const logData = await LogModel.find({});
     const departmentData = await DepartmentModel.find({});
@@ -161,6 +160,54 @@ const exportData = async (req, res) => {
 //   }
 // };
 
+// const exportDataCloud = async (req, res) => {
+//   try {
+//     let filePath = null;
+//     let jsonData = null;
+//     let fileName = null;
+
+//     await createJSONFile().then(
+//       (json) => (
+//         (filePath = json.combinedJSONDataFilePath),
+//         (jsonData = json.combinedJSONData),
+//         (fileName = json.fileName)
+//       )
+//     );
+//     console.log(filePath, fileName, "info");
+//     fs.writeFileSync(filePath, jsonData);
+
+//     (async function () {
+//       const storage = new Storage({
+//         email: "yohannesteshome632@gmail.com",
+//         password: process.env.MEGA_PASSWORD,
+//       });
+
+//       // Will resolve once the user is logged in
+//       // or reject if some error happens
+//       await storage.ready;
+//     })().catch((error) => {
+//       console.error(error);
+//       process.exit(1);
+//     });
+
+//     // const storage = await new Storage({
+//     //   email: "yohannesteshome632@gmail.com",
+//     //   password: process.env.MEGA_PASSWORD,
+//     // }).ready;
+
+//     // console.log(storage, "storage");
+
+//     // const file = await storage.upload(fileName, jsonData).complete;
+//     // console.log("The file was uploaded!", file);
+//     // res
+//     //   .status(200)
+//     //   .json({ message: "File uploaded successfully", success: true });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: error.message, success: false });
+//   }
+// };
+
 const importData = async (req, res) => {
   try {
     // Read the JSON file
@@ -178,4 +225,4 @@ const importData = async (req, res) => {
   }
 };
 
-module.exports = { exportData, exportDataCloud };
+module.exports = { exportData };

@@ -141,6 +141,7 @@ export const FetchAllCourses = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${url}/courses/`);
+      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -185,3 +186,15 @@ export const ExportDataLocal = createAsyncThunk(
     }
   }
 )
+
+export const ExportDataCloud = createAsyncThunk(
+  "data/exportDataCloud",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${url}/data-backup/export-data-cloud`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
